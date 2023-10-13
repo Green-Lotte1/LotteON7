@@ -16,6 +16,7 @@ public class SecurityConfig {
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/").permitAll()
+                        .anyRequest().authenticated() // 추가
                 );
         return http.build();
     }
