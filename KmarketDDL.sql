@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS `km_article`;
 CREATE TABLE IF NOT EXISTS `km_article` (
     `article_id` int(11) NOT NULL AUTO_INCREMENT,
     `group` varchar(20) DEFAULT 'free',
-    `cate` varchar(45) DEFAULT 'free',
+    `cate` varchar(45) DEFAULT 'free' COMMENT 'notice: free(1차만 적용된다.) faq,qna:1,2차 모두 적용',
     `cate2` varchar(45) DEFAULT 'free',
     `title` varchar(255) DEFAULT NULL,
     `content` text NOT NULL,
@@ -55,12 +55,12 @@ CREATE TABLE IF NOT EXISTS `km_article` (
     `uid` varchar(20) NOT NULL,
     `regip` varchar(100) NOT NULL,
     `rdate` datetime NOT NULL,
-    PRIMARY KEY (`no`),
+    PRIMARY KEY (`article_id`),
     KEY `fk_km_article_km_member1_idx` (`uid`),
     CONSTRAINT `fk_km_article_km_member1` FOREIGN KEY (`uid`) REFERENCES `km_member` (`uid`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `km_article`;
+DROP TABLE IF EXISTS `km_comment`;
 CREATE TABLE IF NOT EXISTS `km_comment`
 (
     `comment_id` int(11) Not Null AUTO_INCREMENT,
@@ -69,13 +69,18 @@ CREATE TABLE IF NOT EXISTS `km_comment`
     `rdate` datetime NOT NULL,
     `modified_date` datetime NOT NULL,
     CONSTRAINT `fk_km_article_km_member1` FOREIGN KEY (`uid`) REFERENCES `km_member` (`uid`),
-    CONSTRAINT `fk_km_comment_km_article` FOREIGN KEY (`article_id`) REFERENCES `km_article` (`article_id`)
-)
+    CONSTRAINT `fk_km_comment_km_article` FOREIGN KEY (`article_id`) REFERENCES `km_article` (`article_id`),
+    primary key (comment_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+# faq,qna일때만 적용되고 나머지는 notice의 경우 적용하지 않는다.
 DROP TABLE IF EXISTS `km_article_cate`;
 CREATE TABLE IF NOT EXISTS `km_article_cate` (
+    `article_cate_id` tinyint(4) AUTO_INCREMENT,
     `cate1` varchar(45) NOT NULL,
     `cate2` varchar(45) NOT NULL,
-    `c2Name` varchar(100) NOT NULL
+    `c2Name` varchar(100) NOT NULL,
+    primary key (`article_cate_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `km_coupon`;
@@ -181,8 +186,9 @@ CREATE TABLE IF NOT EXISTS `km_product_cate1` (
 DROP TABLE IF EXISTS `km_product_cate2`;
 CREATE TABLE IF NOT EXISTS `km_product_cate2` (
     `cate1` tinyint(4) NOT NULL COMMENT '   10 : 브랜드패션	\n   11 : 패션의류/잡화/뷰티	\n   12 : 유아동	\n   13 : 식품/생필품	\n   14 : 홈데코/취미/반려	\n   15 : 컴퓨터/디지털/가전	\n   16 : 스포츠/건강/렌탈	\n   17 : 자동차/공구	\n   18 : 여행/도서/티켓/쿠폰	\n',
-    `cate2` tinyint(4) NOT NULL COMMENT '2자리 숫자\n10 -  브랜드패션\n   10- 브랜드 여성의류\n   11- 브랜드 남성의류\n   12- 브랜드 진/',
+    `cate2` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT '2자리 숫자\n10 -  브랜드패션\n   10- 브랜드 여성의류\n   11- 브랜드 남성의류\n   12- 브랜드 진/',
     `c2Name` varchar(20) NOT NULL,
+    primary key (cate2),
     KEY `fk_km_product_cate2_km_product_cate11` (`cate1`),
     CONSTRAINT `fk_km_product_cate2_km_product_cate11` FOREIGN KEY (`cate1`) REFERENCES `km_product_cate1` (`cate1`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
