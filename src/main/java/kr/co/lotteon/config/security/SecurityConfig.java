@@ -18,7 +18,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/","/index").permitAll()
                         .requestMatchers("/member/**").permitAll()
-                        .anyRequest().authenticated() // 추가
+                        .anyRequest().permitAll() // 추가
                 );
         return http.build();
     }
