@@ -16,7 +16,8 @@ public class SecurityConfig {
         http
                 .csrf(CsrfConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/","/index").permitAll()
+                        .requestMatchers("/member/**").permitAll()
                         .anyRequest().authenticated() // 추가
                 );
         return http.build();
@@ -34,7 +35,8 @@ public class SecurityConfig {
             web.ignoring()
                     .requestMatchers(
                             "/css/**",
-                            "/js/**"
+                            "/js/**",
+                            "/images/**"
                     );
         };
     }
