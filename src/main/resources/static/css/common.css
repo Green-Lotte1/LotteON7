@@ -372,7 +372,7 @@ main > aside > .best > ol > li > a .dis_price > span {
   vertical-align: text-bottom;
   width: 55px;
   height: 13px;
-  background: url("../../../../../../../../롯데ON 쇼핑몰 프로젝트/LotteON/images/ico_freeshipping.gif") no-repeat;
+  background: url("/images/ico_freeshipping.gif") no-repeat;
 }
 
 /* 메인 첫번째 섹션 */
@@ -467,7 +467,7 @@ main > section > section > article .dis_price > .free {
   vertical-align: text-bottom;
   width: 55px;
   height: 13px;
-  background: url("../../../../../../../../롯데ON 쇼핑몰 프로젝트/LotteON/images/ico_freeshipping.gif") no-repeat;
+  background: url('/images/ico_freeshipping.gif') no-repeat;
 }
 
 /* 슬라이더 영역 */
@@ -558,7 +558,7 @@ footer p > strong {
   /* display: none; */
   width: 42px;
   height: 42px;
-  background-image: url("../../../../../../../../롯데ON 쇼핑몰 프로젝트/LotteON/images/top.png");
+  background-image: url("/images/top.png");
   border: none;
   font-size: 0;
   cursor: pointer;
