@@ -1,9 +1,9 @@
-package kr.co.lotteon.service.main;
+package kr.co.lotteon.service.product;
 
 import kr.co.lotteon.entity.product.ProductCate1Entity;
 import kr.co.lotteon.entity.product.ProductCate2Entity;
-import kr.co.lotteon.repository.main.Cate1Repository;
-import kr.co.lotteon.repository.main.Cate2Repository;
+import kr.co.lotteon.repository.product.Cate1Repository;
+import kr.co.lotteon.repository.product.Cate2Repository;
 import kr.co.lotteon.response.main.ProductCate1Response;
 import kr.co.lotteon.response.main.ProductCate2Response;
 import org.springframework.beans.factory.annotation.Autowired;
