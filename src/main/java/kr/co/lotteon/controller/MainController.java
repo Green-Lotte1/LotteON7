@@ -9,4 +9,10 @@ public class MainController {
     public String index(){
         return "index";
     }
+
+
+    @GetMapping("/admin/index")
+    public String admin_index(){
+        return"admin/index";
+    }
 }
