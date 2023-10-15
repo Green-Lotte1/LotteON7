@@ -15,6 +15,14 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(CsrfConfigurer::disable)
+                .formLogin(login->login.loginPage("/member/login")
+                        .usernameParameter("uid")
+                        .passwordParameter("pass")
+                        .successHandler((request, response, authentication) -> {
+                            //TODO: 기존에 요청했던 url로 로그인 처리후 redirect
+                            response.sendRedirect("/");
+                        })
+                )
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/","/index").permitAll()
                         .requestMatchers("/member/**").permitAll()
