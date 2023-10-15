@@ -1,4 +1,4 @@
-package kr.co.lotteon.request;
+package kr.co.lotteon.request.member;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

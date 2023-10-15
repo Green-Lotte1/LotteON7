@@ -1,4 +1,4 @@
-package kr.co.lotteon.request;
+package kr.co.lotteon.request.member;
 
 import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.entity.member.MemberGender;
