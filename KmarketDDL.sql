@@ -156,7 +156,9 @@ CREATE TABLE IF NOT EXISTS `km_product` (
     `rdate` datetime NOT NULL,
     PRIMARY KEY (`prodNo`),
     KEY `fk_km_product_km_product_cate21_idx` (`prodCate1`),
-    CONSTRAINT `fk_km_product_km_product_cate21` FOREIGN KEY (`prodCate1`) REFERENCES `km_product_cate2` (`cate1`)
+    CONSTRAINT `fk_km_product_km_product_cate1` FOREIGN KEY (`prodCate1`) REFERENCES `km_product_cate1` (`cate1`),
+    CONSTRAINT `fk_km_product_km_product_cate2` FOREIGN KEY (`prodCate2`) REFERENCES `km_product_cate2` (`cate2`),
+    constraint `fk_km_product_km_product_seller` foreign key (`seller`) references `km_member` (`uid`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `km_product_cart`;
