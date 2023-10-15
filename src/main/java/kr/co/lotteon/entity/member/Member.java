@@ -1,13 +1,16 @@
 package kr.co.lotteon.entity.member;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
 
 @Getter @Setter
+@NoArgsConstructor
 @Entity
 public class Member {
     @Id
@@ -39,6 +42,33 @@ public class Member {
     private String regip; //TODO: 여러개의 ip를 받을 수 있도록 하여 다른 기기에서 로그인시 유효성 검사실시
     private LocalDateTime wdate;
     private LocalDateTime rdate;
-    private Integer locationTerms;
+    private Integer locationTerms; //TODO: 뭔지 모르겠다.
 
+    @Builder
+    public Member(String uid, String pass, String name, MemberGender gender, String hp, String email, MemberRole role, MemberLevel level, String zip, String addr1, String addr2, String company, String ceo, String bizRegNum, String comRegNum, String tel, String manager, String managerHp, String fax, String regip, LocalDateTime wdate, LocalDateTime rdate, Integer locationTerms) {
+        this.uid = uid;
+        this.pass = pass;
+        this.name = name;
+        this.gender = gender;
+        this.hp = hp;
+        this.email = email;
+        this.role = role == null ? MemberRole.ROLE_USER : role;
+        this.point = 0;
+        this.level = level == null ? MemberLevel.UNRANKED : level; // seller로 가입 할때는 SELLER 로 레벨 등록이 된다.
+        this.zip = zip;
+        this.addr1 = addr1;
+        this.addr2 = addr2;
+        this.company = company;
+        this.ceo = ceo;
+        this.bizRegNum = bizRegNum;
+        this.comRegNum = comRegNum;
+        this.tel = tel;
+        this.manager = manager;
+        this.managerHp = managerHp;
+        this.fax = fax;
+        this.regip = regip; //TODO: request로 부터 처리하기
+        this.wdate = wdate;
+        this.rdate = LocalDateTime.now();
+        this.locationTerms = locationTerms;
+    }
 }

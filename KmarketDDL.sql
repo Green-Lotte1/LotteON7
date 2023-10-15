@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `km_product_cate1` (
 DROP TABLE IF EXISTS `km_product_cate2`;
 CREATE TABLE IF NOT EXISTS `km_product_cate2` (
     `cate1` tinyint(4) NOT NULL COMMENT '   10 : 브랜드패션	\n   11 : 패션의류/잡화/뷰티	\n   12 : 유아동	\n   13 : 식품/생필품	\n   14 : 홈데코/취미/반려	\n   15 : 컴퓨터/디지털/가전	\n   16 : 스포츠/건강/렌탈	\n   17 : 자동차/공구	\n   18 : 여행/도서/티켓/쿠폰	\n',
-    `cate2` tinyint(4) NOT NULL COMMENT '2자리 숫자\n10 -  브랜드패션\n   10- 브랜드 여성의류\n   11- 브랜드 남성의류\n   12- 브랜드 진/',
+    `cate2` tinyint(4) NOT NULL AUTO_INCREMENT COMMENT '2자리 숫자\n10 -  브랜드패션\n   10- 브랜드 여성의류\n   11- 브랜드 남성의류\n   12- 브랜드 진/',
     `c2Name` varchar(20) NOT NULL,
     primary key (cate2),
     KEY `fk_km_product_cate2_km_product_cate11` (`cate1`),
