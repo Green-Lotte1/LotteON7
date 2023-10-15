@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>롯데ON::롯데 온라인 쇼핑몰</title>
-  <link rel="shortcut icon" type="image/x-icon" href="./images/favicon.ico" />
+  <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}" />
   <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"/>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css"/>
@@ -80,7 +80,6 @@
         >
       </div>
     </div>
-<<<<<<< HEAD
     <div class="logo">
       <div>
         <a href="#"><img th:src="@{/images/header_logo.png}" alt="로고" /></a>
@@ -117,59 +116,6 @@
         <li>
           <a href="#"
           ><i class="fas fa-tshirt"></i>패션·의류·뷰티<i
-=======
-    <div id="wrapper">      
-      <header>
-        <div class="top">
-          <div>
-            <a th:href="@{member/login}">로그인</a>
-            <a th:href="@{/member/register}">회원가입</a>
-            <!-- admin/index 들어가는 메서드 추가 -->
-            <a th:href="@{/admin/index}">관리자 페이지</a>
-            <a href="#">마이페이지</a>
-            <a href="#"
-              ><i class="fa fa-shopping-cart" aria-hidden="true"></i
-              >&nbsp;장바구니</a
-            >
-          </div>
-        </div>
-        <div class="logo">
-          <div>
-            <a href="#"><img th:src="@{/images/header_logo.png}" alt="로고" /></a>
-            <form action="#">
-              <input type="text" name="search" />
-              <button><i class="fa fa-search"></i></button>
-            </form>
-          </div>
-        </div>
-        <div class="menu">
-          <div>
-            <ul>
-              <li><a href="#">히트상품</a></li>
-              <li><a href="#">추천상품</a></li>
-              <li><a href="#">최신상품</a></li>
-              <li><a href="#">인기상품</a></li>
-              <li><a href="#">할인상품</a></li>
-            </ul>
-            <ul>
-              <li><a href="#">공지사항</a></li>
-              <li><a href="#">자주묻는질문</a></li>
-              <li><a href="#">문의하기</a></li>
-              <li><a href="#">고객센터</a></li>
-            </ul>
-          </div>
-        </div>
-      </header>
-      <main>
-        <!-- 카테고리/베스트 상품 영역 -->
-        <aside>
-          <!-- 카테고리 -->
-          <ul class="category">
-            <li><i class="fa fa-bars" aria-hidden="true"></i>카테고리</li>
-            <li>
-              <a href="#"
-                ><i class="fas fa-tshirt"></i>패션·의류·뷰티<i
->>>>>>> 7765cd30a72ef90571e287f510f0a84c7e1fd58f
                   class="fas fa-angle-right"
           ></i
           ></a>
