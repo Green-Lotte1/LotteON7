@@ -1,7 +1,9 @@
 package kr.co.lotteon.controller;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.entity.member.Member;
+import kr.co.lotteon.request.MemberLoginRequest;
 import kr.co.lotteon.request.MemberRegisterRequest;
 import kr.co.lotteon.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/member")
 public class MemberController {
     private final MemberService memberService;
+
     @GetMapping("/register")
     public String registerForm(@ModelAttribute("memberInfo") MemberRegisterRequest memberInfo) {
         //NOTI: templates앞에 /제거하기
@@ -29,10 +32,21 @@ public class MemberController {
         //TODO: register필드 유효성 검사하여 에러발견시 커스텀 에러 정의 해서 뷰단의 메시지로 보이기
         //TODO: BindingResult로 에러처리하기
         log.info("[REGISTER MEMBER INFO] = {}", dto);
-        Member newMember = dto.toMember();
-        newMember.setRegip(request.getRemoteAddr());
-        memberService.registerMember(dto.toMember());
+        Member rawMember = dto.toMember();
+        rawMember.setRegip(request.getRemoteAddr());
 
+        Member registeredMember = memberService.registerMember(rawMember);
+        try {
+            request.login(registeredMember.getUid(),registeredMember.getPass());
+        } catch (ServletException e) {
+            //TODO: error 처리 객체 만들기
+            throw new RuntimeException(e);
+        }
         return "redirect:/";
+    }
+
+    @GetMapping("/login")
+    public String loginForm(@ModelAttribute("memberLoginInfo") MemberLoginRequest dto) {
+        return "member/login";
     }
 }

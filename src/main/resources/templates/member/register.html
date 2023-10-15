@@ -5,20 +5,7 @@
 </head>
 <body>
     <div id="wrapper">
-        <header>
-            <div class="top">
-                <div>
-                    <a href="./member/login.html">로그인</a>
-                    <a href="#">회원가입</a>
-                    <a href="#">마이페이지</a>
-                    <a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니</a>
-                </div>
-            </div>
-            <div class="logo">
-                <div>
-                    <a th:href="@{/index}"><img th:src="@{/images/header_logo.png}" alt="로고"/></a>
-                </div>
-            </div>
+        <header th:replace="~{fragments/member/header::member_header}">
         </header>
         <main id="member">
             <div class="register">
