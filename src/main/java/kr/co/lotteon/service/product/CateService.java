@@ -4,42 +4,46 @@ import kr.co.lotteon.entity.product.ProductCate1Entity;
 import kr.co.lotteon.entity.product.ProductCate2Entity;
 import kr.co.lotteon.repository.product.Cate1Repository;
 import kr.co.lotteon.repository.product.Cate2Repository;
-import kr.co.lotteon.response.main.ProductCate1Response;
-import kr.co.lotteon.response.main.ProductCate2Response;
-import org.springframework.beans.factory.annotation.Autowired;
+import kr.co.lotteon.response.product.ProductCate1Response;
+import kr.co.lotteon.response.product.ProductCate2Response;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
+@RequiredArgsConstructor
 public class CateService {
 
-    @Autowired
-    private Cate1Repository cate1Repository;
-    @Autowired
-    private Cate2Repository cate2Repository;
+    private final Cate1Repository cate1Repository;
+    private final Cate2Repository cate2Repository;
 
-    public List<ProductCate1Response> findAllCate1() {
+    public List<ProductCate1Response> getCate() {
         List<ProductCate1Entity> cate1EntityList = cate1Repository.findAll();
-        List<ProductCate1Response> cate1ResponseList = cate1EntityList.stream()
-                .map(ProductCate1Entity :: toResponse)
-                .collect(Collectors.toList());
-        return cate1ResponseList;
+        log.info("cateService cate1EntityList : " + cate1EntityList.toString());
+
+        List<ProductCate1Response> responseList = new ArrayList<>();
+        log.info("cateService responseList : "+responseList.toString());
+
+        for (ProductCate1Entity productCate1Entity : cate1EntityList){
+            ProductCate1Response productCate1Response = productCate1Entity.toResponse();
+            List<ProductCate2Entity> cate2EntityList = cate2Repository.findByCate1(productCate1Entity);
+            List<ProductCate2Response> cate2ResponseList = new ArrayList<>();
+
+            for (ProductCate2Entity productCate2Entity : cate2EntityList){
+                cate2ResponseList.add(productCate2Entity.toResponse());
+            }
+
+            productCate1Response.setCate2List(cate2ResponseList);
+            responseList.add(productCate1Response);
+        }
+
+        return responseList;
     }
-
-    public List<ProductCate2Response> findAllCate2() {
-        List<ProductCate2Entity> cate2EntityList = cate2Repository.findAll();
-        List<ProductCate2Response> cate2ResponseList = cate2EntityList.stream()
-                .map(ProductCate2Entity :: toResponse)
-                .collect(Collectors.toList());
-        return cate2ResponseList;
-    }
-
-    public List<ProductCate2Response> findByCate1(int cate1) {
-        ProductCate1Entity productCate1Entity =  cate1Repository.findById(cate1).orElse(null);
-        return null;
-    }
-
-
 }
+

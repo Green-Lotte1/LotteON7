@@ -3,7 +3,7 @@ package kr.co.lotteon.entity.product;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import kr.co.lotteon.response.main.ProductCate2Response;
+import kr.co.lotteon.response.product.ProductCate2Response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

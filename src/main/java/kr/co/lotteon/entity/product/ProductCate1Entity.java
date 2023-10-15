@@ -1,7 +1,7 @@
 package kr.co.lotteon.entity.product;
 
 import jakarta.persistence.*;
-import kr.co.lotteon.response.main.ProductCate1Response;
+import kr.co.lotteon.response.product.ProductCate1Response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
