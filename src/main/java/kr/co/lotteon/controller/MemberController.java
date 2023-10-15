@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberController {
     @GetMapping("/register")
     public String registerForm() {
+        //NOTI: templates앞에 /제거하기
         return "member/register";
     }
 }
