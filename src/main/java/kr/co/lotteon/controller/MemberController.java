@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.request.MemberLoginRequest;
 import kr.co.lotteon.request.MemberRegisterRequest;
+import kr.co.lotteon.request.MemberSellerRegisterRequest;
 import kr.co.lotteon.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberController {
     private final MemberService memberService;
 
+    @GetMapping("/join")
+    public String join() {
+        return "member/join";
+    }
+
     @GetMapping("/register")
     public String registerForm(@ModelAttribute("memberInfo") MemberRegisterRequest memberInfo) {
+
         //NOTI: templates앞에 /제거하기
         return "member/register";
     }
@@ -40,6 +47,26 @@ public class MemberController {
             request.login(registeredMember.getUid(),registeredMember.getPass());
         } catch (ServletException e) {
             //TODO: error 처리 객체 만들기
+            throw new RuntimeException(e);
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/registerSeller")
+    public String registerSellerForm(@ModelAttribute("sellerInfo") MemberSellerRegisterRequest dto) {
+        return "member/registerSeller";
+    }
+
+    @PostMapping("/registerSeller")
+    public String registerSeller(@ModelAttribute("sellerInfo") MemberSellerRegisterRequest dto,HttpServletRequest request) {
+        log.info("[REGISTER SELLER INFO] = {}", dto);
+        Member rawMember = dto.toMember();
+        rawMember.setRegip(request.getRemoteAddr());
+
+        Member registeredMember = memberService.registerMember(rawMember);
+        try {
+            request.login(registeredMember.getUid(),registeredMember.getPass());
+        } catch (ServletException e) {
             throw new RuntimeException(e);
         }
         return "redirect:/";

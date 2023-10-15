@@ -1,5 +1,5 @@
 package kr.co.lotteon.entity.member;
 
 public enum MemberGender {
-    MALE, FEMALE
+    MALE, FEMALE,SELLER
 }

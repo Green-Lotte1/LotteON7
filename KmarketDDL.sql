@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `km_member` (
     `uid` varchar(20) NOT NULL,
     `pass` varchar(255) NOT NULL,
     `name` varchar(20) NOT NULL,
-    `gender` varchar(10) NOT NULL COMMENT 'FEMALE, MALE',
+    `gender` varchar(10) NOT NULL COMMENT 'FEMALE, MALE,SELLER',
     `hp` char(13) NOT NULL,
     `email` varchar(100) NOT NULL,
     `role` varchar(20) NOT NULL COMMENT '1:일반회원:ROLE_USER, 2:판매회원: ROLE_SELLER,3:관리자:ROLE_ADMIN',
