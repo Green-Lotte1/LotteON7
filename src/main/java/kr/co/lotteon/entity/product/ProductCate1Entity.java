@@ -7,6 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +22,13 @@ public class ProductCate1Entity {
     private int cate1;
     private String c1Name;
 
+    @OneToMany(mappedBy = "prodCate1",cascade = CascadeType.ALL)
+    private List<ProductEntity> products = new ArrayList<>();
+
+    public void addProduct(ProductEntity productEntity) {
+        this.products.add(productEntity);
+        productEntity.setProdCate1(this);
+    }
     public ProductCate1Response toResponse(){
         return ProductCate1Response.builder()
                 .cate1(cate1)
