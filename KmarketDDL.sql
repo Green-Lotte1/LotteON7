@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `km_member` (
     `uid` varchar(20) NOT NULL,
     `pass` varchar(255) NOT NULL,
     `name` varchar(20) NOT NULL,
-    `gender` varchar(10) NOT NULL COMMENT 'FEMALE, MALE',
+    `gender` varchar(10) NOT NULL COMMENT 'FEMALE, MALE,SELLER',
     `hp` char(13) NOT NULL,
     `email` varchar(100) NOT NULL,
     `role` varchar(20) NOT NULL COMMENT '1:일반회원:ROLE_USER, 2:판매회원: ROLE_SELLER,3:관리자:ROLE_ADMIN',
@@ -156,7 +156,9 @@ CREATE TABLE IF NOT EXISTS `km_product` (
     `rdate` datetime NOT NULL,
     PRIMARY KEY (`prodNo`),
     KEY `fk_km_product_km_product_cate21_idx` (`prodCate1`),
-    CONSTRAINT `fk_km_product_km_product_cate21` FOREIGN KEY (`prodCate1`) REFERENCES `km_product_cate2` (`cate1`)
+    CONSTRAINT `fk_km_product_km_product_cate1` FOREIGN KEY (`prodCate1`) REFERENCES `km_product_cate1` (`cate1`),
+    CONSTRAINT `fk_km_product_km_product_cate2` FOREIGN KEY (`prodCate2`) REFERENCES `km_product_cate2` (`cate2`),
+    constraint `fk_km_product_km_product_seller` foreign key (`seller`) references `km_member` (`uid`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `km_product_cart`;

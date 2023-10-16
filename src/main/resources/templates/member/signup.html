@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head th:replace="~{fragments/head::member_head}">
     <meta charset="UTF-8">    
     <title>롯데ON::롯데 온라인 쇼핑몰</title>
     <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico" />
@@ -16,7 +16,7 @@
 </head>
 <body>
     <div id="wrapper">
-        <header>
+        <header th:replace="~{fragments/header::not_authenticated_header}">
             <div class="top">
                 <div>
                     <a href="./member/login.html">로그인</a>
@@ -61,7 +61,7 @@
 				</div>
             </div>
         </main>        
-        <footer>
+        <footer th:replace="~{fragments/footer::footer}">
             <ul>
               <li><a href="#">회사소개</a></li>
               <li><a href="#">서비스이용약관</a></li>

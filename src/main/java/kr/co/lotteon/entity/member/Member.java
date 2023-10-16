@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Getter @Setter
 @NoArgsConstructor
 @Entity
+@Table(name = "km_member")
 public class Member {
     @Id
     private String uid;
