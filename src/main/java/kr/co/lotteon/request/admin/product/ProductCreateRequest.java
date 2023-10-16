@@ -4,8 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Getter @Setter
 @NoArgsConstructor
 public class ProductCreateRequest {
@@ -34,5 +32,5 @@ public class ProductCreateRequest {
     private String bizType; // default : '사업자 판매자'
     private String origin;  // default : '상세설명참고'
     private String ip;
-    private LocalDateTime rdate;
+    //private LocalDateTime rdate; rdate는 controller에서 따로 달기
 }

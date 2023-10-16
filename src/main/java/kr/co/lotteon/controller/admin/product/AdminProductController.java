@@ -1,6 +1,6 @@
 package kr.co.lotteon.controller.admin.product;
 
-import kr.co.lotteon.request.admin.product.ProductCreateDto;
+import kr.co.lotteon.request.admin.product.ProductCreateRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin/product")
 public class AdminProductController {
     @GetMapping("/register")
-    public String productRegisterForm(@ModelAttribute("productInfo") ProductCreateDto dto) {
+    public String productRegisterForm(@ModelAttribute("productInfo") ProductCreateRequest dto) {
         return "admin/product/register";
     }
 
     @PostMapping("/register")
-    public String productRegister(@ModelAttribute("productInfo") ProductCreateDto dto) {
+    public String productRegister(@ModelAttribute("productInfo") ProductCreateRequest dto) {
         return null;
     }
 }
