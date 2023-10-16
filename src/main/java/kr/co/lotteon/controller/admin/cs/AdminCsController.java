@@ -12,18 +12,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin/cs")
 public class AdminCsController {
 
-    @GetMapping("/faq/list")
-    public String faq_list(){
-        return "admin/cs/faq/list";
+
+    /*  admin/cs/notice  */
+
+    @GetMapping("/notice/list")
+    public String notice_list(){
+        return "admin/cs/notice/list";
     }
 
+    @GetMapping("/notice/write")
+    public String notice_write(){
+        return "admin/cs/notice/write";
+    }
+
+    /*  admin/cs/qna  */
     @GetMapping("/qna/list")
     public String qna_list(){
         return "admin/cs/qna/list";
     }
 
-    @GetMapping("/notice/list")
-    public String notice_list(){
-        return "admin/cs/notice/list";
+    /*  admin/cs/faq  */
+    @GetMapping("/faq/list")
+    public String faq_list(){
+        return "admin/cs/faq/list";
     }
 }
