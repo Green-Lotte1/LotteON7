@@ -1,4 +1,5 @@
-package kr.co.lotteon.request.admin.cs;
+package kr.co.lotteon.response.admin.cs;
+
 
 import kr.co.lotteon.entity.admin.cs.CsArticleEntity;
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Log4j2
-public class CsArticleCreateRequest {
+public class CsArticleResponseDTO {
 
     private int article_id;
     private String cate;
@@ -29,7 +30,7 @@ public class CsArticleCreateRequest {
     @CreationTimestamp
     private LocalDateTime rdate;
 
-    public CsArticleEntity toEntity(){
+    public CsArticleEntity  toEntity(){
         return CsArticleEntity.builder()
                 .article_id(article_id)
                 .cate(cate)
@@ -43,4 +44,5 @@ public class CsArticleCreateRequest {
                 .rdate(rdate)
                 .build();
     }
+
 }

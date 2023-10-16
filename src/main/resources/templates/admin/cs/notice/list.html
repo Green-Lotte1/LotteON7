@@ -150,7 +150,7 @@ $(function(){
               <td th:text="${article.article_id}"></td>
               <td th:text="${article.menu1}"></td>
               <td th:text="${article.menu2}"></td>
-              <td th:text="${article.title}"></td>
+              <a  th:href="@{/qna/notice/view}" th:text="${article.title}"></a>
               <td th:text="${article.hit}"></td>
               <td th:text="${article.rdate}"></td>
               <td>

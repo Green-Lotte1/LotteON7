@@ -1,8 +1,8 @@
 package kr.co.lotteon.entity.admin.cs;
 
 import jakarta.persistence.*;
-import kr.co.lotteon.request.admin.cs.CsArticleCreateRequest;
-import kr.co.lotteon.response.admin.cs.CsArticleResponse;
+import kr.co.lotteon.request.admin.cs.CsArticleCreateRequestDTO;
+import kr.co.lotteon.response.admin.cs.CsArticleResponseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,8 +37,8 @@ public class CsArticleEntity {
     @CreationTimestamp
     private LocalDateTime rdate;
 
-    public CsArticleCreateRequest reqToEntity(){
-        return CsArticleCreateRequest.builder()
+    public CsArticleCreateRequestDTO reqToEntity(){
+        return CsArticleCreateRequestDTO.builder()
                 .article_id(article_id)
                 .cate(cate)
                 .menu1(menu1)
@@ -52,8 +52,8 @@ public class CsArticleEntity {
                 .build();
     }
 
-    public CsArticleResponse respToEntity(){
-        return CsArticleResponse.builder()
+    public CsArticleResponseDTO respToEntity(){
+        return CsArticleResponseDTO.builder()
                 .article_id(article_id)
                 .cate(cate)
                 .menu1(menu1)
