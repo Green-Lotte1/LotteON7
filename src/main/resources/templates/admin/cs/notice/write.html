@@ -81,24 +81,26 @@
         </nav>
         <section class="write">
           <article>
-            <form action="#" method="post">
+            <form th:action="@{/admin/cs/notice/write}" method="post">
+              <input type="text" name="uid" th:value="${#authentication.principal}" />
+              <input type="text" name="cate" value="notice"/>
               <table>
                 <tbody>
                 <tr>
                   <td>문의유형</td>
                   <td>
-                    <select name="cateType1" id="selectBox">
+                    <select name="menu1" id="selectBox">
                       <option value="0">1차 선택</option>
-                      <option value="회원">회원</option>
-                      <option value="쿠폰/이벤트">쿠폰/이벤트</option>
-                      <option value="주문/결제">주문/결제</option>
-                      <option value="배송">배송</option>
-                      <option value="취소/반품/교환">취소/반품/교환</option>
-                      <option value="여행/숙박/항공">여행/숙박/항공</option>
+                      <option value="고객서비스">고객서비스</option>
                       <option value="안전거래">안전거래</option>
+                      <option value="위해상품">위해상품</option>
+                      <option value="이벤트당첨">이벤트당첨</option>
                     </select>
-                    <select name="cateType2" id="selectBox2" class="choose">
+                    <select name="menu2" id="selectBox2" class="choose">
                       <option value="0">2차 선택</option>
+                      <option value="안내">안내</option>
+                      <option value="발표">발표</option>
+                      <option value="점검">점검</option>
                     </select>
                   </td>
                 </tr>
@@ -117,7 +119,7 @@
                 </tbody>
               </table>
               <div>
-                <a href="#" class="btnList">취소하기</a>
+                <a th:href="@{/admin/cs/qna/list}" class="btnList">취소하기</a>
                 <input type="submit" class="btnSubmit" value="등록하기">
               </div>
             </form>
