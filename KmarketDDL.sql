@@ -45,9 +45,9 @@ CREATE TABLE IF NOT EXISTS `km_member` (
 DROP TABLE IF EXISTS `km_article`;
 CREATE TABLE IF NOT EXISTS `km_article` (
     `article_id` int(11) NOT NULL AUTO_INCREMENT,
-    `group` varchar(20) DEFAULT 'free',
-    `cate` varchar(45) DEFAULT 'free' COMMENT 'notice, faq,qna:1,2차 모두 적용',
-    `cate2` varchar(45) DEFAULT 'free',
+    `cate` varchar(20) DEFAULT 'free',
+    `menu1` varchar(45) DEFAULT 'free' COMMENT 'notice, faq,qna:1,2차 모두 적용',
+    `menu2` varchar(45) DEFAULT 'free',
     `title` varchar(255) DEFAULT NULL,
     `content` text NOT NULL,
     `file` tinyint(4) DEFAULT '0',
@@ -56,8 +56,7 @@ CREATE TABLE IF NOT EXISTS `km_article` (
     `regip` varchar(100) NOT NULL,
     `rdate` datetime NOT NULL,
     PRIMARY KEY (`article_id`),
-    KEY `fk_km_article_km_member1_idx` (`uid`),
-    CONSTRAINT `fk_km_article_km_member1` FOREIGN KEY (`uid`) REFERENCES `km_member` (`uid`)
+    CONSTRAINT `fk_km_article_km_member` FOREIGN KEY (`uid`) REFERENCES `km_member` (`uid`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `km_comment`;
@@ -66,20 +65,21 @@ CREATE TABLE IF NOT EXISTS `km_comment`
     `comment_id` int(11) Not Null AUTO_INCREMENT,
     `uid` varchar(20) NOT NULL,
     `article_id` int(11) NOT NULL,
+    `content` text NOT NULL,
     `rdate` datetime NOT NULL,
     `modified_date` datetime NOT NULL,
-    CONSTRAINT `fk_km_article_km_member1` FOREIGN KEY (`uid`) REFERENCES `km_member` (`uid`),
+    CONSTRAINT `fk_km_article_km_member` FOREIGN KEY (`uid`) REFERENCES `km_member` (`uid`),
     CONSTRAINT `fk_km_comment_km_article` FOREIGN KEY (`article_id`) REFERENCES `km_article` (`article_id`),
-    primary key (comment_id)
+    primary key (`comment_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 # faq,qna, notice 모두 적용한다.
 DROP TABLE IF EXISTS `km_article_cate`;
 CREATE TABLE IF NOT EXISTS `km_article_cate` (
     `article_cate_id` tinyint(4) AUTO_INCREMENT,
-    `cate1` varchar(45) NOT NULL,
-    `cate2` varchar(45) NOT NULL,
-    `c2Name` varchar(100) NOT NULL,
+    `cate` varchar(20) NOT NULL,
+    `menu1` varchar(45) NOT NULL,
+    `menu2` varchar(45) NOT NULL,
     primary key (`article_cate_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
