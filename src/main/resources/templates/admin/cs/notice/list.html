@@ -142,7 +142,7 @@ $(function(){
             <th>날짜</th>
             <th>관리</th>
           </tr>
-          <th:block th:each="article : ${articles}">
+          <th:block th:each="article:${pageResponseDTO.dtoList}">
             <tr class="row">
               <td>
                 <input type="checkbox" name="articleNo" />
@@ -150,7 +150,10 @@ $(function(){
               <td th:text="${article.article_id}"></td>
               <td th:text="${article.menu1}"></td>
               <td th:text="${article.menu2}"></td>
-              <a  th:href="@{/qna/notice/view}" th:text="${article.title}"></a>
+              <td>
+                <!--TODO: article_id 변경하는 것 -->
+                <a th:href="@{/admin/cs/notice/view(article_id=${article.article_id})}" th:text="${article.title}"></a>
+              </td>
               <td th:text="${article.hit}"></td>
               <td th:text="${article.rdate}"></td>
               <td>
@@ -164,18 +167,15 @@ $(function(){
         <a th:href="@{/admin/cs/notice/write}" class="write" id="write">작성하기</a>
 
         <div class="paging">
-                        <span class="prev">
-                            <a href="#"><&nbsp;이전</a>
-                        </span>
-          <span class="num">
-                            <a href="#" class="on">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">6</a>
-                            <a href="#">7</a>
-                        </span>
+          <th:block th:if="${pageResponseDTO.prev}" >
+            <span class="prev">
+            <a href="#">&nbsp;이전</a>
+            </span>
+          </th:block>
+
+          <span  th:each="num : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}"  class="num">
+            <a th:href="@{/admin/cs/notice/list(cate=notice, pg=${num})}" th:class="${num == pg} ? 'on' : ''" >[[${num}]]</a>
+          </span>
           <span class="next">
                             <a href="#">다음&nbsp;></a>
                         </span>

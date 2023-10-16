@@ -19,6 +19,12 @@ import java.time.LocalDateTime;
 @Table(name="km_article")
 public class CsArticleEntity {
 // NOTI: 스토리보드에 file항목이 없으므로 km_article에서 file 항목 삭제
+/*
+ TODO: 현재 primary key로 사용되고 있는 article_id를 ano나 articleId로 이름을 변경하는 것이 어떤지 얘기하기
+        왜냐하면 스네이크표기법("_")으로 인해서 page처리를 할 때 참조를 못하는 것 같음
+        스네이크 표기법이 사용되는 곳 CsArticleService 56번 째 코드
+        참고자료: https://nsmchan.tistory.com/30
+ */
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

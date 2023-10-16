@@ -52,7 +52,9 @@ public class CsArticleService {
 
     public CsArticlePageResponseDTO findByCate(CsArticlePageRequestDTO pageRequestDTO){
 
-        Pageable pageable = pageRequestDTO.getPageable("article_id");
+        //getPageable(  ) 안에 넣는 변수에 따라서 내림차순 정렬이 된다.
+        //getPageable(  ) 안에 cate를 넣었는데 다 똑같으므로 내림차순 정렬이 되지 않았다.
+        Pageable pageable = pageRequestDTO.getPageable("rdate");
 
         Page<CsArticleEntity> result = csArticleRepository.findByCate(pageRequestDTO.getCate(),pageable);
 
