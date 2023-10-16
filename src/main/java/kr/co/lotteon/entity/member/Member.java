@@ -44,7 +44,6 @@ public class Member {
     private LocalDateTime wdate;
     private LocalDateTime rdate;
     private Integer locationTerms; //TODO: 뭔지 모르겠다.
-
     @Builder
     public Member(String uid, String pass, String name, MemberGender gender, String hp, String email, MemberRole role, MemberLevel level, String zip, String addr1, String addr2, String company, String ceo, String bizRegNum, String comRegNum, String tel, String manager, String managerHp, String fax, String regip, LocalDateTime wdate, LocalDateTime rdate, Integer locationTerms) {
         this.uid = uid;
