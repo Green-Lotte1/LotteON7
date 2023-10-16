@@ -1,9 +1,10 @@
 package kr.co.lotteon.controller.admin.cs;
 
 import jakarta.servlet.http.HttpServletRequest;
-import kr.co.lotteon.entity.admin.cs.CsArticleEntity;
-import kr.co.lotteon.request.admin.cs.CsArticleCreateRequest;
-import kr.co.lotteon.response.admin.cs.CsArticleResponse;
+import kr.co.lotteon.request.admin.cs.CsArticleCreateRequestDTO;
+import kr.co.lotteon.request.admin.cs.CsArticlePageRequestDTO;
+import kr.co.lotteon.response.admin.cs.CsArticlePageResponseDTO;
+import kr.co.lotteon.response.admin.cs.CsArticleResponseDTO;
 import kr.co.lotteon.service.admin.cs.CsArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,12 +29,19 @@ public class AdminCsController {
     /*  admin/cs/notice  */
 
     @GetMapping("/notice/list")
-    public String notice_list(Model model){
+    public String notice_list(Model model, CsArticlePageRequestDTO pageRequestDTO){
 
-        List<CsArticleResponse> articles =  csArticleService.findAll();
-        model.addAttribute("articles",articles);
-        log.info("articles :"+articles.toString());
-        return "admin/cs/notice/list";
+        CsArticlePageResponseDTO pageResponseDTO = csArticleService.findByCate(pageRequestDTO);
+
+        log.info("pageResponseDTO pg : " + pageResponseDTO.getPg());
+        log.info("pageResponseDTO size : " + pageResponseDTO.getSize());
+        log.info("pageResponseDTO total : " + pageResponseDTO.getTotal());
+        log.info("pageResponseDTO start : " + pageResponseDTO.getStart());
+        log.info("pageResponseDTO end : " + pageResponseDTO.getEnd());
+        log.info("pageResponseDTO prev : " + pageResponseDTO.isPrev());
+        log.info("pageResponseDTO next : " + pageResponseDTO.isNext());
+
+        return null;
     }
 
     @GetMapping("/notice/write")
@@ -42,11 +50,21 @@ public class AdminCsController {
     }
 
     @PostMapping("/notice/write")
-    public String notice_write(CsArticleCreateRequest csArticleCreateRequest, HttpServletRequest request){
-        csArticleCreateRequest.setRegip(request.getRemoteAddr());
-        log.info("Notice_write DTO : "+csArticleCreateRequest.toString());
-        csArticleService.save(csArticleCreateRequest);
+    public String notice_write(CsArticleCreateRequestDTO csArticleCreateRequestDTO, HttpServletRequest request){
+        csArticleCreateRequestDTO.setRegip(request.getRemoteAddr());
+        log.info("Notice_write DTO : "+ csArticleCreateRequestDTO.toString());
+        csArticleService.save(csArticleCreateRequestDTO);
         return  "admin/cs/notice/list";
+    }
+
+
+    @GetMapping("/notice/view")
+    public String notice_view(){
+        return null;
+    }
+    @GetMapping("/notice/modify")
+    public String notice_modify(){
+        return null;
     }
 
     /*  admin/cs/qna  */
