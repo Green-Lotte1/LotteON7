@@ -2,6 +2,7 @@ package kr.co.lotteon.request.member;
 
 import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.entity.member.MemberGender;
+import kr.co.lotteon.entity.member.MemberLevel;
 import kr.co.lotteon.entity.member.MemberRole;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,6 +39,7 @@ public class MemberSellerRegisterRequest {
                 .zip(this.zip)
                 .addr1(this.addr1)
                 .addr2(this.addr2)
+                .level(MemberLevel.SELLER)
                 .company(this.company)
                 .ceo(this.ceo)
                 .bizRegNum(this.bizRegNum)

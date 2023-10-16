@@ -18,10 +18,11 @@ public class SecurityConfig {
                 .formLogin(login->login.loginPage("/member/login")
                         .usernameParameter("uid")
                         .passwordParameter("pass")
-                        .successHandler((request, response, authentication) -> {
-                            //TODO: 기존에 요청했던 url로 로그인 처리후 redirect
-                            response.sendRedirect("/");
-                        })
+                                .defaultSuccessUrl("/",true)
+//                        .successHandler((request, response, authentication) -> {
+//                            //TODO: 기존에 요청했던 url로 로그인 처리후 redirect
+//                            response.sendRedirect("/");
+//                        })
                 )
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/","/index").permitAll()
