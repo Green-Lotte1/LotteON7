@@ -1,6 +1,7 @@
 package kr.co.lotteon.entity.product;
 
 import jakarta.persistence.*;
+import kr.co.lotteon.entity.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,18 +17,26 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name="km_product") // 테이블 명 lotte_~ 로 바꿀지 의견 나눠보기
 public class ProductEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int prodNo;
-    private int prodCate1;  // km_product_cate2 테이블 외래키 annotation 확인
-    private int prodCate2;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prodCate1")
+    private ProductCate1Entity prodCate1;  // km_product_cate2 테이블 외래키 annotation 확인
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prodCate2")
+    private ProductCate2Entity prodCate2;
     private String prodName;
     private String descript;
     private String company;
-    private String seller;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller")
+    private Member seller;
     private int price;
-    private int discount;   // default : 0
+    private int discount;   // default : 0\
     private int point;      // default : 0
     private int stock;      // default : 0
     private int sold;       // default : 0

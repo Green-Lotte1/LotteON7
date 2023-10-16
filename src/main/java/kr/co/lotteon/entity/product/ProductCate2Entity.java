@@ -2,12 +2,16 @@ package kr.co.lotteon.entity.product;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import kr.co.lotteon.response.product.ProductCate2Response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -21,6 +25,14 @@ public class ProductCate2Entity {
     @Id
     private int cate2;
     private String c2Name;
+
+    @OneToMany(mappedBy = "prodCate2")
+    private List<ProductEntity> products = new ArrayList<>();
+
+    public void addProduct(ProductEntity product) {
+        this.products.add(product);
+        product.setProdCate2(this);
+    }
 
     public ProductCate2Response toResponse(){
         return ProductCate2Response.builder()

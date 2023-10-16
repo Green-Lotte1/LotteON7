@@ -69,7 +69,7 @@
   <header>
     <div class="top">
       <div>
-        <a th:href="@{member/login}">로그인</a>
+        <a th:href="@{/member/login}">로그인</a>
         <a th:href="@{/member/join}">회원가입</a>
         <!-- admin/index 들어가는 메서드 추가 -->
         <a th:href="@{/admin/index}">관리자 페이지</a>
@@ -855,7 +855,7 @@
       </section>
     </section>
   </main>
-  <footer>
+  <footer th:replace="~{fragments/footer::footer}">
     <ul>
       <li><a href="#">회사소개</a></li>
       <li><a href="#">서비스이용약관</a></li>
