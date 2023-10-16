@@ -7,12 +7,12 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 public class ProductCreateDto {
-    private String prodCate1;  // km_product_cate2 테이블 외래키 annotation 확인
-    private String prodCate2;
+    private Integer prodCate1_id;  // km_product_cate2 테이블 외래키 annotation 확인
+    private Integer prodCate2_id;
     private String prodName;
     private String descript;
     private String company;
-    private String seller; //uid로 넘어오게
+    private String seller_id; //uid로 넘어오게
     private int price;
     private int discount;   // default : 0
     private int point;      // default : 0
