@@ -15,7 +15,7 @@
             </div>
             <div class="logo">
                 <div>
-                  <a href="#"><img src="../images/header_logo.png" alt="로고" /></a>
+                  <a href="#"><img th:src="@{/images/header_logo.png}" alt="로고" /></a>
                     <form action="#">
                         <input type="text" name="keyword"/>
                         <button><i class="fa fa-search"></i></button>
@@ -102,118 +102,32 @@
                   <li><a href="#">최근등록순</a></li>
               </ul>
 
-              <!-- 상품목록 -->              
-              <table border="0">                  
+              <!-- 상품목록 -->
+                <table border="0">
+                    <th:block th:each="product : ${products}">
                 <tr>
-                  <td><a href="#" class="thumb"><img src="https://via.placeholder.com/120x120" alt="상품이미지"/></a></td>
-                  <td>
-                    <h3 class="name">상품명</h3>
-                    <a href="#" class="desc">상품설명</a>
-                  </td>
-                  <td>
-                    <ul>
-                      <li><ins class="dis-price">27,000</ins></li>
-                      <li>
-                        <del class="org-price">30,000</del>
-                        <span class="discount">10%</span>
-                      </li>
-                      <li><span class="free-delivery">무료배송</span></li>
-                    </ul>
-                  </td>
-                  <td>
-                    <h4 class="seller"><i class="fas fa-home"></i>&nbsp;판매자</h4>
-                    <h5 class="badge power">판매자등급</h5>
-                    <h6 class="rating star1">상품평</h6>
-                  </td>
+                            <td><a href="#" class="thumb"><img th:src="${product.thumb1}" alt="상품이미지"/></a></td>
+                            <td>
+                                <h3 class="name" th:text="${product.prodName}"></h3>
+                                <a href="#" th:text="${product.descript}" class="desc"></a>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li><ins class="dis-price">27,000</ins></li>
+                                    <li>
+                                        <del th:value="${product.price}" th:text="${product.price}" class="org-price">30,000</del>
+                                        <span th:text="|${product.discount}%|" class="discount"></span>
+                                    </li>
+                                    <li><span th:text="${product.delivery}" class="free-delivery"></span></li>
+                                </ul>
+                            </td>
+                            <td>
+                                <h4 class="seller"><i class="fas fa-home"></i>&nbsp;[[${product.seller}]]</h4>
+                                <h5 class="badge power" th:text="${product.level}">[[${product.level}]]</h5>
+                                <h6 class="rating star1" th:text="${product.score}">${product}</h6>
+                            </td>
                 </tr>
-                <tr>
-                  <td><a href="#" class="thumb"><img src="https://via.placeholder.com/120x120" alt="상품이미지"/></a></td>
-                  <td>
-                    <h3 class="name">상품명</h3>
-                    <a href="#" class="desc">상품설명</a>
-                  </td>
-                  <td>
-                    <ul>
-                      <li><ins class="dis-price">27,000</ins></li>
-                      <li>
-                        <del class="org-price">30,000</del>
-                        <span class="discount">10%</span>
-                      </li>
-                      <li><span class="free-delivery">무료배송</span></li>
-                    </ul>
-                  </td>
-                  <td>
-                    <h4 class="seller"><i class="fas fa-home"></i>&nbsp;판매자</h4>
-                    <h5 class="badge power">판매자등급</h5>
-                    <h6 class="rating star2">상품평</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#" class="thumb"><img src="https://via.placeholder.com/120x120" alt="상품이미지"/></a></td>
-                  <td>
-                    <h3 class="name">상품명</h3>
-                    <a href="#" class="desc">상품설명</a>
-                  </td>
-                  <td>
-                    <ul>
-                      <li><ins class="dis-price">27,000</ins></li>
-                      <li>
-                        <del class="org-price">30,000</del>
-                        <span class="discount">10%</span>
-                      </li>
-                      <li><span class="free-delivery">무료배송</span></li>
-                    </ul>
-                  </td>
-                  <td>
-                    <h4 class="seller"><i class="fas fa-home"></i>&nbsp;판매자명</h4>
-                    <h5 class="badge power">판매자등급</h5>
-                    <h6 class="rating star3">상품평</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#" class="thumb"><img src="https://via.placeholder.com/120x120" alt="상품이미지"/></a></td>
-                  <td>
-                    <h3 class="name">상품명</h3>
-                    <a href="#" class="desc">상품설명</a>
-                  </td>
-                  <td>
-                    <ul>
-                      <li><ins class="dis-price">27,000</ins></li>
-                      <li>
-                        <del class="org-price">30,000</del>
-                        <span class="discount">10%</span>
-                      </li>
-                      <li><span class="free-delivery">무료배송</span></li>
-                    </ul>
-                  </td>
-                  <td>
-                    <h4 class="seller"><i class="fas fa-home"></i>&nbsp;판매자명</h4>
-                    <h5 class="badge power">판매자등급</h5>
-                    <h6 class="rating star4">상품평</h6>
-                  </td>
-                </tr>
-                <tr>
-                  <td><a href="#" class="thumb"><img src="https://via.placeholder.com/120x120" alt="상품이미지"/></a></td>
-                  <td>
-                    <h3 class="name">상품명</h3>
-                    <a href="#" class="desc">상품설명</a>
-                  </td>
-                  <td>
-                    <ul>
-                      <li><ins class="dis-price">27,000</ins></li>
-                      <li>
-                        <del class="org-price">30,000</del>
-                        <span class="discount">10%</span>
-                      </li>
-                      <li><span>배송비 2500</span></li>
-                    </ul>
-                  </td>
-                  <td>
-                    <h4 class="seller"><i class="fas fa-home"></i>&nbsp;판매자명</h4>
-                    <h5 class="badge power">판매자등급</h5>
-                    <h6 class="rating star5">상품평</h6>
-                  </td>
-                </tr>
+                    </th:block>
                 
               </table>            
 
