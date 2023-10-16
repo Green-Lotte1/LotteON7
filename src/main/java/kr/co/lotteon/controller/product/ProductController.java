@@ -1,10 +1,9 @@
 package kr.co.lotteon.controller.product;
 
 import kr.co.lotteon.response.product.ProductCate1Response;
-import kr.co.lotteon.response.product.ProductCate2Response;
 import kr.co.lotteon.response.product.ProductListResponse;
 import kr.co.lotteon.service.product.CateService;
-import kr.co.lotteon.service.product.ProductListService;
+import kr.co.lotteon.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -22,7 +21,7 @@ import java.util.List;
 public class ProductController {
 
     private final CateService cateService;
-    private final ProductListService productListService;
+    private final ProductService productService;
 
     /* Category */
     @GetMapping("/cate")
@@ -37,7 +36,7 @@ public class ProductController {
     /* Product List */
     @GetMapping("/list/{prodCate2Id}")
     public String list(@PathVariable("prodCate2Id") Integer prodCate2Id, Model model){
-        List<ProductListResponse> products = productListService.findProductsByCate2(prodCate2Id);
+        List<ProductListResponse> products = productService.findProductsByCate2(prodCate2Id);
 
         model.addAttribute("products",products);
         return "product/list";
