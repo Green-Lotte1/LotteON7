@@ -1,4 +1,4 @@
-package kr.co.lotteon.response.main;
+package kr.co.lotteon.response.product;
 
 import kr.co.lotteon.entity.product.ProductCate2Entity;
 import lombok.AllArgsConstructor;
