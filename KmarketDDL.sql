@@ -46,7 +46,7 @@ DROP TABLE IF EXISTS `km_article`;
 CREATE TABLE IF NOT EXISTS `km_article` (
     `article_id` int(11) NOT NULL AUTO_INCREMENT,
     `group` varchar(20) DEFAULT 'free',
-    `cate` varchar(45) DEFAULT 'free' COMMENT 'notice: free(1차만 적용된다.) faq,qna:1,2차 모두 적용',
+    `cate` varchar(45) DEFAULT 'free' COMMENT 'notice, faq,qna:1,2차 모두 적용',
     `cate2` varchar(45) DEFAULT 'free',
     `title` varchar(255) DEFAULT NULL,
     `content` text NOT NULL,
@@ -73,7 +73,7 @@ CREATE TABLE IF NOT EXISTS `km_comment`
     primary key (comment_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-# faq,qna일때만 적용되고 나머지는 notice의 경우 적용하지 않는다.
+# faq,qna, notice 모두 적용한다.
 DROP TABLE IF EXISTS `km_article_cate`;
 CREATE TABLE IF NOT EXISTS `km_article_cate` (
     `article_cate_id` tinyint(4) AUTO_INCREMENT,
