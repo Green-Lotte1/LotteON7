@@ -1,6 +1,7 @@
 package kr.co.lotteon.controller.product;
 
 import kr.co.lotteon.response.product.ProductListResponse;
+import kr.co.lotteon.response.product.ProductViewResponse;
 import kr.co.lotteon.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

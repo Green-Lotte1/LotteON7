@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Log4j2
 public class CsArticleCreateRequestDTO {
 
-    private int article_id;
+    private int articleId;
     private String cate;
     private String menu1;
     private String menu2;
@@ -31,7 +31,7 @@ public class CsArticleCreateRequestDTO {
 
     public CsArticleEntity toEntity(){
         return CsArticleEntity.builder()
-                .article_id(article_id)
+                .articleId(articleId)
                 .cate(cate)
                 .menu1(menu1)
                 .menu2(menu2)

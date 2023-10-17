@@ -51,8 +51,14 @@
         <li>
             <a href="#"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>게시판관리</a>
             <ol>
-                <li><a href="#">게시판현황</a></li>
-                <li><a href="#">고객문의</a></li>
+                <!--
+                롯데ON 쇼핑몰 스토리보드 v1.4 35p
+                고객센터 카테고리에 맞춰서 게시판 항목을 공지사항, 자주 묻는 질문, 문의하기로 변경
+                -->
+                <li><a th:href="@{/admin/cs/notice/list}">-공지사항</a></li>
+                <li><a th:href="@{/admin/cs/faq/list}">-자주묻는질문</a></li>
+                <li><a th:href="@{/admin/cs/qna/list}">-문의하기</a></li>
+
             </ol>
         </li>
     </ul>
