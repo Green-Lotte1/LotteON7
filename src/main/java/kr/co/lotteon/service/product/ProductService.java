@@ -1,9 +1,9 @@
 package kr.co.lotteon.service.product;
 
-import kr.co.lotteon.entity.product.ProductEntity;
 import kr.co.lotteon.repository.product.ProductListRepository;
-import kr.co.lotteon.request.product.ProductListRequest;
+import kr.co.lotteon.repository.product.ProductViewRepository;
 import kr.co.lotteon.response.product.ProductListResponse;
+import kr.co.lotteon.response.product.ProductViewResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -14,9 +14,10 @@ import java.util.stream.Collectors;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-public class ProductListService {
+public class ProductService {
 
     private final ProductListRepository productListRepository;
+    private final ProductViewRepository productViewRepository;
 
     public List<ProductListResponse> findProductsByCate2(Integer prodCate2Id){
 
@@ -29,4 +30,10 @@ public class ProductListService {
         return productList;
     }
 
+    public ProductViewResponse findView(int prodNo){
+        //todo retun이 optional타입 확인해보기
+        //return productViewRepository.findById(prodNo);
+        return null;
+        }
+    }
 }
