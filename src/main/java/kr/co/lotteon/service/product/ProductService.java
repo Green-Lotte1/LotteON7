@@ -3,13 +3,11 @@ package kr.co.lotteon.service.product;
 import kr.co.lotteon.entity.product.ProductEntity;
 import kr.co.lotteon.repository.product.ProductListRepository;
 import kr.co.lotteon.repository.product.ProductViewRepository;
-import kr.co.lotteon.request.product.ProductViewRequest;
 import kr.co.lotteon.response.product.ProductListResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,9 +37,7 @@ public class ProductService {
     //ProductView
     public ProductViewResponse findView(Integer prodNo){
         ProductEntity productEntity = productViewRepository.findById(prodNo).orElseThrow();
-
         return new ProductViewResponse(productEntity);
     }
-
 }
 

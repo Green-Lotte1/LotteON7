@@ -28,7 +28,8 @@ public class CsArticleEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int article_id;
+    @Column(name = "article_id")
+    private int articleId;
 
     private String cate;
     private String menu1;
@@ -45,7 +46,7 @@ public class CsArticleEntity {
 
     public CsArticleCreateRequestDTO reqToEntity(){
         return CsArticleCreateRequestDTO.builder()
-                .article_id(article_id)
+                .articleId(articleId)
                 .cate(cate)
                 .menu1(menu1)
                 .menu2(menu2)
@@ -60,7 +61,7 @@ public class CsArticleEntity {
 
     public CsArticleResponseDTO respToEntity(){
         return CsArticleResponseDTO.builder()
-                .article_id(article_id)
+                .articleId(articleId)
                 .cate(cate)
                 .menu1(menu1)
                 .menu2(menu2)
