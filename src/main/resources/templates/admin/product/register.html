@@ -38,7 +38,7 @@
                                 <tr>
                                     <td>1차 분류</td>
                                     <td>
-                                        <select name="category1">
+                                        <select id="cate1Select" name="category1">
                                             <option value="cate0">1차 분류 선택</option>
                                             <option value="cate11">패션·의류·뷰티</option>
                                             <option value="cate12">가전·디지털</option>
@@ -50,7 +50,7 @@
                                 <tr>
                                     <td>2차 분류</td>
                                     <td>
-                                        <select name="category2">
+                                        <select id="cate2Select" name="category2">
                                             <option value="cate0">2차 분류 선택</option>
                                             <option value="cate21">남성의류</option>
                                             <option value="cate22">여성의류</option>
@@ -182,6 +182,30 @@
                 <p>Copyright ©lotteon.com All rights reserved. ADMINISTRATOR Version 5.4.1.2</p>
             </div>
         </footer>
-    </div>    
+    </div>
 </body>
+<script>
+    let protocol;
+    let rootURL;
+    protocol = window.location.protocol;
+    rootURL = window.location.host;
+    const getAllCate1 = async ()=> {
+        const apiURL = protocol+"//"+rootURL + "/api/admin/product/fullCate";
+        let response = await fetch(apiURL)
+            .then(res => {
+                return res.json();
+            });
+        return response;
+    }
+    window.onload = async ()=>{
+        const cate1Select = document.getElementById("cate1Select");
+        const cate2Select = document.getElementById("cate2Select");
+
+        let result = await getAllCate1().then(res=> JSON.stringify(res));
+
+        for (const resultElement of result) {
+
+        }
+    }
+</script>
 </html>
