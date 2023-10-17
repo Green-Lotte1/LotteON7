@@ -1,8 +1,6 @@
 package kr.co.lotteon.controller.product;
 
-import kr.co.lotteon.response.product.ProductCate1Response;
 import kr.co.lotteon.response.product.ProductListResponse;
-import kr.co.lotteon.service.product.CateService;
 import kr.co.lotteon.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,19 +17,7 @@ import java.util.List;
 @RequestMapping("/product")
 @RequiredArgsConstructor
 public class ProductController {
-
-    private final CateService cateService;
     private final ProductService productService;
-
-    /* Category */
-    @GetMapping("/cate")
-    public String categories(Model model){
-       log.info("ProductController categories 시작");
-        List<ProductCate1Response> categories = cateService.getCate();
-        log.info("ProductController categories : " + categories);
-        model.addAttribute("categories",categories);
-        return "cate";
-    }
 
     /* Product List */
     @GetMapping("/list/{prodCate2Id}")
