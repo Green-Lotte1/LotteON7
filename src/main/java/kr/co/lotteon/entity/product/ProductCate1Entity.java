@@ -1,7 +1,6 @@
 package kr.co.lotteon.entity.product;
 
 import jakarta.persistence.*;
-import kr.co.lotteon.response.product.ProductCate1Response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,14 +24,11 @@ public class ProductCate1Entity {
     @OneToMany(mappedBy = "prodCate1",cascade = CascadeType.ALL)
     private List<ProductEntity> products = new ArrayList<>();
 
+    @OneToMany(mappedBy = "cate1",fetch = FetchType.LAZY)
+    private List<ProductCate2Entity> cate2s = new ArrayList<>();
+
     public void addProduct(ProductEntity productEntity) {
         this.products.add(productEntity);
         productEntity.setProdCate1(this);
-    }
-    public ProductCate1Response toResponse(){
-        return ProductCate1Response.builder()
-                .cate1(cate1)
-                .c1Name(c1Name)
-                .build();
     }
 }

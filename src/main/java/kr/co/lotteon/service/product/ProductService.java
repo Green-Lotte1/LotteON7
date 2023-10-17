@@ -43,5 +43,10 @@ public class ProductService {
         ProductViewResponse productViewResponse = modelMapper.map(prodEntityResult,ProductViewResponse.class);
         return productViewResponse;
     }
+    public ProductViewResponse findView(int prodNo){
+        //todo retun이 optional타입 확인해보기
+        //return productViewRepository.findById(prodNo);
+        return null;
+        }
 }
 
