@@ -47,6 +47,7 @@ public class ProductViewResponse {
     private String ip;
     private String rdate;
 
+    @Builder
     public ProductViewResponse(ProductEntity product) {
         this.prodNo = product.getProdNo();
         this.prodName = product.getProdName();

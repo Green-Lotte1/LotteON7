@@ -40,6 +40,12 @@ public class ProductService {
     public ProductViewResponse findView(Integer prodNo){
         Optional<ProductEntity> prodEntityResult = productViewRepository.findById(prodNo);
 
+
+
+        ProductViewResponse productViewResponse = modelMapper.map(prodEntityResult,ProductViewResponse.class);
+        return productViewResponse;
+    }
+    public ProductViewResponse findView(int prodNo){
         //todo retun이 optional타입 확인해보기
         ProductViewResponse productViewResponse = modelMapper.map(prodEntityResult,ProductViewResponse.class);
         return productViewResponse;
