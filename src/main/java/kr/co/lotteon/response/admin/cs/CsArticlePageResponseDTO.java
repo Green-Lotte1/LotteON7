@@ -30,7 +30,7 @@ public class CsArticlePageResponseDTO {
         this.start = this.end - 9;
         int last = (int)(Math.ceil(total / (double) size));
 
-        this.end = end > last ? last : end;
+        this.end = Math.min(end, last);
         this.prev = this.start > 1;
         this.next = total > this.end * this.size;
 

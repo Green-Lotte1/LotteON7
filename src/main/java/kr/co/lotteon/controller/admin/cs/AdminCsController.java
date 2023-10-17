@@ -10,9 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -40,8 +38,9 @@ public class AdminCsController {
         log.info("pageResponseDTO end : " + pageResponseDTO.getEnd());
         log.info("pageResponseDTO prev : " + pageResponseDTO.isPrev());
         log.info("pageResponseDTO next : " + pageResponseDTO.isNext());
-
-        return null;
+        log.info("pageResponseDTO dtoList : " + pageResponseDTO.getDtoList());
+        model.addAttribute("pageResponseDTO",pageResponseDTO);
+        return "admin/cs/notice/list";
     }
 
     @GetMapping("/notice/write")
@@ -54,13 +53,15 @@ public class AdminCsController {
         csArticleCreateRequestDTO.setRegip(request.getRemoteAddr());
         log.info("Notice_write DTO : "+ csArticleCreateRequestDTO.toString());
         csArticleService.save(csArticleCreateRequestDTO);
-        return  "admin/cs/notice/list";
+        return  "redirect:admin/cs/notice/list";
     }
 
 
     @GetMapping("/notice/view")
-    public String notice_view(){
-        return null;
+    public String notice_view(@RequestParam("article_id") String article_id){
+        log.info("view Article_id"+article_id);
+        return "admin/cs/notice/view";
+
     }
     @GetMapping("/notice/modify")
     public String notice_modify(){
