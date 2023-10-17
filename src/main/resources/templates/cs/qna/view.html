@@ -12,16 +12,19 @@
         <div class="top">
           <div>
             <p>
-              <a href="./member/login.html">로그인</a>
-              <a href="#">회원가입</a>
+              <a th:href="@{/member/login}">로그인</a>
+              <a th:href="@{/member/join}">회원가입</a>
               <a href="#">마이페이지</a>
-              <a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니</a>
+              <a href="#"
+              ><i class="fa fa-shopping-cart" aria-hidden="true"></i
+              >&nbsp;장바구니</a
+              >
             </p>
           </div>
         </div>
         <div class="logo">
           <div>
-            <a href="#"><img src="../../images/header_logo.png" alt="로고" />고객센터</a>
+            <a href="#"><img th:src="@{/images/header_logo.png}" alt="로고" />고객센터</a>
           </div>
         </div>
       </header>
@@ -68,7 +71,7 @@
                   감사합니다.<br />
                 </p>
               </div>
-              <a href="./list.html" class="btnList">목록보기</a>
+              <a th:href="@{/qna/list}" class="btnList">목록보기</a>
             </article>
           </section>
         </div>

@@ -17,4 +17,13 @@ public class ArticleService {
         return articleRepository.findArticlesByCate("notice");
     }
 
+    public List<ArticleEntity> getQna(){
+        return articleRepository.findArticlesByCate("qna");
+    }
+
+    public List<ArticleEntity> getFaq(){
+        return articleRepository.findArticlesByCate("faq");
+    }
+
+    public void save()
 }

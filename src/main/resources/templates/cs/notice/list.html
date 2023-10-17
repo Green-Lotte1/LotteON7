@@ -12,8 +12,8 @@
         <div class="top">
           <div>
             <p>
-              <a href="./member/login.html">로그인</a>
-              <a href="#">회원가입</a>
+              <a th:href="@{/member/login}">로그인</a>
+              <a th:href="@{/member/join}">회원가입</a>
               <a href="#">마이페이지</a>
               <a href="#"
                 ><i class="fa fa-shopping-cart" aria-hidden="true"></i
@@ -24,7 +24,7 @@
         </div>
         <div class="logo">
           <div>
-            <a href="#"><img src="../../images/header_logo.png" alt="로고" />고객센터</a>
+            <a href="#"><img th:src="@{/images/header_logo.png}" alt="로고" />고객센터</a>
           </div>
         </div>
       </header>
@@ -55,44 +55,8 @@
 
               <table>
                 <tr th:each="notice:${notices}">
-                  <td><a href="./view.html">[[${notice.title}]]</a></td>
-                  <td th:text="${notice.rdate.toString()}">2022.11.21</td>
-                </tr>
-                <tr>
-                  <td><a href="./view.html">[발표]『G.Live X SK스토아(하남쭈꾸미)』 이벤트 당첨자</a></td>
-                  <td>2022.11.21</td>
-                </tr>
-                <tr>
-                  <td><a href="#">[안내] 로젠택배 반품/교환 수거지시 지연 안내</a></td>
-                  <td>2022.11.21</td>
-                </tr>
-                <tr>
-                  <td><a href="#">[안내] 해외직구셀러 특별약관 개정</a></td>
-                  <td>2022.11.21</td>
-                </tr>
-                <tr>
-                  <td><a href="#">[안내] 위치정보이용 약관 개정 공지</a></td>
-                  <td>2022.11.21</td>
-                </tr>
-                <tr>
-                  <td><a href="#">[발표]『써모스 상품 구매』 이벤트 당첨자</a></td>
-                  <td>2022.11.21</td>
-                </tr>
-                <tr>
-                  <td><a href="#">한국소비자원, '22년 OECD 글로벌 제품안전 캠페인</a></td>
-                  <td>2022.11.21</td>
-                </tr>
-                <tr>
-                  <td><a href="#">[점검] G마켓 사이트 이용 일시 중단</a></td>
-                  <td>2022.11.21</td>
-                </tr>
-                <tr>
-                  <td><a href="#">[안내] 구매회원 이용약관 개정</a></td>
-                  <td>2022.11.21</td>
-                </tr>
-                <tr>
-                  <td><a href="#">[안내] 씨티은행 시스템 점검에 따른 계좌, 체크카드결제 서비스 일시 중단</a></td>
-                  <td>2022.11.21</td>
+                  <td><a th:href="@{/notice/view}">[[${notice.title}]]</a></td>
+                  <td th:text="${notice.rdate.toString()}"></td>
                 </tr>
               </table>
 
@@ -103,7 +67,6 @@
                 <a href="#" class="num">3</a>
                 <a href="#" class="next">다음</a>
               </div>
-
             </article>
           </section>
         </div>
