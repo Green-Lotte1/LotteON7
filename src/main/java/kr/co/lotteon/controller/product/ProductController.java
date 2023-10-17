@@ -30,7 +30,10 @@ public class ProductController {
 
     /* Product View */
     @GetMapping("/view")
-    public String view(){
+    public String view(@PathVariable("prodNo") Integer prodNo, Model model){
+        ProductViewResponse product = productService.findView(prodNo);
+
+        model.addAttribute("product",product);
         return "product/view";
     }
 
