@@ -1,5 +1,6 @@
 package kr.co.lotteon.entity.product;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import kr.co.lotteon.entity.member.Member;
 import lombok.AllArgsConstructor;
@@ -56,4 +57,6 @@ public class ProductEntity {
     private String ip;
     @CreationTimestamp
     private LocalDateTime rdate;
+
+
 }

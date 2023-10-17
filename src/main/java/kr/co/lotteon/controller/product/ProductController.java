@@ -1,6 +1,7 @@
 package kr.co.lotteon.controller.product;
 
 import kr.co.lotteon.response.product.ProductListResponse;
+import kr.co.lotteon.response.product.ProductViewResponse;
 import kr.co.lotteon.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -9,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -29,11 +31,11 @@ public class ProductController {
     }
 
     /* Product View */
-    @GetMapping("/view")
+    @GetMapping("/view/{prodNo}")
     public String view(@PathVariable("prodNo") Integer prodNo, Model model){
-        ProductViewResponse product = productService.findView(prodNo);
-
-        model.addAttribute("product",product);
+        ProductViewResponse productViewResponse = productService.findView(prodNo);
+        log.info("ProductController : "+prodNo);
+        model.addAttribute("product",productViewResponse);
         return "product/view";
     }
 
