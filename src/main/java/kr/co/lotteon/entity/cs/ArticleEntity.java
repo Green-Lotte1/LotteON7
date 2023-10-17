@@ -3,6 +3,7 @@ package kr.co.lotteon.entity.cs;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import kr.co.lotteon.controller.dto.ArticleDTO;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -28,4 +29,19 @@ public class ArticleEntity {
     private String uid;
     private String regip;
     private LocalDateTime rdate;
+
+    public ArticleDTO toDTO(){
+        return ArticleDTO.builder()
+                .cate(cate)
+                .menu1(menu1)
+                .menu2(menu2)
+                .title(title)
+                .content(content)
+                .file(file)
+                .hit(hit)
+                .uid(uid)
+                .regip(regip)
+                .rdate(rdate)
+                .build();
+    }
 }

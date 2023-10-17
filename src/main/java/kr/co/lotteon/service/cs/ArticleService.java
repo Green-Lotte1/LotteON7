@@ -25,5 +25,7 @@ public class ArticleService {
         return articleRepository.findArticlesByCate("faq");
     }
 
-    public void save()
+    public void save(){
+
+    }
 }
