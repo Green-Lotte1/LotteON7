@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -30,11 +31,11 @@ public class ProductController {
     }
 
     /* Product View */
-    @GetMapping("/view")
+    @GetMapping("/view/{prodNo}")
     public String view(@PathVariable("prodNo") Integer prodNo, Model model){
-        ProductViewResponse product = productService.findView(prodNo);
-
-        model.addAttribute("product",product);
+        ProductViewResponse productViewResponse = productService.findView(prodNo);
+        log.info("ProductController : "+prodNo);
+        model.addAttribute("product",productViewResponse);
         return "product/view";
     }
 

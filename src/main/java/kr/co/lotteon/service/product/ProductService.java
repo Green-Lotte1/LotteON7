@@ -36,13 +36,8 @@ public class ProductService {
 
     //ProductView
     public ProductViewResponse findView(Integer prodNo){
-        Optional<ProductEntity> prodEntityResult = productViewRepository.findById(prodNo);
-        ProductViewResponse productViewResponse = modelMapper.map(prodEntityResult,ProductViewResponse.class);
-        return productViewResponse;
+        ProductEntity productEntity = productViewRepository.findById(prodNo).orElseThrow();
+        return new ProductViewResponse(productEntity);
     }
-    public ProductViewResponse findView(int prodNo){
-        //return productViewRepository.findById(prodNo) ;
-        return null;
-        }
 }
 
