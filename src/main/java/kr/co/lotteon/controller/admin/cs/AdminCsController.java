@@ -23,8 +23,12 @@ public class AdminCsController {
 
     private final CsArticleService csArticleService;
 
+/////////////////////////////////////////
+////////////////////////////////////////
+/*  admin/cs/notice  */
+////////////////////////////////////////
+///////////////////////////////////////
 
-    /*  admin/cs/notice  */
 
     @GetMapping("/notice/list")
     public String notice_list(Model model, CsArticlePageRequestDTO pageRequestDTO){
@@ -53,13 +57,16 @@ public class AdminCsController {
         csArticleCreateRequestDTO.setRegip(request.getRemoteAddr());
         log.info("Notice_write DTO : "+ csArticleCreateRequestDTO.toString());
         csArticleService.save(csArticleCreateRequestDTO);
-        return  "redirect:admin/cs/notice/list";
+        return  "redirect:/admin/cs/notice/list";
     }
 
 
     @GetMapping("/notice/view")
-    public String notice_view(@RequestParam("article_id") String article_id){
-        log.info("view Article_id"+article_id);
+    public String notice_view(@RequestParam("articleId") int articleId ,Model model){
+        log.info("view ArticleId"+articleId);
+        CsArticleResponseDTO responseDTO = csArticleService.findById(articleId);
+        log.info("responseDTO :"+responseDTO.toString());
+        model.addAttribute("responseDTO",responseDTO);
         return "admin/cs/notice/view";
 
     }
@@ -67,14 +74,21 @@ public class AdminCsController {
     public String notice_modify(){
         return null;
     }
-
-    /*  admin/cs/qna  */
+/////////////////////////////////////////
+////////////////////////////////////////
+/*  admin/cs/qna  */
+////////////////////////////////////////
+///////////////////////////////////////
     @GetMapping("/qna/list")
     public String qna_list(){
         return "admin/cs/qna/list";
     }
 
-    /*  admin/cs/faq  */
+/////////////////////////////////////////
+////////////////////////////////////////
+/*  admin/cs/faq  */
+////////////////////////////////////////
+///////////////////////////////////////
     @GetMapping("/faq/list")
     public String faq_list(){
         return "admin/cs/faq/list";

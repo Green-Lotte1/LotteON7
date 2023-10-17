@@ -10,13 +10,13 @@ import kr.co.lotteon.response.admin.cs.CsArticleResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +26,11 @@ public class CsArticleService {
     private final CsArticleRepository csArticleRepository;
     private final ModelMapper modelMapper;
 
+/////////////////////////////////////////
+////////////////////////////////////////
+/*  admin/cs/notice  */
+////////////////////////////////////////
+///////////////////////////////////////
 
 
     public void save(CsArticleCreateRequestDTO csArticleCreateRequestDTO){
@@ -48,13 +53,13 @@ public class CsArticleService {
 
         return csArticleResponses;
     }
-*/
+    */
 
     public CsArticlePageResponseDTO findByCate(CsArticlePageRequestDTO pageRequestDTO){
 
         //getPageable(  ) 안에 넣는 변수에 따라서 내림차순 정렬이 된다.
         //getPageable(  ) 안에 cate를 넣었는데 다 똑같으므로 내림차순 정렬이 되지 않았다.
-        Pageable pageable = pageRequestDTO.getPageable("rdate");
+        Pageable pageable = pageRequestDTO.getPageable("articleId");
 
         Page<CsArticleEntity> result = csArticleRepository.findByCate(pageRequestDTO.getCate(),pageable);
 
@@ -73,6 +78,12 @@ public class CsArticleService {
     };
 
 
+    public CsArticleResponseDTO findById(int articleId){
+
+     Optional<CsArticleEntity> csArticleEntity = csArticleRepository.findById(articleId);
+
+        return csArticleEntity.get().respToEntity();
+    }
 
 
 }
