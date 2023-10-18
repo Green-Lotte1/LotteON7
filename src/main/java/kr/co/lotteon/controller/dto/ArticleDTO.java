@@ -1,23 +1,19 @@
-package kr.co.lotteon.entity.cs;
+package kr.co.lotteon.controller.dto;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import kr.co.lotteon.controller.dto.ArticleDTO;
-import lombok.*;
-
+import kr.co.lotteon.entity.cs.ArticleEntity;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "km_article")
-public class ArticleEntity {
-    @Id
+public class ArticleDTO {
+
     private int article_id;
     private String cate;
     private String menu1;
@@ -30,8 +26,8 @@ public class ArticleEntity {
     private String regip;
     private LocalDateTime rdate;
 
-    public ArticleDTO toDTO(){
-        return ArticleDTO.builder()
+    public ArticleEntity toEntity(){
+        return ArticleEntity.builder()
                 .article_id(article_id)
                 .cate(cate)
                 .menu1(menu1)

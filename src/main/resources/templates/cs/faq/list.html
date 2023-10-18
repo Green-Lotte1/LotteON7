@@ -41,19 +41,19 @@
         <div class="top">
           <div>
             <p>
-              <a href="./member/login.html">로그인</a>
-              <a href="#">회원가입</a>
+              <a th:href="@{/member/login}">로그인</a>
+              <a th:href="@{/member/join}">회원가입</a>
               <a href="#">마이페이지</a>
               <a href="#"
-                ><i class="fa fa-shopping-cart" aria-hidden="true"></i
-                >&nbsp;장바구니</a
+              ><i class="fa fa-shopping-cart" aria-hidden="true"></i
+              >&nbsp;장바구니</a
               >
             </p>
           </div>
         </div>
         <div class="logo">
           <div>
-            <a href="../index.html"><img src="../../images/header_logo.png" alt="로고" />고객센터</a>
+            <a href="#"><img th:src="@{/images/header_logo.png}" alt="로고" />고객센터</a>
           </div>
         </div>
       </header>
@@ -87,44 +87,36 @@
               <div>
                 <h3>가입</h3>
                 <ul>
-                  <li><a href="./view.html"><span>Q.</span>개인회원과 법인회원에 차이가 있나요?</a></li>
-                  <li><a href="#"><span>Q.</span>개인회원과 법인회원에 차이가 있나요?</a></li>
-                  <li><a href="#"><span>Q.</span>개인회원과 법인회원에 차이가 있나요?</a></li>
-                  <li><a href="#"><span>Q.</span>개인회원과 법인회원에 차이가 있나요?</a></li>
-                  <li><a href="#"><span>Q.</span>개인회원과 법인회원에 차이가 있나요?</a></li>
+                  <li th:each="faq:${faqList}">
+                    <a th:href="@{/faq/view}"><span>Q.</span>[[${faq.content}]]</a>
+                  </li>
                   <li class="more"><a href="#">더보기</a></li>
                 </ul>
               </div>
               <div>
                 <h3>탈퇴</h3>
                 <ul>
-                  <li><a href="#"><span>Q.</span>회원탈퇴 후 재가입이 가능한가요?</a></li>
-                  <li><a href="#"><span>Q.</span>회원탈퇴 후 재가입이 가능한가요?</a></li>
-                  <li><a href="#"><span>Q.</span>회원탈퇴 후 재가입이 가능한가요?</a></li>
-                  <li><a href="#"><span>Q.</span>회원탈퇴 후 재가입이 가능한가요?</a></li>
-                  <li><a href="#"><span>Q.</span>회원탈퇴 후 재가입이 가능한가요?</a></li>
+                  <li th:each="faq:${faqList}">
+                    <a th:href="@{/faq/view}"><span>Q.</span>[[${faq.content}]]</a>
+                  </li>
                   <li class="more"><a href="#">더보기</a></li>
                 </ul>
               </div>
               <div>
                 <h3>회원정보</h3>
                 <ul>
-                  <li><a href="#"><span>Q.</span>회원정보를 수정하고 싶어요.</a></li>
-                  <li><a href="#"><span>Q.</span>회원정보를 수정하고 싶어요.</a></li>
-                  <li><a href="#"><span>Q.</span>회원정보를 수정하고 싶어요.</a></li>
-                  <li><a href="#"><span>Q.</span>회원정보를 수정하고 싶어요.</a></li>
-                  <li><a href="#"><span>Q.</span>회원정보를 수정하고 싶어요.</a></li>
+                  <li th:each="faq:${faqList}">
+                    <a th:href="@{/faq/view}"><span>Q.</span>[[${faq.content}]]</a>
+                  </li>
                   <li class="more"><a href="#">더보기</a></li>
                 </ul>
               </div>
               <div>
                 <h3>로그인</h3>
                 <ul>
-                  <li><a href="#"><span>Q.</span>로그인에 문제가 있어요.</a></li>
-                  <li><a href="#"><span>Q.</span>로그인에 문제가 있어요.</a></li>
-                  <li><a href="#"><span>Q.</span>로그인에 문제가 있어요.</a></li>
-                  <li><a href="#"><span>Q.</span>로그인에 문제가 있어요.</a></li>
-                  <li><a href="#"><span>Q.</span>로그인에 문제가 있어요.</a></li>
+                  <li th:each="faq:${faqList}">
+                    <a th:href="@{/faq/view}"><span>Q.</span>[[${faq.content}]]</a>
+                  </li>
                   <li class="more"><a href="#">더보기</a></li>
                 </ul>
               </div>

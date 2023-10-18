@@ -12,16 +12,19 @@
         <div class="top">
           <div>
             <p>
-              <a href="./member/login.html">로그인</a>
-              <a href="#">회원가입</a>
+              <a th:href="@{/member/login}">로그인</a>
+              <a th:href="@{/member/join}">회원가입</a>
               <a href="#">마이페이지</a>
-              <a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니</a>
+              <a href="#"
+              ><i class="fa fa-shopping-cart" aria-hidden="true"></i
+              >&nbsp;장바구니</a
+              >
             </p>
           </div>
         </div>
         <div class="logo">
           <div>
-            <a href="#"><img src="../../images/header_logo.png" alt="로고" />고객센터</a>
+            <a href="#"><img th:src="@{/images/header_logo.png}" alt="로고" />고객센터</a>
           </div>
         </div>
       </header>
@@ -47,7 +50,8 @@
               </ul>
             </aside>
             <article>
-              <form action="#">
+              <form th:action="@{/qna/write}" method="post">
+                <input type="text" name="writer" th:value="${uid}">
                 <table>
                   <tr>
                     <td>문의유형</td>
@@ -75,7 +79,7 @@
                   </tr>
                 </table>
                 <div>
-                  <a href="./list.html" class="btnList">취소하기</a>
+                  <a th:href="@{/qna/list}" class="btnList">취소하기</a>
                   <input type="submit" class="btnSubmit" value="등록하기"/>
                 </div>
               </form>
