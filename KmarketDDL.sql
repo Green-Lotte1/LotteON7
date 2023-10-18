@@ -125,6 +125,15 @@ CREATE TABLE IF NOT EXISTS `km_member_terms` (
     primary key (`member_terms_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP table if exists `km_file`;
+create table if not exists `km_file`
+(
+    `file_id`     int(11) not null auto_increment,
+    `stored_name` varchar(255),
+    `upload_name` varchar(255),
+    primary key (`file_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 DROP TABLE IF EXISTS `km_product`;
 CREATE TABLE IF NOT EXISTS `km_product` (
     `prodNo` int(11) NOT NULL AUTO_INCREMENT,
@@ -143,10 +152,10 @@ CREATE TABLE IF NOT EXISTS `km_product` (
     `hit` int(11) DEFAULT '0',
     `score` tinyint(4) DEFAULT '0',
     `review` int(11) DEFAULT '0',
-    `thumb1` varchar(255) NOT NULL,
-    `thumb2` varchar(255) NOT NULL,
-    `thumb3` varchar(255) NOT NULL,
-    `detail` varchar(255) NOT NULL,
+    `thumb1` int(11) NOT NULL,
+    `thumb2` int(11) NOT NULL,
+    `thumb3` int(11) NOT NULL,
+    `detail` int(11) NOT NULL,
     `status` varchar(20) DEFAULT '새상품',
     `duty` varchar(20) DEFAULT '과세상품',
     `receipt` varchar(255) DEFAULT '발행가능 - 신용카드 전표, 온라인 현금영수증',
