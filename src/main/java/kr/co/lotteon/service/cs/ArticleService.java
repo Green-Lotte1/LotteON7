@@ -1,5 +1,6 @@
 package kr.co.lotteon.service.cs;
 
+import kr.co.lotteon.controller.dto.ArticleDTO;
 import kr.co.lotteon.entity.cs.ArticleEntity;
 import kr.co.lotteon.repository.cs.ArticleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ public class ArticleService {
         return articleRepository.findArticlesByCate("faq");
     }
 
-    public void save(){
-
+    public void save (ArticleDTO dto){
+        articleRepository.save(dto.toEntity());
     }
 }

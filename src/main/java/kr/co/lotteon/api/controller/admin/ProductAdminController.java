@@ -17,7 +17,8 @@ import java.util.List;
 public class ProductAdminController {
     //카테고리 1차,2차 값 가져오기
     private final CateAPIService cateAPIService;
-    @GetMapping("/test")
+
+    @GetMapping("/fullCate")
     public List<Cate1DictAPIResponse> test() {
         return cateAPIService.getCateDictResponse();
     }

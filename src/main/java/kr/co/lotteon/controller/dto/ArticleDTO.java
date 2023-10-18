@@ -28,6 +28,7 @@ public class ArticleDTO {
 
     public ArticleEntity toEntity(){
         return ArticleEntity.builder()
+                .article_id(article_id)
                 .cate(cate)
                 .menu1(menu1)
                 .menu2(menu2)

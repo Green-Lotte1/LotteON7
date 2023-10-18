@@ -51,6 +51,7 @@
             </aside>
             <article>
               <form th:action="@{/qna/write}" method="post">
+                <input type="text" name="writer" th:value="${uid}">
                 <table>
                   <tr>
                     <td>문의유형</td>

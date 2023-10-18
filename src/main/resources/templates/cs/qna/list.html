@@ -56,7 +56,7 @@
               </nav>
               <table>
                 <tr th:each="qna:${qnaList}">
-                  <td><a th:href="@{/qna/view}">[[${qna.title}]]</a></td>
+                  <td><a th:href="@{/qna/view(article_id=${qna.article_id})}">[[${qna.title}]]</a></td>
                   <td></td>
                   <td>[[${qna.uid}]]</td>
                   <td>[[${qna.rdate}]]</td>
@@ -71,7 +71,7 @@
                 <a href="#" class="next">다음</a>
               </div>
 
-              <a href="./write.html" class="btnWrite">문의하기</a>
+              <a th:href="@{/qna/write}" class="btnWrite">문의하기</a>
 
             </article>
           </section>

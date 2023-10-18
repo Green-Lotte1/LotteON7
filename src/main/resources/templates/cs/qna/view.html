@@ -50,8 +50,8 @@
               </ul>
             </aside>
             <article>
-              <nav>
-                <h2 class="title">[가입] 가입 문의내용</h2>                
+              <nav th:text="qna:${qnaList}">
+                <h2 class="title">[[${qna.title}]]</h2>
                 <p>
                   <span>chh***</span>
                   <span>2022-11-21</span>
