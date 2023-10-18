@@ -108,20 +108,25 @@
                         </nav>                        
                         <nav>
                             <h3>[[${product.prodName}]]</h3>
-                            <p>상품설명 출력</p> <!--KJ 여기서부터 VIEW 뽑기 이후 increase, decrease 작업-->
+                            <p>[[${product.descript}]]</p>
                             <h5 class="rating star4"><a href="#">상품평보기</a></h5>
                         </nav>
                         <nav>
                             <div class="org_price">
-                                <del>30,000</del>
-                                <span>10%</span>
+                                <del>[[${#numbers.formatInteger(product.price,0,'COMMA')}]]</del>
+                                <span>[[${product.discount}]]%</span>
                             </div>
                             <div class="dis_price">
-                                <ins>27,000</ins>
+                                <ins id="dis_price" th:value="${product.price - (product.price * product.discount / 100) }">
+                                    [[${#numbers.formatInteger(product.price - (product.price * product.discount / 100),0,'COMMA')}]]
+                                </ins>
                             </div>
                         </nav>
                         <nav>
-                            <span class="delivery">무료배송</span>
+                            <span class="delivery">
+                                <span th:if="${product.price>=30000}">무료배송</span>
+                                <span th:if="${product.price<30000}">[[${#numbers.formatInteger(product.delivery,0,'COMMA')}]]원</span>
+                            </span>
                             <span class="arrival">모레(금) 7/8 도착예정</span>
                             <span class="desc">본 상품은 국내배송만 가능합니다.</span>
                         </nav>
@@ -132,7 +137,7 @@
                         <nav>
                             <span class="origin">원산지-상세설명 참조</span>
                         </nav>
-                        <img src="../images/vip_plcc_banner.png" alt="100원만 결제해도 1만원 적립!" class="banner" />
+                        <img th:src="@{/images/vip_plcc_banner.png}" alt="100원만 결제해도 1만원 적립!" class="banner" />
                         
                         <div class="count">
                             <button class="decrease">-</button>
@@ -141,7 +146,7 @@
                         </div>
                         
                         <div class="total">
-                            <span>35,000</span>
+                            <span id="total"></span>
                             <em>총 상품금액</em>
                         </div>
 
@@ -158,9 +163,9 @@
                         <h1>상품정보</h1>
                     </nav>
                     <!-- 상품상세페이지 이미지 -->
-                    <img src="https://via.placeholder.com/860x460" alt="상세페이지1">
-                    <img src="https://via.placeholder.com/860x460" alt="상세페이지2">
-                    <img src="https://via.placeholder.com/860x460" alt="상세페이지3">
+                    <img th:src="@{https://via.placeholder.com/860x460}" alt="상세페이지1">
+                    <img th:src="@{https://via.placeholder.com/860x460}" alt="상세페이지2">
+                    <img th:src="@{https://via.placeholder.com/860x460}" alt="상세페이지3">
                 </article>
 
                 <!-- 상품 정보 제공 고시 내용 -->
@@ -172,34 +177,34 @@
                     <table border="0">
                         <tr>
                             <td>상품번호</td>
-                            <td>10110125435</td>
+                            <td>[[${product.prodNo}]]</td>
                         </tr>
                         <tr>
                             <td>상품상태</td>
-                            <td>새상품</td>
+                            <td>[[${product.status}]]</td>
                         </tr>
                         <tr>
                             <td>부가세 면세여부</td>
-                            <td>과세상품</td>
+                            <td>[[${product.duty}]]</td>
                         </tr>
                         <tr>
                             <td>영수증발행</td>
-                            <td>발행가능 - 신용카드 전표, 온라인 현금영수증</td>
+                            <td>[[${product.receipt}]]</td>
                         </tr>
                         <tr>
                             <td>사업자구분</td>
-                            <td>사업자 판매자</td>
+                            <td>[[${product.bizType}]]</td>
                         </tr>
                         <tr>
                             <td>브랜드</td>
-                            <td>블루포스</td>
+                            <td>[[${product.company}]]</td> <!--KJ company는 제조회사임 브랜드 컬럼 없음 만들어야 할 지 의논-->
                         </tr>
                         <tr>
                             <td>원산지</td>
-                            <td>국내생산</td>
+                            <td>[[${product.origin}]]</td>
                         </tr>
                     </table>
-                    <table border="0">
+                    <table border="0"> <!--KJ 아래 상세정보 직접입력부분 확인-->
                         <tr>
                             <td>제품소재</td>
                             <td>상세정보 직접입력</td>
@@ -349,4 +354,78 @@
         <button type="button" id="top">상단이동</button>
     </div>    
 </body>
+<script th:inline="javascript">
+
+    /* discount price 계산 */
+    // price, discount value 받아오기
+    const dis_price = "[[${product.price - (product.price * product.discount / 100)}]]"; // 변환
+    let inputNum = document.querySelector('input[name="num"]');
+    let num = parseInt(inputNum.value)
+    const decrease = document.querySelector('.decrease');
+    const increase = document.querySelector('.increase');
+    let total = 0;
+
+    console.log(dis_price);
+    console.log(inputNum);
+    console.log(num);
+    console.log(decrease);
+    console.log(increase);
+
+    decrease.addEventListener('click', function (){
+        console.log("decrease 실행")
+        if (num > 1){
+            num--;
+            console.log(num);
+            inputNum.value = num;
+            console.log(num);
+            updateTotal();
+        }
+    });
+    increase.addEventListener('click', function (){
+        console.log("increase 실행")
+        if (num >= 1){
+            num++;
+            console.log(num);
+            inputNum.value = num;
+            console.log(num);
+            updateTotal();
+        }
+    });
+
+    function updateTotal(){
+        total = dis_price * num;
+        let inputTotal = document.getElementById("total");
+        inputTotal.innerText= total.toLocaleString();
+        console.log(total);
+    }
+
+        updateTotal(); // 초기 값으로 한 번 호출
+
+/*
+
+
+        $('.order').on('click', function (e) {
+            e.preventDefault()
+            $('#sendForm').attr("action","${ctxPath}/product/order.do");
+            $('#sendForm').submit();
+        })
+
+
+        $('.cart').on('click', function (e) {
+
+
+            //if(${sessUser == null}){
+            //	alert('로그인이 필요합니다.');
+            //	return false;
+            //}
+
+            e.preventDefault();
+            $('#sendForm').attr("action","${ctxPath}/product/view.do");
+            $('#sendForm').submit();
+        })
+
+    });
+*/
+
+</script>
 </html>

@@ -1,6 +1,7 @@
 package kr.co.lotteon.entity.product;
 
 import jakarta.persistence.*;
+import kr.co.lotteon.entity.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +21,14 @@ public class ProductCartEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cartNo;
-    private String uid; // member 테이블 외래키 annotation 확인
-    private int prodNo; // product 테이블 외래키 annotation 확인
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "uid")
+    private Member uid;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="prodNo")
+    private ProductEntity prodNo; // product 테이블 외래키 annotation 확인
     private int count;
     private int price;
     private int discount;
