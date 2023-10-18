@@ -11,4 +11,7 @@ public interface CsArticleRepository extends JpaRepository<CsArticleEntity, Inte
 
     public Page<CsArticleEntity> findByCate(String cate, Pageable pageable);
 
+    public Page<CsArticleEntity> findByCateAndMenu1(String cate, String menu1,Pageable pageable);
+
+    public Page<CsArticleEntity> findByCateAndMenu1AndMenu2(String cate, String menu1, String menu2, Pageable pageable);
 }

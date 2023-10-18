@@ -6,6 +6,34 @@
 <div id="admin-wrapper">
   <header th:replace="~{fragments/header::admin_header}">
   </header>
+  <script>
+    $(function(){
+
+
+    $('.btnSubmit').click(function (e){
+      e.preventDefault();
+      const menu1 = $('#menu1').val();
+      const menu2 = $('#menu2').val();
+
+      var confirm= true;
+      if(menu1==0){
+        alert('1차 카테고리를 선택하시오.');
+        confirm = false;
+      }else if(menu2==0){
+        alert('2차 카테고리를 선택하시오.');
+        confirm = false;
+      }
+      if(confirm==true){
+        $('#sendForm').attr("th:action","@{/admin/cs/notice/write}");
+        $('#sendForm').submit();
+      }
+
+    });//btnSubmit click end
+
+    });//end
+  </script>
+
+
   <main>
     <aside th:replace="~{fragments/admin/aside::admin_aside}">
     </aside>
@@ -20,7 +48,7 @@
         </nav>
         <section class="write">
           <article>
-            <form th:action="@{/admin/cs/notice/write}" method="post">
+            <form th:action="@{/admin/cs/notice/write}" id="sendForm" method="post">
               <input type="text" name="uid" th:value="${#authentication.principal}" />
               <input type="text" name="cate" value="notice"/>
               <table>
@@ -28,14 +56,14 @@
                 <tr>
                   <td>문의유형</td>
                   <td>
-                    <select name="menu1" id="selectBox">
+                    <select name="menu1" id="menu1">
                       <option value="0">1차 선택</option>
                       <option value="고객서비스">고객서비스</option>
                       <option value="안전거래">안전거래</option>
                       <option value="위해상품">위해상품</option>
                       <option value="이벤트당첨">이벤트당첨</option>
                     </select>
-                    <select name="menu2" id="selectBox2" class="choose">
+                    <select name="menu2" id="menu2" class="choose">
                       <option value="0">2차 선택</option>
                       <option value="안내">안내</option>
                       <option value="발표">발표</option>
