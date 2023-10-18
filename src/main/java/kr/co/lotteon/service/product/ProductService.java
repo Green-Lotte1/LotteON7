@@ -39,10 +39,5 @@ public class ProductService {
         ProductEntity productEntity = productViewRepository.findById(prodNo).orElseThrow();
         return new ProductViewResponse(productEntity);
     }
-    public ProductViewResponse findView(int prodNo){
-        //return productViewRepository.findById(prodNo) ;
-        return null;
-        }
-
 }
 
