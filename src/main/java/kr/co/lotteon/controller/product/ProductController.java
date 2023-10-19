@@ -1,5 +1,7 @@
 package kr.co.lotteon.controller.product;
 
+import jakarta.servlet.http.HttpServletRequest;
+import kr.co.lotteon.request.product.ProductCartRequest;
 import kr.co.lotteon.response.product.ProductListResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
 import kr.co.lotteon.service.product.ProductService;
@@ -7,11 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.util.List;
 
 @Log4j2
@@ -43,6 +44,18 @@ public class ProductController {
     @GetMapping("/cart")
     public String cart(){
         return "product/cart";
+    }
+
+    @PostMapping("/cart")
+    @ResponseBody
+    public String cart(ProductCartRequest productCartRequest, Model model) throws IOException {
+
+        log.info(productCartRequest);
+
+        productService.insertCart(productCartRequest);
+        model.addAttribute("productCart", productCartRequest);
+
+        return "redirect:product/cart";
     }
 
     /* Product Order */

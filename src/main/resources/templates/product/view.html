@@ -150,18 +150,18 @@
                             <span id="total"></span>
                             <em>총 상품금액</em>
                         </div>
-                        <form id="sendForm" action="#" method="post">
-                            <input type="text" name="uid" value="testSeller"/><!--kj sessUser uid 넣어주기 -->
+                        <form id="sendForm" th:action="@{}" method="post">
+                            <input type="text" name="uid" th:value="${#authentication.principal}" /><!--kj sessUser uid 넣어주기 -->
                             <input type="text" name="prodNo" th:value="${product.prodNo}">
                             <input type="text" name="prodName" th:value="${product.prodName}">
                             <input type="text" name="descript" th:value="${product.descript}">
                             <input type="text" name="price" th:value="${product.price}"> <!-- ori-price -->
                             <input type="text" name="num" class="num" th:value="1"><!--kj count 갯수 js처리-->
-                            <input type="text" name="total" value="">
                             <input type="text" name="discount" th:value="${product.discount }">
                             <input type="text" name="point" th:value="${product.point }">
                             <input type="text" name="delivery" th:value="${product.delivery}">
                             <input type="text" name="thumb2" th:value="${product.thumb2 }"> <!-- total가격 + delivery가격 -->
+                            <input type="text" name="total" value="">
                         </form>
                         <div class="button">
                             <input type="button" class="cart"  value="장바구니"/>
