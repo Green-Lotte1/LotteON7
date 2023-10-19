@@ -1,5 +1,6 @@
 package kr.co.lotteon.controller.cs;
 
+import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.controller.dto.ArticleDTO;
 import kr.co.lotteon.entity.cs.ArticleEntity;
 import kr.co.lotteon.service.cs.ArticleService;
@@ -33,13 +34,14 @@ public class QnaController {
         return "cs/qna/view";
     }
 
-    @GetMapping("/write")
+    @GetMapping("/write)")
     public String write(){
         return "cs/qna/write";
     }
 
     @PostMapping("/write")
-    public String write(ArticleDTO dto){
+    public String write(HttpServletRequest request, ArticleDTO dto){
+        dto.setRegip(request.getRemoteAddr());
         articleService.save(dto);
         return "redirect:cs/qna/list";
     }
