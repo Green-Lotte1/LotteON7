@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.controller.dto.ArticleDTO;
 import kr.co.lotteon.entity.cs.ArticleEntity;
 import kr.co.lotteon.service.cs.ArticleService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+@Log4j2
 @Controller
 @RequestMapping("/qna")
 public class QnaController {
@@ -20,7 +22,7 @@ public class QnaController {
     @Autowired
     ArticleService articleService;
 
-    @GetMapping("/list")
+    @GetMapping(value = "/list")
     public String list(Model model){
         List<ArticleEntity> qnaList = articleService.getNotices();
         model.addAttribute("qnaList", qnaList);
@@ -29,20 +31,19 @@ public class QnaController {
 
     @GetMapping("/view")
     public String view(){
-
-
         return "cs/qna/view";
     }
 
-    @GetMapping("/write)")
-    public String write(){
+    @GetMapping("/write")
+    public String writeView(){
         return "cs/qna/write";
     }
 
     @PostMapping("/write")
     public String write(HttpServletRequest request, ArticleDTO dto){
         dto.setRegip(request.getRemoteAddr());
+        log.info("qna write : " + dto.toString());
         articleService.save(dto);
-        return "redirect:cs/qna/list";
+        return "redirect:/qna/list";
     }
 }

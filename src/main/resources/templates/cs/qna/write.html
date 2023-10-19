@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
   <head>
     <meta charset="UTF-8" />
     <title>롯데ON::고객센터</title>
@@ -15,10 +15,7 @@
               <a th:href="@{/member/login}">로그인</a>
               <a th:href="@{/member/join}">회원가입</a>
               <a href="#">마이페이지</a>
-              <a href="#"
-              ><i class="fa fa-shopping-cart" aria-hidden="true"></i
-              >&nbsp;장바구니</a
-              >
+              <a href="#"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니</a>
             </p>
           </div>
         </div>
@@ -51,8 +48,8 @@
             </aside>
             <article>
               <form th:action="@{/qna/write}" method="post">
-                <input type="text" name="writer" value="임의id">
-                <input type="text" name="type1" value="">
+                <input type="text" name="uid" th:value="${#authentication.name}">
+                <input type="text" name="cate" value="qna">
                 <table>
                   <tr>
                     <td>문의유형</td>

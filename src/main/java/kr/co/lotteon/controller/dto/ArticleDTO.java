@@ -14,31 +14,27 @@ import java.time.LocalDateTime;
 @Builder
 public class ArticleDTO {
 
-    private int article_id;
     private String cate;
     private String menu1;
     private String menu2;
     private String title;
     private String content;
-    private int file;
-    private int hit;
     private String uid;
     private String regip;
     private LocalDateTime rdate;
 
     public ArticleEntity toEntity(){
         return ArticleEntity.builder()
-                .article_id(article_id)
                 .cate(cate)
                 .menu1(menu1)
                 .menu2(menu2)
                 .title(title)
                 .content(content)
-                .file(file)
-                .hit(hit)
+                .file(7)
+                .hit(0)
                 .uid(uid)
                 .regip(regip)
-                .rdate(rdate)
+                .rdate(LocalDateTime.now())
                 .build();
     }
 }
