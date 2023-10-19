@@ -142,7 +142,7 @@
                         
                         <div class="count">
                             <button class="decrease">-</button>
-                            <input type="text" name="num" value="1" readonly/>
+                            <input type="text" name="num" class="num" value="1" readonly/>
                             <button class="increase">+</button>
                         </div>
                         
@@ -150,7 +150,19 @@
                             <span id="total"></span>
                             <em>총 상품금액</em>
                         </div>
-
+                        <form id="sendForm" action="#" method="post">
+                            <input type="text" name="uid" value="testSeller"/><!--kj sessUser uid 넣어주기 -->
+                            <input type="text" name="prodNo" th:value="${product.prodNo}">
+                            <input type="text" name="prodName" th:value="${product.prodName}">
+                            <input type="text" name="descript" th:value="${product.descript}">
+                            <input type="text" name="price" th:value="${product.price}"> <!-- ori-price -->
+                            <input type="text" name="num" class="num" th:value="1"><!--kj count 갯수 js처리-->
+                            <input type="text" name="total" value="">
+                            <input type="text" name="discount" th:value="${product.discount }">
+                            <input type="text" name="point" th:value="${product.point }">
+                            <input type="text" name="delivery" th:value="${product.delivery}">
+                            <input type="text" name="thumb2" th:value="${product.thumb2 }"> <!-- total가격 + delivery가격 -->
+                        </form>
                         <div class="button">
                             <input type="button" class="cart"  value="장바구니"/>
                             <input type="button" class="order" value="구매하기"/>
@@ -357,27 +369,23 @@
 </body>
 <script th:inline="javascript">
 
-    /* discount price 계산 */
-    // price, discount value 받아오기
     const dis_price = "[[${product.price - (product.price * product.discount / 100)}]]"; // 변환
-    let inputNum = document.querySelector('input[name="num"]');
-    let num = parseInt(inputNum.value)
+    let numAll = document.querySelectorAll('.num');
+    let num = parseInt(numAll[0].value);
     const decrease = document.querySelector('.decrease');
     const increase = document.querySelector('.increase');
+    let totalValue = document.querySelector('input[name="total"]');
     let total = 0;
 
-    console.log(dis_price);
-    console.log(inputNum);
-    console.log(num);
-    console.log(decrease);
-    console.log(increase);
 
     decrease.addEventListener('click', function (){
         console.log("decrease 실행")
         if (num > 1){
             num--;
             console.log(num);
-            inputNum.value = num;
+            numAll.forEach(function (input){
+                input.value = num;
+            });
             console.log(num);
             updateTotal();
         }
@@ -387,7 +395,9 @@
         if (num >= 1){
             num++;
             console.log(num);
-            inputNum.value = num;
+            numAll.forEach(function (input){
+                input.value = num;
+            });
             console.log(num);
             updateTotal();
         }
@@ -397,17 +407,18 @@
         total = dis_price * num;
         let inputTotal = document.getElementById("total");
         inputTotal.innerText= total.toLocaleString();
+        totalValue.value = total;
         console.log(total);
     }
 
         updateTotal(); // 초기 값으로 한 번 호출
 
-/*
+
 
 
         $('.order').on('click', function (e) {
             e.preventDefault()
-            $('#sendForm').attr("action","${ctxPath}/product/order.do");
+            $('#sendForm').attr("action","@{/product/order}");
             $('#sendForm').submit();
         })
 
@@ -421,12 +432,17 @@
             //}
 
             e.preventDefault();
-            $('#sendForm').attr("action","${ctxPath}/product/view.do");
+            $('#sendForm').attr("action","@{product/cart}");
             $('#sendForm').submit();
         })
+    /* kj view order, cart button click after
+    * 세션 잇는지 확인
+    *
+    * 카트클릭 -> 세션정보 있을시 장바구니 담을지 물어보기 없을시 로그인 유도 -> 이후 장바구니 담고 장바구니로 이동할지 물어보기
+    * 주문클릭 -> 세션정보 있을시 주문하시겠습니까? 물어보고 없을시 로그인 유도 -> 주문하기누르면 order페이지로 이동
+    *
+    * */
 
-    });
-*/
 
 </script>
 </html>

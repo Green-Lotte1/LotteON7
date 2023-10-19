@@ -32,7 +32,7 @@ public class AdminCsController {
 
     @GetMapping("/notice/list")
     public String notice_list(Model model, CsArticlePageRequestDTO pageRequestDTO){
-
+        pageRequestDTO.setCate("notice");
         CsArticlePageResponseDTO pageResponseDTO = csArticleService.findByCate(pageRequestDTO);
 
         log.info("pageResponseDTO pg : " + pageResponseDTO.getPg());
