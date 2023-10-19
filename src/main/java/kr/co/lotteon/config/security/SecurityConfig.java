@@ -24,6 +24,10 @@ public class SecurityConfig {
 //                            response.sendRedirect("/");
 //                        })
                 )
+                .logout(logout -> logout
+                        .logoutUrl("/member/logout")
+                        .logoutSuccessUrl("/")
+                )
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/","/index").permitAll()
                         .requestMatchers("/member/**").permitAll()
