@@ -9,6 +9,7 @@ import kr.co.lotteon.response.admin.cs.CsArticlePageResponseDTO;
 import kr.co.lotteon.response.admin.cs.CsArticleResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,7 +21,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Log4j2
+@Slf4j
 public class CsArticleService {
 
     private final CsArticleRepository csArticleRepository;
@@ -59,10 +60,14 @@ public class CsArticleService {
 
         //getPageable(  ) 안에 넣는 변수에 따라서 내림차순 정렬이 된다.
         //getPageable(  ) 안에 cate를 넣었는데 다 똑같으므로 내림차순 정렬이 되지 않았다.
+        //getPageable(  ) 안에 넣는 값은 paging처리를 할 때 기준이 되는 값을 넣는다.
         Pageable pageable = pageRequestDTO.getPageable("articleId");
 
-        Page<CsArticleEntity> result = csArticleRepository.findByCate(pageRequestDTO.getCate(),pageable);
 
+        Page<CsArticleEntity> result = csArticleRepository.findByCate(pageRequestDTO.getCate(),pageable);
+//        Page<CsArticleEntity> result = csArticleRepository.findByCate(pageRequestDTO.getCate(),pageable);
+//        Page<CsArticleEntity> result = csArticleRepository.findByCateAndMenu1AndMenu2(pageRequestDTO.getCate(),pageRequestDTO.getMenu1(),pageRequestDTO.getMenu2(),pageable);
+        log.info("result :" +result.toString());
         List<CsArticleResponseDTO> dtoList = result.getContent()
                 .stream()
                 .map(entity -> modelMapper.map(entity, CsArticleResponseDTO.class))
