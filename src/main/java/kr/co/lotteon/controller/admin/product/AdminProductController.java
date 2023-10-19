@@ -19,6 +19,7 @@ import java.io.IOException;
 @RequestMapping("/admin/product")
 public class AdminProductController {
     private final ProductAdminService productAdminService;
+
     @GetMapping("/register")
     public String productRegisterForm(@ModelAttribute("productInfo") ProductCreateRequest dto) {
         return "admin/product/register";
@@ -29,5 +30,10 @@ public class AdminProductController {
         dto.setIp(request.getRemoteAddr());
         productAdminService.registerProduct(dto);
         return "redirect:/admin/index";
+    }
+
+    @GetMapping("/list")
+    public String products() {
+        return "admin/product/list";
     }
 }
