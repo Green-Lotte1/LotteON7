@@ -23,12 +23,12 @@ public class ProductCartRequest {
     int total;
 
     public ProductCartEntity toEntity(ProductEntity product, Member uid){
-        ProductEntity productEntity = new ProductEntity();
-        productEntity.setProdNo(prodNo);
+//        ProductEntity productEntity = new ProductEntity(); product변환작업에서 생성하긴햇는데 다시확인
+//        productEntity.setProdNo(prodNo);
 
         return ProductCartEntity.builder()
                 .uid(uid) // Member를 참조 중 확인!!
-                .product(productEntity) // productEntity 참조중
+                .product(product) // productEntity 참조중 :: 이부분 다시 확인
                 .count(count) // DB 컬럼명 : `count` , request data : num
                 .price(price)
                 .discount(discount)

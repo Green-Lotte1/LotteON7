@@ -50,7 +50,7 @@ public class ProductController {
     public String cart(ProductCartRequest productCartRequest, Model model) throws IOException {
 
         productService.insertCart(productCartRequest);
-        model.addAttribute("productCart", productCartRequest);
+//        model.addAttribute("productCart", productCartRequest);
 
         return "redirect:/product/cart";
     }

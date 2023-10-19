@@ -59,7 +59,10 @@ public class ProductService {
         //TODO: distinct로 member-cart join된 결과 덩치 줄이기(최적화)
         //TODO: dirtychecking, EntityManager , dto와  entity의 필드명은 웬만하면 같게,
         ProductEntity product = productRepository.findById(productCartRequest.getProdNo()).orElseThrow();
+        log.info("hh");
         Member findMember = memberRepository.findMemberByIdWithCarts(productCartRequest.getUid()).orElseThrow();
+        log.info("hh2");
+        log.info("ProductService findMember : " + findMember);
         //prodNo에 해당하는 cart가 있는지 확인
         //prodNo에 해당하는 cart가 있으면 업데이트 해준다.
         List<ProductCartEntity> carts = findMember.getCarts();
