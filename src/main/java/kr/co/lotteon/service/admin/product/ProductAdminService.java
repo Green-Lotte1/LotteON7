@@ -11,6 +11,7 @@ import kr.co.lotteon.repository.admin.product.ProductCate2Repository;
 import kr.co.lotteon.repository.admin.product.ProductRepository;
 import kr.co.lotteon.repository.member.MemberRepository;
 import kr.co.lotteon.request.admin.product.ProductCreateRequest;
+import kr.co.lotteon.response.admin.product.ProductAdminListResponse;
 import kr.co.lotteon.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -67,5 +69,9 @@ public class ProductAdminService {
                 .build();
         productRepository.save(newProduct);
         return newProduct;
+    }
+
+    public List<ProductAdminListResponse> getProducts() {
+        return null;
     }
 }
