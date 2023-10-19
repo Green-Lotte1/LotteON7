@@ -71,9 +71,21 @@ public class AdminCsController {
 
     }
     @GetMapping("/notice/modify")
-    public String notice_modify(){
-        return null;
+    public String notice_modify(@RequestParam("articleId") int articleId, Model model ) {
+
+        CsArticleResponseDTO responseDTO   =  csArticleService.findById(articleId);
+        log.info("responseDTO :"+responseDTO.toString());
+        model.addAttribute("responseDTO",responseDTO);
+        return "admin/cs/notice/modify";
     }
+
+    @PostMapping("/notice/modify")
+    public String notice_modify(CsArticlePageRequestDTO csArticleResponseDTO, HttpServletRequest request){
+        log.info("modify : "+ csArticleResponseDTO.toString());
+      return null;
+    };
+
+
 /////////////////////////////////////////
 ////////////////////////////////////////
 /*  admin/cs/qna  */

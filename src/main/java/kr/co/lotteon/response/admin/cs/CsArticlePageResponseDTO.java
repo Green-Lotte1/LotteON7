@@ -3,9 +3,9 @@ package kr.co.lotteon.response.admin.cs;
 import kr.co.lotteon.request.admin.cs.CsArticlePageRequestDTO;
 import lombok.Builder;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-
 @Data
 public class CsArticlePageResponseDTO {
 
@@ -36,5 +36,6 @@ public class CsArticlePageResponseDTO {
 
 
     }
+
 
 }

@@ -4,8 +4,10 @@ import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.entity.product.ProductCartEntity;
 import kr.co.lotteon.entity.product.ProductEntity;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 @Data
+@Slf4j
 public class ProductCartRequest {
 
     String uid;
@@ -31,5 +33,7 @@ public class ProductCartRequest {
                 .delivery(delivery)
                 .total(total)
                 .build();
+
     }
+
 }

@@ -32,14 +32,11 @@ public class ArticleEntity {
 
     public ArticleDTO toDTO(){
         return ArticleDTO.builder()
-                .article_id(article_id)
                 .cate(cate)
                 .menu1(menu1)
                 .menu2(menu2)
                 .title(title)
                 .content(content)
-                .file(file)
-                .hit(hit)
                 .uid(uid)
                 .regip(regip)
                 .rdate(rdate)

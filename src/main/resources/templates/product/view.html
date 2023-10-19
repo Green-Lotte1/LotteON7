@@ -4,7 +4,7 @@
 </head>
 <body>
     <div id="wrapper">
-        <header>
+        <header th:replace="~{fragments/header::app_header}">
             <div class="top">
                 <div>
                     <a href="#">로그인</a>
@@ -149,8 +149,8 @@
                             <span id="total"></span>
                             <em>총 상품금액</em>
                         </div>
-                        <form id="sendForm" th:action="@{}" method="post">
-                            <input type="text" name="uid" th:value="${#authentication.principal}" /><!--kj sessUser uid 넣어주기 -->
+                        <form id="sendForm" th:action="@{/product/cart}" method="post">
+                            <input type="text" name="uid" th:value="${#authentication.name}" /><!--kj sessUser uid 넣어주기 -->
                             <input type="text" name="prodNo" th:value="${product.prodNo}">
                             <input type="text" name="prodName" th:value="${product.prodName}">
                             <input type="text" name="descript" th:value="${product.descript}">
@@ -417,7 +417,6 @@
 
         $('.order').on('click', function (e) {
             e.preventDefault()
-            $('#sendForm').attr("action","@{/product/order}");
             $('#sendForm').submit();
         })
 
@@ -431,7 +430,6 @@
             //}
 
             e.preventDefault();
-            $('#sendForm').attr("action","@{product/cart}");
             $('#sendForm').submit();
         })
     /* kj view order, cart button click after

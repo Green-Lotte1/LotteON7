@@ -31,6 +31,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/","/index").permitAll()
                         .requestMatchers("/member/**").permitAll()
+                        .requestMatchers("/qna/write").authenticated()
                         .anyRequest().permitAll() // 추가
                 );
         return http.build();

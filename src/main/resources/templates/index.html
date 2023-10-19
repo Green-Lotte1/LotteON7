@@ -66,7 +66,7 @@
   </article>
 </div>
 <div id="wrapper">
-  <header th:replace="~{fragments/header::app_header}">
+  <header th:replace="~{fragments/header::index_header}">
     <div class="top">
       <div>
         <a th:href="@{/member/login}">로그인</a>
@@ -81,7 +81,7 @@
       </div>
     </div>
     <div class="logo">
-      <div>
+      <div th:text="${#authentication.name}">
         <a href="#"><img th:src="@{/images/header_logo.png}" alt="로고" /></a>
         <form action="#">
           <input type="text" name="search" />

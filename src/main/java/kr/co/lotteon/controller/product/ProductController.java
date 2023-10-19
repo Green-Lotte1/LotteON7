@@ -47,15 +47,12 @@ public class ProductController {
     }
 
     @PostMapping("/cart")
-    @ResponseBody
     public String cart(ProductCartRequest productCartRequest, Model model) throws IOException {
-
-        log.info(productCartRequest);
 
         productService.insertCart(productCartRequest);
         model.addAttribute("productCart", productCartRequest);
 
-        return "redirect:product/cart";
+        return "redirect:/product/cart";
     }
 
     /* Product Order */
