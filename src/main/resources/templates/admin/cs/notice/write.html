@@ -48,7 +48,7 @@
         </nav>
         <section class="write">
           <article>
-            <form th:action="@{/admin/cs/notice/write}" id="sendForm" method="post">
+            <form action="#" id="sendForm" method="post">
               <input type="text" name="uid" th:value="${#authentication.principal}" />
               <input type="text" name="cate" value="notice"/>
               <table>
@@ -86,7 +86,7 @@
                 </tbody>
               </table>
               <div>
-                <a th:href="@{/admin/cs/qna/list}" class="btnList">취소하기</a>
+                <a th:href="@{/admin/cs/notice/list}" class="btnList">취소하기</a>
                 <input type="submit" class="btnSubmit" value="등록하기">
               </div>
             </form>
