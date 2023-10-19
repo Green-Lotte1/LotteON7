@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter @Setter
 @NoArgsConstructor
@@ -46,8 +48,8 @@ public class Member {
     private LocalDateTime rdate;
     private Integer locationTerms; //TODO: 뭔지 모르겠다.
 
-    @OneToOne(mappedBy = "uid",fetch = FetchType.LAZY)
-    private ProductCartEntity cart;
+    @OneToMany(mappedBy = "uid",fetch = FetchType.LAZY , cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProductCartEntity> carts = new ArrayList<>();
 
     @Builder
     public Member(String uid, String pass, String name, MemberGender gender, String hp, String email, MemberRole role, MemberLevel level, String zip, String addr1, String addr2, String company, String ceo, String bizRegNum, String comRegNum, String tel, String manager, String managerHp, String fax, String regip, LocalDateTime wdate, LocalDateTime rdate, Integer locationTerms) {
@@ -75,5 +77,10 @@ public class Member {
         this.wdate = wdate;
         this.rdate = LocalDateTime.now();
         this.locationTerms = locationTerms;
+    }
+
+    public void addCart(ProductCartEntity cart) {
+        this.carts.add(cart);
+        cart.allocateMember(this);
     }
 }

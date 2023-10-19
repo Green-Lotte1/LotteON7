@@ -22,12 +22,13 @@ public class ProductCartEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cartNo;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uid")
     private Member uid;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="prodNo")
+    //FIXME: prodNo -> product로 고치기
     private ProductEntity prodNo; // product 테이블 외래키 annotation 확인
     private int count;
     private int price;
@@ -37,4 +38,8 @@ public class ProductCartEntity {
     private int total;
     @CreationTimestamp
     private LocalDateTime rdate;
+
+    public void allocateMember(Member owner) {
+        this.uid = owner;
+    }
 }
