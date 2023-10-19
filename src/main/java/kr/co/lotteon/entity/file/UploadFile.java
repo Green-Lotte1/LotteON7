@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "km_file")
 public class UploadFile {
-    @Id @Column(name = "upload_name")
-    private String uploadFileName; // 유저가 올린 이름
-    @Column(name = "stored_name")
+    @Id @Column(name = "stored_name")
     private String storedFileName; // 파일 시스템에 저장된 이름 UUID기반이다.
+    @Column(name = "upload_name")
+    private String uploadFileName; // 유저가 올린 이름
 
     @Builder
     public UploadFile(String uploadFileName, String storedFileName) {

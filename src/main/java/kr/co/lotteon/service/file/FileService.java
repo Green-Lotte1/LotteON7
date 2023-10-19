@@ -28,8 +28,6 @@ public class FileService {
         }
         String origFileName = file.getOriginalFilename();
         String storeFileName = genStoreFileName(origFileName);
-        log.info("[FILESERVICE CALLED] stored file name = {}", storeFileName);
-        log.info("[FILESERVICE CALLED] stored file name = {}", getFullPath(storeFileName));
         file.transferTo(new File(getFullPath(storeFileName)));
 
         return new UploadFileDto(origFileName, storeFileName);

@@ -128,47 +128,46 @@ CREATE TABLE IF NOT EXISTS `km_member_terms` (
 DROP table if exists `km_file`;
 create table if not exists `km_file`
 (
-    `file_id`     int(11) not null auto_increment,
     `stored_name` varchar(255),
     `upload_name` varchar(255),
-    primary key (`file_id`)
+    primary key (`stored_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `km_product`;
 CREATE TABLE IF NOT EXISTS `km_product` (
-    `prodNo` int(11) NOT NULL AUTO_INCREMENT,
-    `prodCate1` tinyint(4) NOT NULL,
-    `prodCate2` tinyint(4) NOT NULL,
-    `prodName` varchar(100) NOT NULL,
-    `descript` varchar(100) NOT NULL,
-    `company` varchar(100) NOT NULL,
-    `seller` varchar(20) NOT NULL,
-    `price` int(11) NOT NULL,
-    `discount` tinyint(4) DEFAULT '0',
-    `point` int(11) DEFAULT '0',
-    `stock` int(11) DEFAULT '0',
-    `sold` int(11) DEFAULT '0',
-    `delivery` int(11) DEFAULT '0',
-    `hit` int(11) DEFAULT '0',
-    `score` tinyint(4) DEFAULT '0',
-    `review` int(11) DEFAULT '0',
-    `thumb1` int(11) NOT NULL,
-    `thumb2` int(11) NOT NULL,
-    `thumb3` int(11) NOT NULL,
-    `detail` int(11) NOT NULL,
-    `status` varchar(20) DEFAULT '새상품',
-    `duty` varchar(20) DEFAULT '과세상품',
-    `receipt` varchar(255) DEFAULT '발행가능 - 신용카드 전표, 온라인 현금영수증',
-    `bizType` varchar(20) DEFAULT '사업자 판매자',
-    `origin` varchar(20) DEFAULT '상세설명참고',
-    `ip` varchar(20) NOT NULL,
-    `rdate` datetime NOT NULL,
-    PRIMARY KEY (`prodNo`),
-    KEY `fk_km_product_km_product_cate21_idx` (`prodCate1`),
-    CONSTRAINT `fk_km_product_km_product_cate1` FOREIGN KEY (`prodCate1`) REFERENCES `km_product_cate1` (`cate1`),
-    CONSTRAINT `fk_km_product_km_product_cate2` FOREIGN KEY (`prodCate2`) REFERENCES `km_product_cate2` (`cate2`),
-    constraint `fk_km_product_km_product_seller` foreign key (`seller`) references `km_member` (`uid`)
-    ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+                                            `prodNo` int(11) NOT NULL AUTO_INCREMENT,
+                                            `prodCate1` tinyint(4) NOT NULL,
+                                            `prodCate2` tinyint(4) NOT NULL,
+                                            `prodName` varchar(100) NOT NULL,
+                                            `descript` varchar(100) NOT NULL,
+                                            `company` varchar(100) NOT NULL,
+                                            `seller` varchar(20) NOT NULL,
+                                            `price` int(11) NOT NULL,
+                                            `discount` tinyint(4) DEFAULT '0',
+                                            `point` int(11) DEFAULT '0',
+                                            `stock` int(11) DEFAULT '0',
+                                            `sold` int(11) DEFAULT '0',
+                                            `delivery` int(11) DEFAULT '0',
+                                            `hit` int(11) DEFAULT '0',
+                                            `score` tinyint(4) DEFAULT '0',
+                                            `review` int(11) DEFAULT '0',
+                                            `thumb1` varchar(255) NOT NULL,
+                                            `thumb2` varchar(255) NOT NULL,
+                                            `thumb3` varchar(255) NOT NULL,
+                                            `detail` varchar(255) NOT NULL,
+                                            `status` varchar(20) DEFAULT '새상품',
+                                            `duty` varchar(20) DEFAULT '과세상품',
+                                            `receipt` varchar(255) DEFAULT '발행가능 - 신용카드 전표, 온라인 현금영수증',
+                                            `bizType` varchar(20) DEFAULT '사업자 판매자',
+                                            `origin` varchar(20) DEFAULT '상세설명참고',
+                                            `ip` varchar(20) NOT NULL,
+                                            `rdate` datetime NOT NULL,
+                                            PRIMARY KEY (`prodNo`),
+                                            KEY `fk_km_product_km_product_cate21_idx` (`prodCate1`),
+                                            CONSTRAINT `fk_km_product_km_product_cate1` FOREIGN KEY (`prodCate1`) REFERENCES `km_product_cate1` (`cate1`),
+                                            CONSTRAINT `fk_km_product_km_product_cate2` FOREIGN KEY (`prodCate2`) REFERENCES `km_product_cate2` (`cate2`),
+                                            constraint `fk_km_product_km_product_seller` foreign key (`seller`) references `km_member` (`uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 DROP TABLE IF EXISTS `km_product_cart`;
 CREATE TABLE IF NOT EXISTS `km_product_cart` (
