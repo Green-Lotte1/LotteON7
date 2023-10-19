@@ -28,7 +28,6 @@ public class AdminProductController {
     public String productRegister(@ModelAttribute("productInfo") ProductCreateRequest dto, HttpServletRequest request) throws IOException {
         dto.setIp(request.getRemoteAddr());
         productAdminService.registerProduct(dto);
-
         return "redirect:/admin/index";
     }
 }
