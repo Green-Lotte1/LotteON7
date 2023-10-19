@@ -42,7 +42,7 @@
             </div>
         </header>
         <main id="product">
-            <aside>
+            <aside th:replace="~{fragments/product/aside::product_aside}">
                 <ul class="category">
                     <li><i class="fa fa-bars" aria-hidden="true"></i>카테고리</li>
                     <li>
@@ -139,9 +139,9 @@
                         </nav>
                         <img th:src="@{/images/vip_plcc_banner.png}" alt="100원만 결제해도 1만원 적립!" class="banner" />
                         
-                        <div class="count">
+                        <div class="countButton">
                             <button class="decrease">-</button>
-                            <input type="text" name="num" class="num" value="1" readonly/>
+                            <input type="text" name="count" class="count" value="1" readonly/>
                             <button class="increase">+</button>
                         </div>
                         
@@ -155,7 +155,7 @@
                             <input type="text" name="prodName" th:value="${product.prodName}">
                             <input type="text" name="descript" th:value="${product.descript}">
                             <input type="text" name="price" th:value="${product.price}"> <!-- ori-price -->
-                            <input type="text" name="num" class="num" th:value="1"><!--kj count 갯수 js처리-->
+                            <input type="text" name="count" class="count" th:value="1"><!--kj count 갯수 js처리-->
                             <input type="text" name="discount" th:value="${product.discount }">
                             <input type="text" name="point" th:value="${product.point }">
                             <input type="text" name="delivery" th:value="${product.delivery}">
@@ -369,8 +369,8 @@
 <script th:inline="javascript">
 
     const dis_price = "[[${product.price - (product.price * product.discount / 100)}]]"; // 변환
-    let numAll = document.querySelectorAll('.num');
-    let num = parseInt(numAll[0].value);
+    let countAll = document.querySelectorAll('.count');
+    let count = parseInt(countAll[0].value);
     const decrease = document.querySelector('.decrease');
     const increase = document.querySelector('.increase');
     let totalValue = document.querySelector('input[name="total"]');
@@ -379,31 +379,31 @@
 
     decrease.addEventListener('click', function (){
         console.log("decrease 실행")
-        if (num > 1){
-            num--;
-            console.log(num);
-            numAll.forEach(function (input){
-                input.value = num;
+        if (count > 1){
+            count--;
+            console.log(count);
+            countAll.forEach(function (input){
+                input.value = count;
             });
-            console.log(num);
+            console.log(count);
             updateTotal();
         }
     });
     increase.addEventListener('click', function (){
         console.log("increase 실행")
-        if (num >= 1){
-            num++;
-            console.log(num);
-            numAll.forEach(function (input){
-                input.value = num;
+        if (count >= 1){
+            count++;
+            console.log(count);
+            countAll.forEach(function (input){
+                input.value = count;
             });
-            console.log(num);
+            console.log(count);
             updateTotal();
         }
     });
 
     function updateTotal(){
-        total = dis_price * num;
+        total = dis_price * count;
         let inputTotal = document.getElementById("total");
         inputTotal.innerText= total.toLocaleString();
         totalValue.value = total;
@@ -423,15 +423,10 @@
 
         $('.cart').on('click', function (e) {
 
-
-            //if(${sessUser == null}){
-            //	alert('로그인이 필요합니다.');
-            //	return false;
-            //}
-
             e.preventDefault();
             $('#sendForm').submit();
         })
+
     /* kj view order, cart button click after
     * 세션 잇는지 확인
     *

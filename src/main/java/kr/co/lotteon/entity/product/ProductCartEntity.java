@@ -29,7 +29,7 @@ public class ProductCartEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="prodNo")
     //FIXME: prodNo -> product로 고치기
-    private ProductEntity prodNo; // product 테이블 외래키 annotation 확인
+    private ProductEntity product; // product 테이블 외래키 annotation 확인
     private int count;
     private int price;
     private int discount;

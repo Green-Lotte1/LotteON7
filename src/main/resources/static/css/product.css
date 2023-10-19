@@ -182,7 +182,7 @@
     text-decoration: underline;
 }
 
-#product > .list > .paging > .num > a {
+#product > .list > .paging > . > a {
     display: inline-block;
     min-width: 14px;
     margin: 0 2px;
@@ -194,11 +194,11 @@
     text-align: center;
     text-decoration: none;
 }
-#product > .list > .paging > .num > a:hover {
+#product > .list > .paging > . > a:hover {
     border: 1px solid #454c5f;
     text-decoration: none;
 }
-#product > .list > .paging > .num > a.on {
+#product > .list > .paging > . > a.on {
     color: #fe434c;
     font-weight: bold;
 }
@@ -503,12 +503,12 @@
     content: "원";
 }
 
-#product > .view > .info > .summary .count {
+#product > .view > .info > .summary .countButton {
 	position: relative;
 	width: 100px;
 	height: 40px;
 } 
-#product > .view > .info > .summary .count > button {
+#product > .view > .info > .summary .countButton > button {
 	position: absolute;
   width: 21px;
   height: 21px;
@@ -517,19 +517,19 @@
   background-color: transparent;
   border: none;
 }
-#product > .view > .info > .summary .count > .decrease {
+#product > .view > .info > .summary .countButton > .decrease {
 	left:0;
   top:0;
   background-position: 0px -74px;
 }
-#product > .view > .info > .summary .count > .decrease:hover {background-position: -24px -74px;}
-#product > .view > .info > .summary .count > .increase {
+#product > .view > .info > .summary .countButton > .decrease:hover {background-position: -24px -74px;}
+#product > .view > .info > .summary .countButton > .increase {
 	left:70px;
 	top:0;
 	background-position: -48px -74px;
 }
-#product > .view > .info > .summary .count > .increase:hover {background-position: -72px -74px;}
-#product > .view > .info > .summary .count > input[name=num] {
+#product > .view > .info > .summary .countButton > .increase:hover {background-position: -72px -74px;}
+#product > .view > .info > .summary .countButton > input[name=count] {
 	position: absolute;
 	left: 30px;
 	top: 0;

@@ -58,7 +58,7 @@ public class ProductService {
         //TODO: prodNO에 해당하는 cart를 findMember가 이미 가지고 있으면
         //TODO: distinct로 member-cart join된 결과 덩치 줄이기(최적화)
         //TODO: dirtychecking, EntityManager , dto와  entity의 필드명은 웬만하면 같게,
-        ProductEntity prodNo = productRepository.findById(productCartRequest.getProdNo()).orElseThrow();
+        ProductEntity product = productRepository.findById(productCartRequest.getProdNo()).orElseThrow();
         Member findMember = memberRepository.findMemberByIdWithCarts(productCartRequest.getUid()).orElseThrow();
         //prodNo에 해당하는 cart가 있는지 확인
         //prodNo에 해당하는 cart가 있으면 업데이트 해준다.
@@ -67,14 +67,14 @@ public class ProductService {
 
         int checkProdNo = productCartRequest.getProdNo();
         for (ProductCartEntity cart: carts) {
-            ProductEntity curProdNo = cart.getProdNo();
+            ProductEntity curProdNo = cart.getProduct();
             if (curProdNo.getProdNo() == checkProdNo) {
-                cart.setCount(cart.getCount()+productCartRequest.getNum());
+                cart.setCount(cart.getCount()+productCartRequest.getCount());
                 return; // 업데이트 완료
             }
         }
         //prodNo에 해당하는 cart가 없으면 새로 만들어준다.
-        ProductCartEntity newCart = productCartRequest.toEntity(prodNo, findMember);
+        ProductCartEntity newCart = productCartRequest.toEntity(product, findMember);
         findMember.addCart(newCart);
     }
 }
