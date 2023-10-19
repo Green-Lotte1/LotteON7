@@ -1,18 +1,11 @@
 package kr.co.lotteon.response.product;
 
-import jakarta.persistence.*;
-import kr.co.lotteon.entity.member.Member;
-import kr.co.lotteon.entity.product.ProductCate1Entity;
-import kr.co.lotteon.entity.product.ProductCate2Entity;
 import kr.co.lotteon.entity.product.ProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -62,10 +55,10 @@ public class ProductViewResponse {
         this.hit = product.getHit();
         this.score = product.getScore();
         this.review = product.getReview();
-        this.thumb1 = product.getThumb1();
-        this.thumb2 = product.getThumb2();
-        this.thumb3 = product.getThumb3();
-        this.detail = product.getDetail();
+        this.thumb1 = product.getThumb1().getStoredFileName();
+        this.thumb2 = product.getThumb2().getStoredFileName();
+        this.thumb3 = product.getThumb3().getStoredFileName();
+        this.detail = product.getDetail().getStoredFileName();
         this.status = product.getStatus();
         this.duty = product.getDuty();
         this.receipt = product.getReceipt();
