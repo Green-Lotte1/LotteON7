@@ -39,6 +39,7 @@ public class AdminProductController {
     public String products(Model model) {
         List<ProductAdminListResponse> products = productAdminService.getProducts();
         model.addAttribute("products", products);
+
         return "admin/product/list";
     }
 }

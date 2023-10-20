@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -77,5 +78,4 @@ public class ProductAdminService {
                 .map(ProductAdminListResponse::new)
                 .collect(Collectors.toList());
     }
-
 }
