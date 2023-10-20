@@ -91,4 +91,13 @@ public class CsArticleService {
     }
 
 
+    public void updateArticle(CsArticleCreateRequestDTO csArticleCreateRequestDTO){
+        log.info("updateof modify serivce: "+csArticleCreateRequestDTO.toEntity());
+        csArticleRepository.save(csArticleCreateRequestDTO.toEntity());
+    };
+
+    public void deleteArticle(int articleId){
+        csArticleRepository.deleteById(articleId);
+    }
+
 }
