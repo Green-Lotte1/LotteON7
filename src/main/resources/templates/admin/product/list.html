@@ -53,37 +53,21 @@
                         <th:block th:each="product : ${products}">
                             <tr>
                                 <td><input type="checkbox" name="상품코드"/></td>
-                                <td><img th:src="@{/api/admin/product/images/{storedName}(storedName=${product.thumb1})}" class="thumb"></td>
-                                <td>201603292</td>
-                                <td>FreeMovement BLUEFORCE</td>
-                                <td>36,000</td>
-                                <td>10</td>
-                                <td>360</td>
-                                <td>400</td>
-                                <td>홍길동</td>
-                                <td>126</td>
+                                <td><img th:src="@{/api/admin/product/images/{storedName}(storedName=${product.thumb1StoredName})}" class="thumb"></td>
+                                <td th:text="${product.prodNo}">201603292</td>
+                                <td th:text="${product.prodName}">FreeMovement BLUEFORCE</td>
+                                <td th:text="${product.price}">36,000</td>
+                                <td th:text="${product.discount}">10</td>
+                                <td th:text="${product.point}">360</td>
+                                <td th:text="${product.stock}">400</td>
+                                <td th:text="${product.sellerName}">홍길동</td>
+                                <td th:text="${product.hit}">126</td>
                                 <td>
                                     <a href="#">[삭제]</a>
                                     <a href="#">[수정]</a>
                                 </td>
                             </tr>
                         </th:block>
-                        <tr>
-                            <td><input type="checkbox" name="상품코드"/></td>
-                            <td><img th:src="@{/images/admin/sample_thumb.jpg}" class="thumb"></td>
-                            <td>201603292</td>
-                            <td>FreeMovement BLUEFORCE</td>
-                            <td>36,000</td>
-                            <td>10</td>
-                            <td>360</td>
-                            <td>400</td>
-                            <td>홍길동</td>
-                            <td>126</td>
-                            <td>
-                                <a href="#">[삭제]</a>
-                                <a href="#">[수정]</a>
-                            </td>
-                        </tr>
                     </table>
 
                     

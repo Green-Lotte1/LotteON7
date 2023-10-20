@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -72,6 +73,9 @@ public class ProductAdminService {
     }
 
     public List<ProductAdminListResponse> getProducts() {
-        return null;
+        return productRepository.findAll().stream()
+                .map(ProductAdminListResponse::new)
+                .collect(Collectors.toList());
     }
+
 }
