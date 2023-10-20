@@ -43,7 +43,7 @@
               </tbody>
             </table>
             <div>
-              <a href="#" class="btnDelete" id="remove">삭제</a>
+              <a th:href="@{/admin/cs/notice/delete(articleId=${responseDTO.articleId})}" class="btnDelete" id="remove">삭제</a>
               <a th:href="@{/admin/cs/notice/modify(articleId=${responseDTO.articleId})}" class="btnModify">수정</a>
               <a th:href="@{/admin/cs/notice/list}" class="btnList">목록</a>
             </div>

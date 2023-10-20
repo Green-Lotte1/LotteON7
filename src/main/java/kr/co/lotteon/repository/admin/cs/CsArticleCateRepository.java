@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface CsArticleCateRepository  extends JpaRepository<CsArticleCateEntity,Integer> {
-    @Query("select distinct a1 from CsArticleCateEntity a1 order by a1.cate desc, a1.menu1 desc")
-    public List<CsArticleCateEntity> getArticleCate();
+    @Query("select c from CsArticleCateEntity c  where c.cate = :cate order by c.cate desc, c.menu1 desc")
+    public List<CsArticleCateEntity> getArticleCate(@Param("cate") String cate);
 }
