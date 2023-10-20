@@ -16,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 @Slf4j
@@ -45,9 +42,10 @@ public class ProductAdminController {
         String imgPathStr = String.format("%s%s", fileDir, storedName);
         FileSystemResource imgResource = new FileSystemResource(imgPathStr);
         HttpHeaders httpHeaders = new HttpHeaders();
-
-        Path imgPath = Paths.get(imgPathStr);
-        httpHeaders.add("Content-Type", Files.probeContentType(imgPath));
+        //content-type 등록
+        //Path imgPath = Paths.get(imgPathStr);
+        //String contentType = Files.probeContentType(imgPath);
+        httpHeaders.add("Content-Type", "image/jpeg");
 
         return new ResponseEntity<Resource>(imgResource, httpHeaders, HttpStatus.OK);
     }
