@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'kr.co.lotteOn'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.7-SNAPSHOT'
 
 java {
 	sourceCompatibility = '17'
@@ -37,6 +37,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
 	testImplementation 'org.springframework.security:spring-security-test'
+	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.1'
 }
 
 tasks.named('test') {
