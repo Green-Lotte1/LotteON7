@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 public class CsArticleAPIService {
 
     private final CsArticleCateRepository articleCateRepository;
-    public CsArticleCateAPIResponse getArticleCate(){
-        List<CsArticleCateEntity> values = articleCateRepository.getArticleCate();
+    public CsArticleCateAPIResponse getArticleCate(String cate){
+        List<CsArticleCateEntity> values = articleCateRepository.getArticleCate(cate);
         log.info("values :"+values.toString());
 
         CsArticleCateAPIResponse result = new CsArticleCateAPIResponse(values);

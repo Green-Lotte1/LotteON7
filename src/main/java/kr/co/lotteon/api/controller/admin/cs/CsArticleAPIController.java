@@ -19,10 +19,10 @@ import java.util.List;
 public class CsArticleAPIController {
 
     private final CsArticleAPIService csArticleAPIService;
-
-    @GetMapping("/article/fullCate")
-    public CsArticleCateAPIResponse test(){
-        return csArticleAPIService.getArticleCate();
+    //카테고리명에 따른 menu1,menu2조회하기
+    @GetMapping("/article/fullCate/{cate}")
+    public CsArticleCateAPIResponse test(@PathVariable("cate") String cate){
+        return csArticleAPIService.getArticleCate(cate);
     }
 
 }

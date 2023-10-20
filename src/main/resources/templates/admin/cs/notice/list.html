@@ -37,7 +37,7 @@
         <table id="tb">
           <tr>
             <th>
-              <input type="checkbox" name="all" class="chk">
+              <input type="checkbox" name="all" class="chk" id="all_or_none" >
             </th>
             <th>번호</th>
             <th>1차 유형</th>
@@ -48,9 +48,9 @@
             <th>관리</th>
           </tr>
           <th:block th:each="article:${pageResponseDTO.dtoList}">
-            <tr class="row">
+            <tr class="row" th:id="row-+${article.articleId}" >
               <td>
-                <input type="checkbox" name="articleNo" />
+                <input type="checkbox" class="cs_checkbox" name="articleNo" th:value="${article.articleId}" />
               </td>
               <td th:text="${article.articleId}"></td>
               <td th:text="${article.menu1}"></td>
@@ -62,13 +62,13 @@
               <td th:text="${article.hit}"></td>
               <td th:text="${article.rdate}"></td>
               <td>
-                <a href="#" class='remove'>[삭제]</a><br>
-                <a href="#">[수정]</a>
+                <a th:href="@{/admin/cs/notice/delete(articleId=${article.articleId})}" class='remove'>[삭제]</a><br>
+                <a th:href="@{/admin/cs/notice/modify(articleId=${article.articleId})}">[수정]</a>
               </td>
             </tr>
           </th:block>
         </table>
-        <input type="button" class="delete" value="선택삭제">
+        <input type="button" class="delete" id="delete_selected_btn" value="선택삭제" />
         <a th:href="@{/admin/cs/notice/write}" class="write" id="write">작성하기</a>
 
         <div class="paging">
@@ -101,35 +101,113 @@
 </body>
 <script>
 
+  //선택삭제 버튼 클릭 시 삭제되는 기능 구현
+  //전체선택
+  let checkBoxChildren = document.querySelectorAll(".cs_checkbox");
+  let allOrNone = document.getElementById("all_or_none");
+  allOrNone.addEventListener("click",(e)=>{
+    if(allOrNone.checked){
+      for(const child of checkBoxChildren){
+        child.checked = true;
+      }
+    }else {
+      for(const child of checkBoxChildren){
+        child.checked = false;
+      }
+    }
+  });
+  //전체선택 끝
+  ///////////////////////////
+  ///////////////////////////
+  //선택삭제 요청
+
   let protocol;
   let rootURL;
   protocol = window.location.protocol;
   rootURL = window.location.host;
 
+  let selectDeleteBtn = document.getElementById("delete_selected_btn");
+  selectDeleteBtn.addEventListener("click",async (e)=>{
+    //step1: delete를 수행할 url로 연결
+    const delURL = protocol+"//"+rootURL+"/admin/cs/notice/delete";
+    //Step2: articleIds로 체크된 aritlce의 번호를 담기
+    let articleIds = [];
+    for (const child of checkBoxChildren){
+      if(child.checked){
+        articleIds.push(child.value);
+      }
+    }
+    //step3 ajax로 요청보내기
+    let data = {articleIds};
+    let options = {
+      method:"POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    };//options end
+
+    await fetch(delURL, options).then(()=>{
+      for (const id of articleIds){
+        let target = document.getElementById("row-"+id);
+       console.log("target : "+target.id);
+        target.remove();
+      }
+    });//await end
+
+  })//selectDeleteBtn End
+
+  //menu1, menu2 받아오기
   const getAllCate = async () =>{
-    const apiURL = protocol+"//"+rootURL+"/api/admin/cs/article/fullCate";
+    const apiURL = protocol+"//"+rootURL+"/api/admin/cs/article/fullCate/notice";
     let response = await fetch(apiURL)
             .then(res => {
               return res.json()
             });
     console.log(response);
     let obj = new Object();
-    let cate1Name = "";
+    let menu1Name = "";
+    let menu2Name = "";
     let curData = [];
-    //Object는 순회할 때 for of를 사용한다.
-    for(const res of response){
-      cate1Name = res[""]
+
+    for(const res of Object.keys(response)){
+      menu1Name = res[menu1Name];
+      menu2Name = res[menu2Name];
+      console.log("menu1Name : "+menu1Name);
+      console.log("menu2Name : "+menu2Name);
+      // console.log("curDate : "+curData);
     }
-
-
-
-
+    console.log("obj : "+obj);
+    return obj;
 
   }//getAllCate end
+
+  window.onload = async () => {
+    let allCate = await getAllCate();
+    console.log("allCate : "+allCate);
+
+  }
 
 
 </script>
 
 
-
 </html>
+<!--cate,menu1,menu2를 조회할 때 사용-->
+<!--let obj = new Object();-->
+<!--let cateName = "";-->
+<!--let menu1Name = "";-->
+<!--let menu2Name = "";-->
+<!--let curData = [];-->
+<!--//Object는 순회할 때 for of를 사용한다.-->
+<!--for (const cateName in response["menuMap1"]) {-->
+
+<!--for (const menu1Name in response["menuMap1"][cateName]) {-->
+<!--for (const menu2Name of response["menuMap1"][cateName][menu1Name]) {-->
+<!--//console.log(menu1Name + " " + menu2Name);-->
+<!--console.log(`${cateName} : ${menu1Name} : ${menu2Name}`);-->
+<!--}-->
+<!--}-->
+<!--}-->
+<!--console.log("cateName :"+cateName);-->
+<!--console.log("menu1Name : "+menu1Name);-->
+<!--console.log("menu2Name : "+menu2Name);-->
+

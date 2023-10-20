@@ -1,7 +1,10 @@
 package kr.co.lotteon.controller.admin.cs;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import kr.co.lotteon.request.admin.cs.CsArticleCreateRequestDTO;
+import kr.co.lotteon.request.admin.cs.CsArticleMultiDeleteRequest;
 import kr.co.lotteon.request.admin.cs.CsArticlePageRequestDTO;
 import kr.co.lotteon.response.admin.cs.CsArticlePageResponseDTO;
 import kr.co.lotteon.response.admin.cs.CsArticleResponseDTO;
@@ -12,6 +15,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -80,9 +87,43 @@ public class AdminCsController {
     }
 
     @PostMapping("/notice/modify")
-    public String notice_modify(CsArticlePageRequestDTO csArticleResponseDTO, HttpServletRequest request){
-        log.info("modify : "+ csArticleResponseDTO.toString());
-      return null;
+    public String notice_modify(CsArticleCreateRequestDTO csArticleCreateRequestDTO, HttpServletRequest request){
+        log.info(csArticleCreateRequestDTO.toString());
+        csArticleCreateRequestDTO.setRegip(request.getRemoteAddr());
+        //NOTI:자동적으로 rdate를 넣지 못해서 rdate를 임의로 추가해줌
+        //NOTI:조금더 좋은 방법이 있을 것 같음
+        csArticleCreateRequestDTO.setRdate(LocalDateTime.now());
+        csArticleService.updateArticle(csArticleCreateRequestDTO);
+
+        //view로 보내기 위한 articleId값 추가
+        int articleId = csArticleCreateRequestDTO.getArticleId();
+
+
+      return "redirect:/admin/cs/notice/view?articleId="+articleId;
+    };
+
+    @GetMapping("/notice/delete")
+    public String notice_delete(@RequestParam("articleId") int articleId){
+        csArticleService.deleteArticle(articleId);
+        return "redirect:/admin/cs/notice/list";
+    };
+
+    @PostMapping("/notice/delete")
+    public String notice_delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        BufferedReader br = req.getReader();
+        StringBuilder sb = new StringBuilder();
+        String cur;
+        while ((cur = br.readLine()) != null) {
+            sb.append(cur);
+        }
+
+        ObjectMapper om = new ObjectMapper();
+        //json 요청을 받아와서 자바 객체로 포팅
+        CsArticleMultiDeleteRequest dto = om.readValue(sb.toString(), CsArticleMultiDeleteRequest.class);
+        for(Integer id: dto.getArticleIds()){
+            csArticleService.deleteArticle(id);
+        }
+        return "redirect:/admin/cs/notice/list";
     };
 
 
