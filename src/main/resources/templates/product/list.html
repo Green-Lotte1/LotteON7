@@ -4,7 +4,7 @@
 </head>
 <body>
 <div id="wrapper">
-<!--    <header th:replace="~{fragments/header::app_header}">-->
+    <!--    <header th:replace="~{fragments/header::app_header}">-->
     <header>
         <div class="top">
             <div>
@@ -108,7 +108,7 @@
             <table border="0">
                 <th:block th:each="product : ${products}">
                     <tr>
-                        <td><a th:href="@{/product/view/{prodNo}(prodNo=${product.prodNo})}" class="thumb"><img th:src="${product.thumb1}" alt="상품이미지"/></a></td>
+                        <td><a th:href="@{/product/view/{prodNo}(prodNo=${product.prodNo})}" class="thumb"><img th:src="@{/api/product/images/{storedName}(storedName=${product.thumb1})}" alt="상품이미지"/></a></td>
                         <td>
                             <h3 class="name">[[${product.prodName}]]</h3>
                             <a th:href="@{/product/view/{prodNo}(prodNo=${product.prodNo})}" class="desc">[[${product.descript}]]</a>
