@@ -30,12 +30,12 @@
                     <div>
                         <select name="search" id="search_field">
                             <option value="none" selected>검색조건선택</option>
-                            <option value="prodName" th:selected="${searchCond.prodName != null}">상품명</option>
-                            <option value="prodNo" th:selected="${searchCond.prodNo != null}">상품코드</option>
-                            <option value="company" th:selected="${searchCond.company != null}">제조사</option>
-                            <option value="sellerName" th:selected="${searchCond.sellerName != null}">판매자</option>
+                            <option value="prodName" th:selected="${searchCondField.searchField eq 'prodName'}">상품명</option>
+                            <option value="prodNo" th:selected="${searchCondField.searchField eq 'prodNo'}">상품코드</option>
+                            <option value="company" th:selected="${searchCondField.searchField eq 'company'}">제조사</option>
+                            <option value="sellerName" th:selected="${searchCondField.searchField eq 'sellerName'}">판매자</option>
                         </select>
-                        <input type="text" name="search" id="search_value">
+                        <input type="text" name="search" id="search_value" th:value="${searchCondField.searchValue}" >
                         <input type="button" value="검색" id="search_button">
                     </div>
                     <table>
@@ -78,15 +78,15 @@
 
                     <div class="paging">
                         <span th:if="${pageInfo.prev}" class="prev">
-                            <a th:href="@{/admin/product/list?page={page}(page=${pageInfo.getCurPage()-1}),}" href="#"><&nbsp;이전</a>
+                            <a th:href="@{/admin/product/list(page=${pageInfo.getCurPage()-1},searchValue=${searchCondField.searchValue},searchField=${searchCondField.searchField})}" href="#"><&nbsp;이전</a>
                         </span>
                         <span class="num">
                             <th:block th:each="num,index: ${#numbers.sequence(pageInfo.getStartPage(),pageInfo.getEndPage())}">
-                                <a th:href="@{/admin/product/list?page={page}(page=${index.current-1})}" th:text="${num}" th:class="${pageInfo.getCurPage()+1 == num} ? 'on' : ''"></a>
+                                <a th:href="@{/admin/product/list(page=${index.current-1},searchValue=${searchCondField.searchValue},searchField=${searchCondField.searchField})}" th:text="${num}" th:class="${pageInfo.getCurPage()+1 == num} ? 'on' : ''"></a>
                             </th:block>
                         </span>
                         <span th:if="${pageInfo.next}" class="next">
-                            <a th:href="@{/admin/product/list?page={page}(page=${pageInfo.getCurPage()+1})}">다음&nbsp;></a>
+                            <a th:href="@{/admin/product/list(page=${pageInfo.getCurPage()+1},searchValue=${searchCondField.searchValue},searchField=${searchCondField.searchField})}">다음&nbsp;></a>
                         </span>
                         </div>
                 </section>
@@ -113,7 +113,9 @@
         const searchBtn = document.getElementById("search_button");
         searchBtn.addEventListener("click",()=>{
             const myUrl = protocol + "//" + rootURL;
-            alert(myUrl);
+            let searchField = document.getElementById("search_field");
+            let searchValue = document.getElementById("search_value");
+            window.location.href = myUrl + "/admin/product/list?page=0&" + "searchField=" + searchField.value + "&searchValue=" + searchValue.value;
         })
 
     </script>

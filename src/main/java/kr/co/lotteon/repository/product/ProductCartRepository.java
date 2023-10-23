@@ -10,7 +10,10 @@ import java.util.List;
 
 @Repository
 public interface ProductCartRepository extends JpaRepository<ProductCartEntity,Integer> {
-    @Query("select c from ProductCartEntity c join fetch c.uid u join fetch c.product p where u.uid = :uid order by c.cartNo DESC")
+    @Query("select c from ProductCartEntity c " +
+            "join fetch c.uid u " +
+            "join fetch c.product p " +
+            "where u.uid = :uid order by c.cartNo DESC")
     List<ProductCartEntity> findCartById(@Param("uid") String uid);
 
 }

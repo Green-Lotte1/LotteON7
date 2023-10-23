@@ -39,7 +39,6 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
                         prodNameLike(searchCond.getProdName()),
                         sellerNameLike(searchCond.getSellerName()),
                         prodNoEq(searchCond.getProdNo())
-
                 )
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -71,7 +70,7 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
     }
 
     private BooleanExpression prodNameLike(String prodName) {
-        return hasText(prodName) ? productEntity.prodName.like(prodName) : null;
+        return hasText(prodName) ? productEntity.prodName.contains(prodName) : null;
     }
 
     private BooleanExpression companyNameLike(String company) {

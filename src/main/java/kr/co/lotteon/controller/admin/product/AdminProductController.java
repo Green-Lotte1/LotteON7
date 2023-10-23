@@ -3,6 +3,7 @@ package kr.co.lotteon.controller.admin.product;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.repository.admin.product.presentation.ProductSearchCond;
 import kr.co.lotteon.request.admin.product.ProductCreateRequest;
+import kr.co.lotteon.request.admin.product.ProductSearchFieldRequest;
 import kr.co.lotteon.response.admin.product.PageInfoResponse;
 import kr.co.lotteon.response.admin.product.ProductAdminListResponse;
 import kr.co.lotteon.service.admin.product.ProductAdminService;
@@ -42,9 +43,9 @@ public class AdminProductController {
     }
 
     @GetMapping("/list")
-    public String products(Model model, @ModelAttribute("searchCond") ProductSearchCond searchCond, @PageableDefault(sort = "prodNo",direction = Sort.Direction.DESC) Pageable pageable) {
-        log.info("[ADMIN PRODUCT LIST] searchCond : {}",searchCond);
-        Page<ProductAdminListResponse> results = productAdminService.getPagedProductsWithConds(searchCond, pageable);
+    public String products(Model model, @ModelAttribute("searchCondField") ProductSearchFieldRequest searchCondField, @PageableDefault(sort = "prodNo",direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("[ADMIN PRODUCT LIST] searchCond : {}",searchCondField);
+        Page<ProductAdminListResponse> results = productAdminService.getPagedProductsWithConds(searchCondField.toSearchCond(), pageable);
         List<ProductAdminListResponse> products = results.getContent();
 
         model.addAttribute("products", products);
