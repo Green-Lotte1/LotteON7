@@ -1,6 +1,7 @@
 package kr.co.lotteon.entity.product;
 
 import jakarta.persistence.*;
+import kr.co.lotteon.entity.file.UploadFile;
 import kr.co.lotteon.entity.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -42,4 +43,5 @@ public class ProductCartEntity {
     public void allocateMember(Member owner) {
         this.uid = owner;
     }
+
 }

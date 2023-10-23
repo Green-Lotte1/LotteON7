@@ -2,6 +2,7 @@ package kr.co.lotteon.controller.product;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.request.product.ProductCartRequest;
+import kr.co.lotteon.response.product.ProductCartResponse;
 import kr.co.lotteon.response.product.ProductListResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
 import kr.co.lotteon.service.product.ProductService;
@@ -41,18 +42,20 @@ public class ProductController {
     }
 
     /* Product Cart */
-    @GetMapping("/cart")
-    public String cart(){
+    @GetMapping("/cart/{uid}")
+    public String cart(@PathVariable("uid") String uid, Model model){
+        List<ProductCartResponse> productCarts = productService.findCart(uid);
+        model.addAttribute("productCarts",productCarts);
         return "product/cart";
     }
 
-    @PostMapping("/cart")
-    public String cart(ProductCartRequest productCartRequest, Model model) throws IOException {
+    @PostMapping("/cart/{uid}")
+    public   String cart(@PathVariable("uid") String uid, ProductCartRequest productCartRequest) throws IOException {
 
         productService.insertCart(productCartRequest);
-        model.addAttribute("productCart", productCartRequest);
+        log.info("postCart uid" + uid);
 
-        return "redirect:/product/cart";
+        return "redirect:/product/cart/{uid}";
     }
 
     /* Product Order */

@@ -9,6 +9,7 @@ import kr.co.lotteon.repository.product.ProductCartRepository;
 import kr.co.lotteon.repository.product.ProductListRepository;
 import kr.co.lotteon.repository.product.ProductViewRepository;
 import kr.co.lotteon.request.product.ProductCartRequest;
+import kr.co.lotteon.response.product.ProductCartResponse;
 import kr.co.lotteon.response.product.ProductListResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -70,12 +72,25 @@ public class ProductService {
             ProductEntity curProdNo = cart.getProduct();
             if (curProdNo.getProdNo() == checkProdNo) {
                 cart.setCount(cart.getCount()+productCartRequest.getCount());
+                cart.setPrice(cart.getPrice()+productCartRequest.getPrice());
+                cart.setPoint(cart.getPoint()+productCartRequest.getPoint());
+                cart.setTotal(cart.getTotal()+productCartRequest.getTotal());
                 return; // 업데이트 완료
             }
         }
         //prodNo에 해당하는 cart가 없으면 새로 만들어준다.
         ProductCartEntity newCart = productCartRequest.toEntity(product, findMember);
         findMember.addCart(newCart);
+    }
+
+    public List<ProductCartResponse> findCart(String uid){
+        List<ProductCartResponse> productCartList = new ArrayList<>();
+        productCartList = productCartRepository.findCartById(uid).stream()
+                .map(ProductCartResponse::new)
+                .collect(Collectors.toList());
+
+        log.info("productCartList : " + productCartList);
+        return productCartList;
     }
 }
 
