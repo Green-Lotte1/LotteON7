@@ -9,12 +9,16 @@ import kr.co.lotteon.entity.product.ProductEntity;
 import kr.co.lotteon.repository.admin.product.ProductCate1Repository;
 import kr.co.lotteon.repository.admin.product.ProductCate2Repository;
 import kr.co.lotteon.repository.admin.product.ProductRepository;
+import kr.co.lotteon.repository.admin.product.presentation.ProductQueryRepository;
+import kr.co.lotteon.repository.admin.product.presentation.ProductSearchCond;
 import kr.co.lotteon.repository.member.MemberRepository;
 import kr.co.lotteon.request.admin.product.ProductCreateRequest;
 import kr.co.lotteon.response.admin.product.ProductAdminListResponse;
 import kr.co.lotteon.service.file.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +31,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductAdminService {
+    private final ProductQueryRepository productQueryRepository;
     private final ProductRepository productRepository;
     private final ProductCate1Repository cate1Repository;
     private final ProductCate2Repository cate2Repository;
@@ -77,5 +82,9 @@ public class ProductAdminService {
         return productRepository.findAll().stream()
                 .map(ProductAdminListResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    public Page<ProductAdminListResponse> getPagedProductsWithConds(ProductSearchCond searchCond, Pageable pageable) {
+        return productQueryRepository.searchWithPageAndCond(searchCond, pageable);
     }
 }

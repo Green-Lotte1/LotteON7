@@ -19,7 +19,7 @@ header {
     width: 100%;
     height: 120px;
     background:
-            url('../images/admin/admin_bg_header.jpg') repeat-x;
+            url('/images/admin/admin_bg_header.jpg') repeat-x;
 }
 
 header > div {
@@ -54,7 +54,7 @@ main > aside {
     float: left;
     width: 270px;
     height: auto;
-    background: url('../images/admin/admin_bg_aside.jpg') repeat-y;
+    background: url('/images/admin/admin_bg_aside.jpg') repeat-y;
     border-left: 1px solid #c0c0c0;
     box-sizing: border-box;
 }
@@ -213,10 +213,10 @@ p.ico {
     box-sizing: border-box;
 }
 /*NOTI: url도 static에서 찾는다. 따라서 앞에 ..같은 상대경로 제거하기*/
-p.info    {border-color: #8497BF; background: #A8B2C5 url('../images/admin/admin_ico_info.png') no-repeat scroll 15px 16px;}
-p.success {border-color: #C6D881; background: #E6EFC2 url('../images/admin/admin_ico_success.png') no-repeat scroll 15px 16px;}
-p.alert   {border-color: #FDD845; background: #FFF6BF url('../images/admin/admin_ico_alert.png') no-repeat scroll 15px 16px;}
-p.error   {border-color: #FBC7C9; background: #FBE3E4 url('../images/admin/admin_ico_error.png') no-repeat scroll 15px 16px;}
+p.info    {border-color: #8497BF; background: #A8B2C5 url('/images/admin/admin_ico_info.png') no-repeat scroll 15px 16px;}
+p.success {border-color: #C6D881; background: #E6EFC2 url('/images/admin/admin_ico_success.png') no-repeat scroll 15px 16px;}
+p.alert   {border-color: #FDD845; background: #FFF6BF url('/images/admin/admin_ico_alert.png') no-repeat scroll 15px 16px;}
+p.error   {border-color: #FBC7C9; background: #FBE3E4 url('/images/admin/admin_ico_error.png') no-repeat scroll 15px 16px;}
 
 label {
     display: inline-block;
@@ -432,7 +432,13 @@ button[type=submit] {
 
 #admin-product-list > section > table img.thumb {width: 60px;}
 
-#admin-product-list > section input[type=button] {
+#admin-product-list > section #search_button {
+    /*float: left;*/
+    width: 80px;
+    background-color: #0e9d05;
+    /*margin-top: 10px;*/
+}
+#admin-product-list > section > #select_deletion {
     float: left;
     width: 100px;
     margin-top: 10px;

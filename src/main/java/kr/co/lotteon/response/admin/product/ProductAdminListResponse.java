@@ -1,13 +1,11 @@
 package kr.co.lotteon.response.admin.product;
 
 import kr.co.lotteon.entity.product.ProductEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Getter @Setter
 @ToString
+@NoArgsConstructor
 public class ProductAdminListResponse {
     private String thumb1StoredName;
     private int prodNo;
@@ -30,5 +28,17 @@ public class ProductAdminListResponse {
         this.stock = product.getStock();
         this.sellerName = product.getSeller().getName();
         this.hit = product.getHit();
+    }
+
+    public ProductAdminListResponse(String thumb1StoredName, int prodNo, String prodName, int price, int discount, int point, int stock, String sellerName, int hit) {
+        this.thumb1StoredName = thumb1StoredName;
+        this.prodNo = prodNo;
+        this.prodName = prodName;
+        this.price = price;
+        this.discount = discount;
+        this.point = point;
+        this.stock = stock;
+        this.sellerName = sellerName;
+        this.hit = hit;
     }
 }
