@@ -62,10 +62,19 @@ public class CsArticleService {
         //getPageable(  ) 안에 cate를 넣었는데 다 똑같으므로 내림차순 정렬이 되지 않았다.
         //getPageable(  ) 안에 넣는 값은 paging처리를 할 때 기준이 되는 값을 넣는다.
         Pageable pageable = pageRequestDTO.getPageable("articleId");
+        Page<CsArticleEntity> result = null;
+        if(pageRequestDTO.getMenu1().equals("0")){
+            log.info("처음 조회");
+            result = csArticleRepository.findByCate(pageRequestDTO.getCate(),pageable);
+        }else if(!pageRequestDTO.getMenu2().equals("0")){
+            log.info("menu2 선택");
+            result= csArticleRepository.findByCateAndMenu1AndMenu2(pageRequestDTO.getCate(), pageRequestDTO.getMenu1(), pageRequestDTO.getMenu2(), pageable);
+        }else {
+            log.info("menu1 선택");
+            result = csArticleRepository.findByCateAndMenu1(pageRequestDTO.getCate(),pageRequestDTO.getMenu1(),pageable);
 
+        }
 
-        Page<CsArticleEntity> result = csArticleRepository.findByCate(pageRequestDTO.getCate(),pageable);
-//        Page<CsArticleEntity> result = csArticleRepository.findByCate(pageRequestDTO.getCate(),pageable);
 //        Page<CsArticleEntity> result = csArticleRepository.findByCateAndMenu1AndMenu2(pageRequestDTO.getCate(),pageRequestDTO.getMenu1(),pageRequestDTO.getMenu2(),pageable);
         log.info("result :" +result.toString());
         List<CsArticleResponseDTO> dtoList = result.getContent()

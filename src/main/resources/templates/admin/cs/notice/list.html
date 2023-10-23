@@ -19,19 +19,18 @@
       </nav>
       <section>
         <div>
-          <select name="menu1" id="selectBox">
-            <option value="#">1차 선택</option>
-            <option value="#">전체</option>
-            <option value="#">고객서비스</option>
-            <option value="#">안전거래</option>
-            <option value="#">위해상품</option>
-            <option value="#">이벤트당첨</option>
+          <select name="menu1" id="menu1">
+            <option value="0" th:selected="${menu1 == '0'}" >전체</option>
+            <option value="고객서비스" th:selected="${menu1 == '고객서비스'}">고객서비스</option>
+            <option value="안전거래" th:selected="${menu1 == '안전거래'}" >안전거래</option>
+            <option value="위해상품" th:selected="${menu1 == '위해상품'}" >위해상품</option>
+            <option value="이벤트당첨" th:selected="${menu1 == '이벤트당첨'}" >이벤트당첨</option>
           </select>
-          <select name="search" id="selectBox2" class="choose">
-            <option value="search1">2차 선택</option>
-            <option value="#">안내</option>
-            <option value="#">발표</option>
-            <option value="#">점검</option>
+          <select name="menu2" id="menu2" class="choose">
+            <option value="0" th:selected="${menu2 == '0'}" >2차 선택</option>
+            <option value="안내"th:selected="${menu2 == '안내'}" >안내</option>
+            <option value="발표" th:selected="${menu2 == '발표'}" >발표</option>
+            <option value="점검" th:selected="${menu2 == '점검'}" >점검</option>
           </select>
         </div>
         <table id="tb">
@@ -79,10 +78,14 @@
           </th:block>
 
           <span  th:each="num : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}"  th:class="num">
+            <th:block th:if="${num>0}" >
             <a th:href="@{/admin/cs/notice/list(cate=notice, pg=${num})}"  th:class="${num == pageResponseDTO.getPg()}?'on' : ''" >[[${num}]]</a>
+            </th:block>
           </span>
           <span class="next">
+            <th:block th:if="${num>0}" >
             <a href="#">다음&nbsp;></a>
+            </th:block>
           </span>
         </div>
       </section>
@@ -155,36 +158,36 @@
 
   })//selectDeleteBtn End
 
-  //menu1, menu2 받아오기
-  const getAllCate = async () =>{
-    const apiURL = protocol+"//"+rootURL+"/api/admin/cs/article/fullCate/notice";
-    let response = await fetch(apiURL)
-            .then(res => {
-              return res.json()
-            });
-    console.log(response);
-    let obj = new Object();
-    let menu1Name = "";
-    let menu2Name = "";
-    let curData = [];
+  //1차, 2차 카테고리 출력 및 카테고리 클릭 시 글목록 변경되는 것
 
-    for(const res of Object.keys(response)){
-      menu1Name = res[menu1Name];
-      menu2Name = res[menu2Name];
-      console.log("menu1Name : "+menu1Name);
-      console.log("menu2Name : "+menu2Name);
-      // console.log("curDate : "+curData);
-    }
-    console.log("obj : "+obj);
-    return obj;
+  let menu1 = document.getElementById("menu1");
+  let menu2 = document.getElementById("menu2");
 
-  }//getAllCate end
-
-  window.onload = async () => {
-    let allCate = await getAllCate();
-    console.log("allCate : "+allCate);
-
+  let data = {
+    "0":[],
+    "고객서비스":["안내","발표","점검"],
+    "안전거래":["안내","발표","점검"],
+    "위해상품":["안내","발표","점검"],
+    "이벤트당첨":["안내","발표","점검"]
   }
+
+
+  menu1.addEventListener("change",()=>{
+    let selectMenu1 = $('#menu1').val();
+    console.log("selectMenu1: "+selectMenu1);
+    location.replace('/admin/cs/notice/list?menu1='+selectMenu1);
+
+  });//menu1 end
+
+  menu2.addEventListener("change",()=>{
+    let selectMenu1 = $('#menu1').val();
+    let selectMenu2 = $('#menu2').val();
+    console.log("selectedMenu1 :"+selectMenu1);
+    console.log("selectedMenu2 :"+selectMenu2);
+    location.replace('/admin/cs/notice/list?menu1='+selectMenu1+'&menu2='+selectMenu2);
+
+
+  });
 
 
 </script>
@@ -211,3 +214,33 @@
 <!--console.log("menu1Name : "+menu1Name);-->
 <!--console.log("menu2Name : "+menu2Name);-->
 
+
+<!--1,2차 카테고리 가져오기-->
+<!--const getAllCate = async () =>{-->
+<!--const apiURL = protocol+"//"+rootURL+"/api/admin/cs/article/fullCate/notice";-->
+<!--let response = await fetch(apiURL)-->
+<!--.then(res => {-->
+<!--return res.json()-->
+<!--});-->
+<!--console.log(response);-->
+<!--let obj = new Object();-->
+<!--let menu1Name = "";-->
+<!--let menu2Name = "";-->
+<!--let curData = [];-->
+
+<!--for(const res of Object.keys(response)){-->
+<!--menu1Name = res[menu1Name];-->
+<!--const menu2Names = response[res];-->
+<!--console.log("menu1Name : "+menu1Name);-->
+<!--console.log("menu2Name : "+menu2Name);-->
+<!--// console.log("curDate : "+curData);-->
+
+<!--for(menu2Name of menu2Names){-->
+<!--console.log(menu2Name);-->
+<!--}-->
+
+<!--}-->
+<!--console.log("obj : "+obj);-->
+<!--return obj;-->
+
+<!--}//getAllCate end-->
