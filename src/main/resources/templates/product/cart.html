@@ -211,7 +211,7 @@
         // selectAll 체크박스가 클릭될 때 실행할 함수 정의
         $selectAllCheckbox.click(function () {
             // selectAll 체크박스의 상태 가져오기
-            let isChecked = $selectAllCheckbox.prop("checked");
+            let isChecked = $selectAllCheckbox.prop("checked",true);
 
             // 모든 개별 체크박스에 상태 적용
             $checkboxes.prop("checked", isChecked);
