@@ -39,18 +39,14 @@ public class AdminCsController {
 
     @GetMapping("/notice/list")
     public String notice_list(Model model, CsArticlePageRequestDTO pageRequestDTO){
-        pageRequestDTO.setCate("notice");
-        CsArticlePageResponseDTO pageResponseDTO = csArticleService.findByCate(pageRequestDTO);
 
-        log.info("pageResponseDTO pg : " + pageResponseDTO.getPg());
-        log.info("pageResponseDTO size : " + pageResponseDTO.getSize());
-        log.info("pageResponseDTO total : " + pageResponseDTO.getTotal());
-        log.info("pageResponseDTO start : " + pageResponseDTO.getStart());
-        log.info("pageResponseDTO end : " + pageResponseDTO.getEnd());
-        log.info("pageResponseDTO prev : " + pageResponseDTO.isPrev());
-        log.info("pageResponseDTO next : " + pageResponseDTO.isNext());
-        log.info("pageResponseDTO dtoList : " + pageResponseDTO.getDtoList());
+        pageRequestDTO.setCate("notice");
+        log.info("menu1 : "+pageRequestDTO.getMenu1());
+        log.info("menu2 : "+pageRequestDTO.getMenu2());
+        CsArticlePageResponseDTO pageResponseDTO = csArticleService.findByCate(pageRequestDTO);
         model.addAttribute("pageResponseDTO",pageResponseDTO);
+        model.addAttribute("menu1",pageRequestDTO.getMenu1());
+        model.addAttribute("menu2",pageRequestDTO.getMenu2());
         return "admin/cs/notice/list";
     }
 
@@ -137,13 +133,101 @@ public class AdminCsController {
         return "admin/cs/qna/list";
     }
 
+
+
 /////////////////////////////////////////
 ////////////////////////////////////////
 /*  admin/cs/faq  */
 ////////////////////////////////////////
 ///////////////////////////////////////
+
+
+
+
+
     @GetMapping("/faq/list")
-    public String faq_list(){
+    public String faq_list(Model model, CsArticlePageRequestDTO pageRequestDTO){
+
+        pageRequestDTO.setCate("faq");
+        log.info("menu1 : "+pageRequestDTO.getMenu1());
+        log.info("menu2 : "+pageRequestDTO.getMenu2());
+        CsArticlePageResponseDTO pageResponseDTO = csArticleService.findByCate(pageRequestDTO);
+        model.addAttribute("pageResponseDTO",pageResponseDTO);
+        model.addAttribute("menu1",pageRequestDTO.getMenu1());
+        model.addAttribute("menu2",pageRequestDTO.getMenu2());
         return "admin/cs/faq/list";
     }
+
+    @GetMapping("/faq/write")
+    public String faq_write(){
+        return "admin/cs/faq/write";
+    }
+
+    @PostMapping("/faq/write")
+    public String faq_write(CsArticleCreateRequestDTO csArticleCreateRequestDTO, HttpServletRequest request){
+        csArticleCreateRequestDTO.setRegip(request.getRemoteAddr());
+        log.info("Notice_write DTO : "+ csArticleCreateRequestDTO.toString());
+        csArticleService.save(csArticleCreateRequestDTO);
+        return  "redirect:/admin/cs/faq/list";
+    }
+
+
+    @GetMapping("/faq/view")
+    public String faq_view(@RequestParam("articleId") int articleId ,Model model){
+        log.info("view ArticleId"+articleId);
+        CsArticleResponseDTO responseDTO = csArticleService.findById(articleId);
+        log.info("responseDTO :"+responseDTO.toString());
+        model.addAttribute("responseDTO",responseDTO);
+        return "admin/cs/faq/view";
+
+    }
+    @GetMapping("/faq/modify")
+    public String faq_modify(@RequestParam("articleId") int articleId, Model model ) {
+
+        CsArticleResponseDTO responseDTO   =  csArticleService.findById(articleId);
+        log.info("responseDTO :"+responseDTO.toString());
+        model.addAttribute("responseDTO",responseDTO);
+        return "admin/cs/faq/modify";
+    }
+
+    @PostMapping("/faq/modify")
+    public String faq_modify(CsArticleCreateRequestDTO csArticleCreateRequestDTO, HttpServletRequest request){
+        log.info(csArticleCreateRequestDTO.toString());
+        csArticleCreateRequestDTO.setRegip(request.getRemoteAddr());
+        //NOTI:자동적으로 rdate를 넣지 못해서 rdate를 임의로 추가해줌
+        //NOTI:조금더 좋은 방법이 있을 것 같음
+        csArticleCreateRequestDTO.setRdate(LocalDateTime.now());
+        csArticleService.updateArticle(csArticleCreateRequestDTO);
+
+        //view로 보내기 위한 articleId값 추가
+        int articleId = csArticleCreateRequestDTO.getArticleId();
+
+
+        return "redirect:/admin/cs/faq/view?articleId="+articleId;
+    };
+
+    @GetMapping("/faq/delete")
+    public String faq_delete(@RequestParam("articleId") int articleId){
+        csArticleService.deleteArticle(articleId);
+        return "redirect:/admin/cs/faq/list";
+    };
+
+    @PostMapping("/faq/delete")
+    public String faq_delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        BufferedReader br = req.getReader();
+        StringBuilder sb = new StringBuilder();
+        String cur;
+        while ((cur = br.readLine()) != null) {
+            sb.append(cur);
+        }
+
+        ObjectMapper om = new ObjectMapper();
+        //json 요청을 받아와서 자바 객체로 포팅
+        CsArticleMultiDeleteRequest dto = om.readValue(sb.toString(), CsArticleMultiDeleteRequest.class);
+        for(Integer id: dto.getArticleIds()){
+            csArticleService.deleteArticle(id);
+        }
+        return "redirect:/admin/cs/faq/list";
+    };
+
 }
