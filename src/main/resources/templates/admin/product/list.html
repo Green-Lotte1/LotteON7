@@ -28,13 +28,15 @@
                 <!-- 상품목록 컨텐츠 시작 -->                                
                 <section>
                     <div>
-                        <select name="search">
-                            <option value="search1">상품명</option>
-                            <option value="search1">상품코드</option>
-                            <option value="search1">제조사</option>
-                            <option value="search1">판매자</option>                                    
+                        <select name="search" id="search_field">
+                            <option value="none" selected>검색조건선택</option>
+                            <option value="prodName" th:selected="${searchCond.prodName != null}">상품명</option>
+                            <option value="prodNo" th:selected="${searchCond.prodNo != null}">상품코드</option>
+                            <option value="company" th:selected="${searchCond.company != null}">제조사</option>
+                            <option value="sellerName" th:selected="${searchCond.sellerName != null}">판매자</option>
                         </select>
-                        <input type="text" name="search">
+                        <input type="text" name="search" id="search_value">
+                        <input type="button" value="검색" id="search_button">
                     </div>
                     <table>
                         <tr>
@@ -71,37 +73,27 @@
                     </table>
 
                     
-                    <input type="button" value="선택삭제" />                          
+                    <input type="button" value="선택삭제" id="select_deletion"/>
 
 
                     <div class="paging">
-                        <span class="prev">
-                            <a href="#"><&nbsp;이전</a>
+                        <span th:if="${pageInfo.prev}" class="prev">
+                            <a th:href="@{/admin/product/list?page={page}(page=${pageInfo.getCurPage()-1}),}" href="#"><&nbsp;이전</a>
                         </span>
                         <span class="num">
-                            <a href="#" class="on">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">6</a>
-                            <a href="#">7</a>
+                            <th:block th:each="num,index: ${#numbers.sequence(pageInfo.getStartPage(),pageInfo.getEndPage())}">
+                                <a th:href="@{/admin/product/list?page={page}(page=${index.current-1})}" th:text="${num}" th:class="${pageInfo.getCurPage()+1 == num} ? 'on' : ''"></a>
+                            </th:block>
                         </span>
-                        <span class="next">
-                            <a href="#">다음&nbsp;></a>
+                        <span th:if="${pageInfo.next}" class="next">
+                            <a th:href="@{/admin/product/list?page={page}(page=${pageInfo.getCurPage()+1})}">다음&nbsp;></a>
                         </span>
                         </div>
-
-                </section>                
-
-                
+                </section>
                 <p class="ico info">
                     <strong>Tip!</strong>
                     전자상거래 등에서의 상품 등의 정보제공에 관한 고시에 따라 총 35개 상품군에 대해 상품 특성 등을 양식에 따라 입력할 수 있습니다.
                 </p>
-
-                
-
                 <!-- 상품목록 컨텐츠 끝 -->
             </section>
         </main>
@@ -110,6 +102,20 @@
                 <p>Copyright ©lotteon.com All rights reserved. ADMINISTRATOR Version 5.4.1.2</p>
             </div>
         </footer>
-    </div>    
+    </div>
+    <script>
+        let protocol;
+        let rootURL;
+        protocol = window.location.protocol;
+        rootURL = window.location.host;
+
+
+        const searchBtn = document.getElementById("search_button");
+        searchBtn.addEventListener("click",()=>{
+            const myUrl = protocol + "//" + rootURL;
+            alert(myUrl);
+        })
+
+    </script>
 </body>
 </html>
