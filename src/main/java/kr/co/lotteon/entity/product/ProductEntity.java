@@ -35,8 +35,8 @@ public class ProductEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller")
-
     private Member seller;
+
     private int price;
     private int discount;   // default : 0
     private int point;      // default : 0

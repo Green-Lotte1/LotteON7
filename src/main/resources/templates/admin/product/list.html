@@ -40,7 +40,7 @@
                     </div>
                     <table>
                         <tr>
-                            <th><input type="checkbox" name="all"/></th>
+                            <th><input type="checkbox" name="all" id="checkboxAll"/></th>
                             <th>이미지</th>
                             <th>상품코드</th>
                             <th>상품명</th>
@@ -54,7 +54,7 @@
                         </tr>
                         <th:block th:each="product : ${products}">
                             <tr>
-                                <td><input type="checkbox" name="상품코드"/></td>
+                                <td><input type="checkbox" name="select_to_delete_checkbox" th:value="${product.prodNo}" class="productListCheckBox"/></td>
                                 <td><img th:src="@{/api/admin/product/images/{storedName}(storedName=${product.thumb1StoredName})}" class="thumb"></td>
                                 <td th:text="${product.prodNo}">201603292</td>
                                 <td th:text="${product.prodName}">FreeMovement BLUEFORCE</td>
@@ -73,7 +73,7 @@
                     </table>
 
                     
-                    <input type="button" value="선택삭제" id="select_deletion"/>
+                    <input type="button" value="선택삭제" id="selected_deleteBtn"/>
 
 
                     <div class="paging">
@@ -117,7 +117,17 @@
             let searchValue = document.getElementById("search_value");
             window.location.href = myUrl + "/admin/product/list?page=0&" + "searchField=" + searchField.value + "&searchValue=" + searchValue.value;
         })
+        // 선택 삭제 할때 모든 product선택하는 토글 체크 박스
+        const allCheckBox = document.getElementById("checkboxAll");
+        allCheckBox.addEventListener("click",(e)=>{
+            const isChecked = e.target.checked;
+            const checkBoxes = document.getElementsByClassName("productListCheckBox");
 
+            for (let i = 0; i < checkBoxes.length; i++) {
+                let checkBox = checkBoxes[i];
+                checkBox.checked = isChecked;
+            }
+        })
     </script>
 </body>
 </html>

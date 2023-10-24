@@ -21,7 +21,7 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
     private final JPAQueryFactory query;
     @Override
     public Page<ProductAdminListResponse> searchWithPageAndCond(ProductSearchCond searchCond, Pageable pageable) {
-        List<ProductAdminListResponse> content = query.select(Projections.bean(ProductAdminListResponse.class,
+        List<ProductAdminListResponse> content = query.select(Projections.constructor(ProductAdminListResponse.class,
                         productEntity.thumb1.storedFileName,
                         productEntity.prodNo,
                         productEntity.prodName,
@@ -29,7 +29,7 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
                         productEntity.discount,
                         productEntity.point,
                         productEntity.stock,
-                        productEntity.seller.name,
+                        productEntity.seller.uid,
                         productEntity.hit)
                 )
                 .from(productEntity)
@@ -43,7 +43,7 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        JPAQuery<ProductAdminListResponse> preCnt = query.select(Projections.bean(ProductAdminListResponse.class,
+        JPAQuery<ProductAdminListResponse> preCnt = query.select(Projections.constructor(ProductAdminListResponse.class,
                         productEntity)
                 )
                 .from(productEntity)
