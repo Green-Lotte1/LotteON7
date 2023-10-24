@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Configuration;
 public class QueryDslConfig {
     @PersistenceContext //LEARN: thread safe for DI EntityManager
     public EntityManager em;
-
     @Bean
     public JPAQueryFactory query() {
         return new JPAQueryFactory(em);
