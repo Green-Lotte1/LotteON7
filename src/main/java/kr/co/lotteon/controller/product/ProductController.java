@@ -2,7 +2,7 @@ package kr.co.lotteon.controller.product;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.request.product.ProductCartRequest;
-import kr.co.lotteon.request.product.ProductOrderRequest;
+import kr.co.lotteon.request.product.ProductOrderItemRequest;
 import kr.co.lotteon.response.product.ProductCartResponse;
 import kr.co.lotteon.response.product.ProductListResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
@@ -68,7 +68,7 @@ public class ProductController {
     }
 
     @PostMapping ("/order")
-    public String order(@RequestBody String formInfo, ProductOrderRequest productOrderRequest){
+    public String order(@RequestBody String formInfo, ProductOrderItemRequest productOrderItemRequest){
 
         log.info(formInfo);
 
