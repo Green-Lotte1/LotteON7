@@ -25,3 +25,7 @@ ProductEntity 를 참조
 23.10.19
 # jpa
 - dirtychecking
+
+23.10.25
+# restcontroller
+- serializing, deserializing
