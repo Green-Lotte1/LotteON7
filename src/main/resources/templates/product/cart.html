@@ -287,6 +287,7 @@
         }
 
         const castProducts = async (data)=>{
+            //noti: 경로가 local로 되어 있는데, 배포된 이후에 작용하려면 경로 수정이 필요할 것 같음
             const url = "http://localhost:8080/api/product/cart_to_order";
             const payload = {"products": data}
             await fetch(url, {
