@@ -2,16 +2,19 @@ package kr.co.lotteon.controller.product;
 
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.request.product.ProductCartRequest;
+import kr.co.lotteon.request.product.ProductOrderRequest;
 import kr.co.lotteon.response.product.ProductCartResponse;
 import kr.co.lotteon.response.product.ProductListResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
 import kr.co.lotteon.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.Console;
 import java.io.IOError;
 import java.io.IOException;
 import java.util.List;
@@ -63,6 +66,15 @@ public class ProductController {
     public String order(){
         return "product/order";
     }
+
+    @PostMapping ("/order")
+    public String order(@Param("formInfo") String formInfo, ProductOrderRequest productOrderRequest){
+
+        log.info(formInfo);
+
+        return "product/order";
+    }
+
 
     /* Product Complete */
     @GetMapping("/complete")
