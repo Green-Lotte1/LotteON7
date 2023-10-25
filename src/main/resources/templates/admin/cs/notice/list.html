@@ -79,7 +79,7 @@
 
           <span  th:each="num : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}"  th:class="num">
             <th:block th:if="${num>0}" >
-            <a th:href="@{/admin/cs/notice/list(cate=notice, pg=${num})}"  th:class="${num == pageResponseDTO.getPg()}?'on' : ''" >[[${num}]]</a>
+            <a th:href="@{/admin/cs/notice/list(cate=notice, menu1=${menu1}, menu2=${menu2},  pg=${num})}"  th:class="${num == pageResponseDTO.getPg()}?'on' : ''" >[[${num}]]</a>
             </th:block>
           </span>
           <span class="next">

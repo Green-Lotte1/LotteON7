@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -44,7 +46,15 @@ public class CsArticleEntity {
     @CreationTimestamp
     private LocalDateTime rdate;
 
-    public CsArticleCreateRequestDTO reqToEntity(){
+    @Enumerated(EnumType.STRING)
+    private ArticleStatus status;
+
+//      jpa연관관계 매핑
+//    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "articleId")
+//    private List<CsArticleComment> comments = new ArrayList<>();
+
+    public CsArticleCreateRequestDTO reqToEntity() {
+
         return CsArticleCreateRequestDTO.builder()
                 .articleId(articleId)
                 .cate(cate)

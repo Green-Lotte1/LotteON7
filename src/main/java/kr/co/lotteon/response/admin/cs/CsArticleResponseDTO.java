@@ -30,6 +30,8 @@ public class CsArticleResponseDTO {
     @CreationTimestamp
     private LocalDateTime rdate;
 
+    private String status;
+
     public CsArticleEntity  toEntity(){
         return CsArticleEntity.builder()
                 .articleId(articleId)
@@ -45,4 +47,17 @@ public class CsArticleResponseDTO {
                 .build();
     }
 
+    public CsArticleResponseDTO(CsArticleEntity article){
+        this.articleId = article.getArticleId();
+        this.cate = article.getCate();
+        this.menu1 = article.getMenu1();
+        this.menu2 = article.getMenu2();
+        this.title = article.getTitle();
+        this.content = article.getContent();
+        this.hit =article.getHit();
+        this.uid = article.getUid();
+        this.regip = article.getRegip();
+        this.rdate = article.getRdate();
+        this.status = article.getStatus().name();
+    }
 }

@@ -36,7 +36,7 @@
         <table id="tb">
           <tr>
             <th>
-              <input type="checkbox" name="all" class="chk">
+              <input type="checkbox" name="all" class="chk" id="all_or_none" >
             </th>
             <th>번호</th>
             <th>1차 유형</th>
@@ -81,26 +81,26 @@
 
           <span  th:each="num : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}"  th:class="num">
             <th:block th:if="${num>0}" >
-            <a th:href="@{/admin/cs/faq/list(cate=faq, pg=${num})}"  th:class="${num == pageResponseDTO.getPg()}?'on' : ''" >[[${num}]]</a>
-            </th:block>
-          </span>
-          <span class="next">
+            <a th:href="@{/admin/cs/notice/list(cate=faq, menu1=${menu1}, menu2=${menu2},  pg=${num})}"  th:class="${num == pageResponseDTO.getPg()}?'on' : ''" >[[${num}]]</a>
+</th:block>
+</span>
+<span class="next">
             <th:block th:if="${num>0}" >
             <a href="#">다음&nbsp;></a>
             </th:block>
           </span>
-        </div>
-      </section>
-    </section>
-  </main>
-  <footer>
-    <div>
-      <p>
-        Copyright ⓒkmarket.co.kr All rights reserved. KMARKET
-        ADMINISTRATOR Version 5.4.1.2
-      </p>
-    </div>
-  </footer>
+</div>
+</section>
+</section>
+</main>
+<footer>
+  <div>
+    <p>
+      Copyright ⓒkmarket.co.kr All rights reserved. KMARKET
+      ADMINISTRATOR Version 5.4.1.2
+    </p>
+  </div>
+</footer>
 </div>
 </body>
 
@@ -120,23 +120,85 @@
     "안전거래":["서비스 이용규칙 위반", "지식재산권침해", "법령 및 정책위반 상품", "게시물 정책위반", "직거래/외부거래유도", "표시광고", "청소년 위해상품/이미지"]
   }
 
+  let selectMenu1 = $('#menu1').val();
+  let selectMenu2 = $('#menu2').val();
+
   menu1.addEventListener("change",()=>{
-    let selectMenu1 = $('#menu1').val();
+    selectMenu1 = $('#menu1').val();
     location.replace('/admin/cs/faq/list?menu1='+selectMenu1);
-    //menu1선택에 따른 menu2의 변경
-    while (menu2.firstChild){//menu2를 초기화 시켜준다.
-      menu2.firstChild.remove();
-    }
-
-    let newOptionsString = "<option value=0 selected>2차선택</option>";
-    console.log("selectMenu1 : "+selectMenu1);
-    data[selectMenu1].forEach(el => {
-      newOptionsString += "<option value='" + el + "' " +">" + el + "</option>";
-
-    });//while end
-    menu2.innerHTML = newOptionsString;
-
   });//menu1 change end
+  //menu1선택에 따른 menu2의 변경
+  while (menu2.firstChild){//menu2를 초기화 시켜준다.
+    menu2.firstChild.remove();
+  }
+
+  let newOptionsString = "<option value=0 selected>2차선택</option>";
+  console.log("selectMenu1 : "+selectMenu1);
+  data[selectMenu1].forEach(el => {
+    newOptionsString += "<option value='" + el + "' " +">" + el + "</option>";
+
+  });//while end
+  menu2.innerHTML = newOptionsString;
+
+  menu2.addEventListener("change",()=>{
+    selectMenu1 = $('#menu1').val();
+    selectMenu2 = $('#menu2').val();
+    location.replace('/admin/cs/faq/list?menu1='+selectMenu1+'&menu2='+selectMenu2);
+  });//menu2 Change End
+
+  //선택삭제 버튼 클릭 시 삭제되는 기능 구현
+  //전체선택
+  let checkBoxChildren = document.querySelectorAll(".cs_checkbox");
+  let allOrNone = document.getElementById("all_or_none");
+  allOrNone.addEventListener("click",(e)=>{
+    if(allOrNone.checked){
+      for(const child of checkBoxChildren){
+        child.checked = true;
+      }
+    }else {
+      for(const child of checkBoxChildren){
+        child.checked = false;
+      }
+    }
+  });
+  //전체선택 끝
+  ///////////////////////////
+  ///////////////////////////
+  //선택삭제 요청
+
+  let protocol;
+  let rootURL;
+  protocol = window.location.protocol;
+  rootURL = window.location.host;
+
+  let selectDeleteBtn = document.getElementById("delete_selected_btn");
+  selectDeleteBtn.addEventListener("click",async (e)=>{
+    //step1: delete를 수행할 url로 연결
+    const delURL = protocol+"//"+rootURL+"/admin/cs/faq/delete";
+    //Step2: articleIds로 체크된 aritlce의 번호를 담기
+    let articleIds = [];
+    for (const child of checkBoxChildren){
+      if(child.checked){
+        articleIds.push(child.value);
+      }
+    }
+    //step3 ajax로 요청보내기
+    let data = {articleIds};
+    let options = {
+      method:"POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(data)
+    };//options end
+
+    await fetch(delURL, options).then(()=>{
+      for (const id of articleIds){
+        let target = document.getElementById("row-"+id);
+        console.log("target : "+target.id);
+        target.remove();
+      }
+    });//await end
+
+  })//selectDeleteBtn End
 
 </script>
 

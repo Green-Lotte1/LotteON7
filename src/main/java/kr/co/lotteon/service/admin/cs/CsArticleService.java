@@ -1,10 +1,15 @@
 package kr.co.lotteon.service.admin.cs;
 
 
+import kr.co.lotteon.entity.admin.cs.ArticleStatus;
+import kr.co.lotteon.entity.admin.cs.CsArticleComment;
 import kr.co.lotteon.entity.admin.cs.CsArticleEntity;
+import kr.co.lotteon.repository.admin.cs.CsArticleCommentRepository;
 import kr.co.lotteon.repository.admin.cs.CsArticleRepository;
+import kr.co.lotteon.request.admin.cs.CsArticleCommentRequest;
 import kr.co.lotteon.request.admin.cs.CsArticleCreateRequestDTO;
 import kr.co.lotteon.request.admin.cs.CsArticlePageRequestDTO;
+import kr.co.lotteon.response.admin.cs.CsArticleCommentResponse;
 import kr.co.lotteon.response.admin.cs.CsArticlePageResponseDTO;
 import kr.co.lotteon.response.admin.cs.CsArticleResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +19,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +31,7 @@ import java.util.Optional;
 public class CsArticleService {
 
     private final CsArticleRepository csArticleRepository;
+    private final CsArticleCommentRepository commentRepository;
     private final ModelMapper modelMapper;
 
 /////////////////////////////////////////
@@ -94,9 +101,8 @@ public class CsArticleService {
 
     public CsArticleResponseDTO findById(int articleId){
 
-     Optional<CsArticleEntity> csArticleEntity = csArticleRepository.findById(articleId);
-
-        return csArticleEntity.get().respToEntity();
+        CsArticleEntity findArticle = csArticleRepository.findById(articleId).orElseThrow();
+        return new CsArticleResponseDTO(findArticle);
     }
 
 
@@ -108,5 +114,29 @@ public class CsArticleService {
     public void deleteArticle(int articleId){
         csArticleRepository.deleteById(articleId);
     }
+
+
+    @Transactional
+    public void insertComment(CsArticleCommentRequest commentRequest){
+        log.info("commentRequestEntity : "+commentRequest.toEntity());
+        commentRepository.save(commentRequest.toEntity());
+
+        // article 업데이트 처리 더티체킹으로
+        CsArticleEntity findArticle = csArticleRepository.findById(commentRequest.getArticleId()).orElseThrow();
+        findArticle.setStatus(ArticleStatus.답변완료);
+    }
+
+    public CsArticleCommentResponse selectComment(int articleId){
+        log.info("selectComment articleId:"+articleId);
+        CsArticleComment comment = commentRepository.findCommentByArticleId(articleId);
+        CsArticleCommentResponse response = comment.respToEntity();
+        return  response;
+    }
+
+//    public CsArticleCommentResponse findCommentByArticleId(int articleId){
+//        Optional<CsArticleComment> articleComment  =  commentRepository.findByArticleId(articleId);
+//        log.info("articleComment :"+articleComment);
+//        return articleComment.get().respToEntity();
+//    }
 
 }

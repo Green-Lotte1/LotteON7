@@ -35,6 +35,7 @@ public class ArticleDTO {
                 .uid(uid)
                 .regip(regip)
                 .rdate(LocalDateTime.now())
+
                 .build();
     }
 }
