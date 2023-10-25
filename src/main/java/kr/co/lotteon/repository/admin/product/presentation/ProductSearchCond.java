@@ -10,12 +10,14 @@ public class ProductSearchCond {
     private Integer prodNo;
     private String company;
     private String sellerName;
+    private Integer pageSize;
 
     @Builder
-    public ProductSearchCond(String prodName, Integer prodNo, String company, String sellerName) {
+    public ProductSearchCond(String prodName, Integer prodNo, String company, String sellerName,Integer pageSize) {
         this.prodName = prodName;
         this.prodNo = prodNo;
         this.company = company;
         this.sellerName = sellerName;
+        this.pageSize = pageSize;
     }
 }

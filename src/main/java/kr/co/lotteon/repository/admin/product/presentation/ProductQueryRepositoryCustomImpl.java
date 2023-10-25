@@ -41,7 +41,7 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
                         prodNoEq(searchCond.getProdNo())
                 )
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
+                .limit(searchCond.getPageSize())
                 .fetch();
         JPAQuery<ProductAdminListResponse> preCnt = query.select(Projections.constructor(ProductAdminListResponse.class,
                         productEntity)
@@ -56,7 +56,7 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
 
                 )
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(searchCond.getPageSize());
 
         return PageableExecutionUtils.getPage(content,pageable,preCnt::fetchCount);
     }
@@ -66,7 +66,7 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
     }
 
     private BooleanExpression sellerNameLike(String sellerName) {
-        return hasText(sellerName) ? productEntity.seller.name.like(sellerName) : null;
+        return hasText(sellerName) ? productEntity.seller.uid.contains(sellerName) : null;
     }
 
     private BooleanExpression prodNameLike(String prodName) {
