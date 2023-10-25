@@ -1,6 +1,7 @@
 package kr.co.lotteon.controller.product;
 
 import jakarta.servlet.http.HttpServletRequest;
+import kr.co.lotteon.dto.product.ProductDTO;
 import kr.co.lotteon.request.product.ProductCartRequest;
 import kr.co.lotteon.request.product.ProductOrderItemRequest;
 import kr.co.lotteon.response.product.ProductCartResponse;
@@ -63,14 +64,19 @@ public class ProductController {
 
     /* Product Order */
     @GetMapping("/order")
-    public String order(){
+    public String order(@Param("products") List<ProductDTO> products ){
+          log.info("productController getting /product/order : "+products);
+
         return "product/order";
     }
 
     @PostMapping ("/order")
-    public String order(@RequestBody String formInfo, ProductOrderItemRequest productOrderItemRequest){
+    public String order(@RequestBody String formInfo, ProductOrderItemRequest productOrderItemRequest, @RequestParam("products") List<ProductDTO> products ){
 
-        log.info(formInfo);
+            log.info("productController PostMapping /product/order : "+products);
+
+
+        log.info( "너는 누구?"+formInfo);
 
         return "product/order";
     }
