@@ -3,9 +3,11 @@ package kr.co.lotteon.controller.admin.cs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import kr.co.lotteon.request.admin.cs.CsArticleCommentRequest;
 import kr.co.lotteon.request.admin.cs.CsArticleCreateRequestDTO;
 import kr.co.lotteon.request.admin.cs.CsArticleMultiDeleteRequest;
 import kr.co.lotteon.request.admin.cs.CsArticlePageRequestDTO;
+import kr.co.lotteon.response.admin.cs.CsArticleCommentResponse;
 import kr.co.lotteon.response.admin.cs.CsArticlePageResponseDTO;
 import kr.co.lotteon.response.admin.cs.CsArticleResponseDTO;
 import kr.co.lotteon.service.admin.cs.CsArticleService;
@@ -128,10 +130,47 @@ public class AdminCsController {
 /*  admin/cs/qna  */
 ////////////////////////////////////////
 ///////////////////////////////////////
-    @GetMapping("/qna/list")
-    public String qna_list(){
-        return "admin/cs/qna/list";
+@GetMapping("/qna/list")
+public String qna_list(Model model, CsArticlePageRequestDTO pageRequestDTO){
+
+    pageRequestDTO.setCate("qna");
+    log.info("menu1 : "+pageRequestDTO.getMenu1());
+    log.info("menu2 : "+pageRequestDTO.getMenu2());
+    CsArticlePageResponseDTO pageResponseDTO = csArticleService.findByCate(pageRequestDTO);
+    int articleId = 108;
+    //CsArticleCommentResponse commentResponse = csArticleService.findCommentByArticleId(articleId);
+    //log.info("comment :" +commentResponse);
+    model.addAttribute("pageResponseDTO",pageResponseDTO);
+    model.addAttribute("menu1",pageRequestDTO.getMenu1());
+    model.addAttribute("menu2",pageRequestDTO.getMenu2());
+    return "admin/cs/qna/list";
+}
+
+@GetMapping("/qna/reply")
+public String qna_reply(@RequestParam("articleId") int articleId,Model model ){
+    CsArticleResponseDTO responseDTO   =  csArticleService.findById(articleId);
+
+    if(responseDTO.getStatus().equals("답변완료")){
+        log.info("답변완료 아티클 선택");
+        CsArticleCommentResponse commentResponse = csArticleService.selectComment(articleId);
+        log.info("답변출력 :"+commentResponse.getContent());
+        model.addAttribute("commentResponse", commentResponse);
     }
+
+    model.addAttribute("responseDTO",responseDTO);
+    return "admin/cs/qna/reply";
+}
+
+
+
+@PostMapping("/qna/reply")
+public String qna_reply(CsArticleCommentRequest commentRequest){
+    commentRequest.setRdate(LocalDateTime.now());
+    log.info("input : "+commentRequest.toString());
+    csArticleService.insertComment(commentRequest);
+    return "admin/cs/qna/reply";
+}
+
 
 
 

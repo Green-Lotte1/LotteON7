@@ -20,32 +20,42 @@
         </nav>
         <section class="reply">
           <article>
-            <form action="#" method="post">
+            <form th:action="@{/admin/cs/qna/reply}" method="post">
+              <input type="text" name="uid" th:value="${#authentication.principal}" />
+              <input type="text" name="articleId" th:value="${responseDTO?.articleId}" />
               <table>
                 <tbody>
                 <tr>
                   <td>유형</td>
                   <td>
-                    <p>회원 - 가입</p>
+                    <p>[[${responseDTO?.menu1}]] - [[${responseDTO?.menu2}]]</p>
                   </td>
                 </tr>
                 <tr>
                   <td>제목</td>
                   <td>
-                    <p>개인 회원과 법인 회원에 차이가 있나요?</p>
+                    <p>[[${responseDTO?.title}]]</p>
                   </td>
                 </tr>
                 <tr>
                   <td>내용</td>
                   <td>
-                    <p>개인회원은 본인인증, 법인회원은 사업자 등록번호를 기준으로 사업자 인증 후 가입 가능합니다.개인회원은 본인인증, 법인회원은 사업자 등록번호를 기준으로 사업자 인증 후 가입 가능합니다.개인회원은 본인인증, 법인회원은 사업자 등록번호를 기준으로 사업자 인증 후 가입 가능합니다.style 수정하기!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!</p>
+                    <p>[[${responseDTO?.content}]]</p>
                   </td>
                 </tr>
                 <tr>
                   <td>답변</td>
-                  <td>
-                    <textarea name="replyContent" placeholder="내용을 입력하세요." required>확인완료</textarea>
-                  </td>
+                    <th:block th:if="${responseDTO.status == '검토중'}" >
+                      <td>
+                          <textarea name="content" placeholder="내용을 입력하세요."></textarea>
+                      </td>
+                    </th:block>
+                    <th:block th:unless="${responseDTO.status == '검토중'}">
+                      <td>
+                        <textarea name="content" th:text="${commentResponse.content}"></textarea>
+                      </td>
+                    </th:block>
+
                 </tr>
                 </tbody>
               </table>
