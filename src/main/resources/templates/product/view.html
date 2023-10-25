@@ -386,13 +386,20 @@
         $('#sendForm').submit();
     })
 
-    /* kj view order, cart button click after
-    * 세션 잇는지 확인
-    *
-    * 카트클릭 -> 세션정보 있을시 장바구니 담을지 물어보기 없을시 로그인 유도 -> 이후 장바구니 담고 장바구니로 이동할지 물어보기
-    * 주문클릭 -> 세션정보 있을시 주문하시겠습니까? 물어보고 없을시 로그인 유도 -> 주문하기누르면 order페이지로 이동
-    *
-    * */
+    // 장바구니 버튼이 클릭될 때 form 데이터 전송
+    $(".cart").click(function(e) {
+        e.preventDefault();
+        /* 카트클릭 -> 세션정보 있을시 장바구니 담을지 물어보기 없을시 로그인 유도 -> 이후 장바구니 담고 장바구니로 이동할지 물어보기
+           주문클릭 -> 세션정보 있을시 주문하시겠습니까? 물어보고 없을시 로그인 유도 -> 주문하기누르면 order페이지로 이동*/
+        /* kj view order, cart button click after */
+        // if (${#authentication.name}!=null) {
+        //     $("#cartForm").submit();
+        //     confirm("")
+        // }else {
+        //
+        // }
+
+    });
 
 
 </script>

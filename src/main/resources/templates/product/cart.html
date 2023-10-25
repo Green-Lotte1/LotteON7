@@ -220,46 +220,22 @@
             let isChecked = $selectAllCheckbox.prop("checked");
 
             // 모든 개별 체크박스에 상태 적용
-            let selectChecked = $checkboxes.prop("checked", isChecked);
-            console.log(selectChecked)
+            $checkboxes.prop("checked", isChecked);
 
             // 업데이트 함수 호출
             updateTotal();
-
-            // 개별 체크박스가 클릭될 때 실행할 함수 정의
-            $checkboxes.click(function () {
-                // 개별 체크박스가 모두 선택되어 있는지 확인
-                let allChecked = true;
-                $checkboxes.each(function () {
-                    if (!$(this).prop("checked")) {
-                        allChecked = false;
-                    }
-                });
-
-                // selectAll 체크박스의 상태 업데이트
-                $selectAllCheckbox.prop("checked", allChecked);
-
-                // 업데이트 함수 호출
-                updateTotal();
-            });
-
         });
 
         // 개별 체크박스가 클릭될 때 실행할 함수 정의
         $checkboxes.click(function () {
-            // 개별 체크박스가 모두 선택되어 있는지 확인
-            let allChecked = true;
-            $checkboxes.each(function () {
-                if (!$(this).prop("checked")) {
-                    allChecked = false;
-                }
-            });
-
+            // 업데이트 함수 호출
             updateTotal();
         });
 
-            // 선택된 체크박스를 감지하고 합계 계산 및 표시를 업데이트하는 함수
+        // 선택된 체크박스를 감지하고 합계 계산 및 표시를 업데이트하는 함수
         function updateTotal() {
+            // 초기화
+            cartToOrder = [];
             var cartTotalCount = 0;
             var cartTotalPrice = 0;
             var cartTotalDiscount = 0;
@@ -267,34 +243,22 @@
             var cartTotalPoint = 0;
             var cartTotalOrderPrice = 0;
 
-                $(".chkbox:checked").each(function() {
-
-                    var count = parseFloat($(this).data("count"));
-                    var price = parseFloat($(this).data("price"));
-                    var discount = parseFloat($(this).data("discount"));
-                    var delivery = parseFloat($(this).data("delivery"));
-                    var point = parseFloat($(this).data("point"));
-                    var total = parseFloat($(this).data("total"));
-
-                    cartTotalCount += count;
-                    cartTotalPrice += (price*count);
-                    cartTotalDiscount += ((price * discount) / 100)*count;
-                    cartTotalDelivery += delivery;
-                    cartTotalPoint += point;
-                    cartTotalOrderPrice += total;
-                });
-
-                $("#cartTotalCount").text(cartTotalCount + "개");
-                $("#cartTotalPrice").text(cartTotalPrice.toLocaleString()+"원");
-                $("#cartTotalDiscount").text(cartTotalDiscount.toLocaleString()+"원");
-                $("#cartTotalDelivery").text(cartTotalDelivery.toLocaleString()+"원");
-                $("#cartTotalPoint").text(cartTotalPoint.toLocaleString()+"원");
-
-                var totalAmount = cartTotalOrderPrice + cartTotalDelivery;
-                $("#cartTotalOrderPrice").text(totalAmount.toLocaleString()+"원");
-
-            // 선택된 상품 정보를 배열로 저장
             $(".chkbox:checked").each(function() {
+                var count = parseFloat($(this).data("count"));
+                var price = parseFloat($(this).data("price"));
+                var discount = parseFloat($(this).data("discount"));
+                var delivery = parseFloat($(this).data("delivery"));
+                var point = parseFloat($(this).data("point"));
+                var total = parseFloat($(this).data("total"));
+
+                cartTotalCount += count;
+                cartTotalPrice += (price * count);
+                cartTotalDiscount += ((price * discount) / 100) * count;
+                cartTotalDelivery += delivery;
+                cartTotalPoint += point;
+                cartTotalOrderPrice += total;
+
+                // 선택된 상품 정보를 배열로 저장
                 var product = {
                     uid: $(this).siblings('[name="uid"]').val(),
                     count: $(this).data("count"),
@@ -303,18 +267,26 @@
                     delivery: $(this).data("delivery"),
                     point: $(this).data("point"),
                     total: $(this).data("total"),
-                    prodName : $(this).siblings('[name="prodName"]').val(),
-                    prodNo: $(this).siblings('[name="prodNo"]').val(), // prodNo 추가
-                    descript: $(this).siblings('[name="descript"]').val(), // descript 추가
-                    thumb1: $(this).siblings('[name="thumb1"]').val() // thumb2 추가
+                    prodName: $(this).siblings('[name="prodName"]').val(),
+                    prodNo: $(this).siblings('[name="prodNo"]').val(),
+                    descript: $(this).siblings('[name="descript"]').val(),
+                    thumb1: $(this).siblings('[name="thumb1"]').val()
                 };
                 cartToOrder.push(JSON.stringify(product));
-                $("input[name=formInfo]").val(cartToOrder);
-                console.log(cartToOrder)
-
             });
-        };
 
+            $("#cartTotalCount").text(cartTotalCount + "개");
+            $("#cartTotalPrice").text(cartTotalPrice.toLocaleString() + "원");
+            $("#cartTotalDiscount").text(cartTotalDiscount.toLocaleString() + "원");
+            $("#cartTotalDelivery").text(cartTotalDelivery.toLocaleString() + "원");
+            $("#cartTotalPoint").text(cartTotalPoint.toLocaleString() + "원");
+
+            var totalAmount = cartTotalOrderPrice + cartTotalDelivery;
+            $("#cartTotalOrderPrice").text(totalAmount.toLocaleString() + "원");
+
+            // 업데이트된 정보를 input에 저장
+            $("input[name=formInfo]").val(cartToOrder);
+        }
 
         // 주문하기 버튼이 클릭될 때 form 데이터 전송
         $("#orderBtn").click(function(e) {
@@ -326,19 +298,12 @@
             if (!confirmation) {
                 e.preventDefault();
                 return;
-            }else {
+            } else {
+                // cartToOrder 배열 초기화
+                cartToOrder = [];
                 $("#cartForm").submit();
             }
-
         });
-
-
-
     });
-
-
-
-
-
 </script>
 </html>

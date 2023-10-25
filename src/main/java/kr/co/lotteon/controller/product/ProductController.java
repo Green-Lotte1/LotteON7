@@ -68,7 +68,7 @@ public class ProductController {
     }
 
     @PostMapping ("/order")
-    public String order(@Param("formInfo") String formInfo, ProductOrderRequest productOrderRequest){
+    public String order(@RequestBody String formInfo, ProductOrderRequest productOrderRequest){
 
         log.info(formInfo);
 
