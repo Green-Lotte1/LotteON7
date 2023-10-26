@@ -7,17 +7,19 @@ import lombok.*;
 @NoArgsConstructor
 public class ProductSearchCond {
     private String prodName;
+    private String descript;
     private Integer prodNo;
     private String company;
     private String sellerName;
     private Integer pageSize;
 
     @Builder
-    public ProductSearchCond(String prodName, Integer prodNo, String company, String sellerName,Integer pageSize) {
+    public ProductSearchCond(String prodName, Integer prodNo, String company, String sellerName,Integer pageSize,String descript) {
         this.prodName = prodName;
-        this.prodNo = prodNo;
+        this.descript = descript;
         this.company = company;
         this.sellerName = sellerName;
         this.pageSize = pageSize;
+        this.prodNo = prodNo;
     }
 }
