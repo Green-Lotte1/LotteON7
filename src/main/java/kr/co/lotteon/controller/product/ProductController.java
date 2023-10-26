@@ -64,16 +64,16 @@ public class ProductController {
 
     /* Product Order */
     @GetMapping("/order")
-    public String order(@Param("products") List<ProductDTO> products ){
-          log.info("productController getting /product/order : "+products);
+    public String order( ){
+//          log.info("productController getting /product/order : "+products);
 
         return "product/order";
     }
 
     @PostMapping ("/order")
-    public String order(@RequestBody String formInfo, ProductOrderItemRequest productOrderItemRequest, @RequestParam("products") List<ProductDTO> products ){
+    public String order(@RequestBody String formInfo, ProductOrderItemRequest productOrderItemRequest ){
 
-            log.info("productController PostMapping /product/order : "+products);
+//            log.info("productController PostMapping /product/order : "+products);
 
 
         log.info( "너는 누구?"+formInfo);

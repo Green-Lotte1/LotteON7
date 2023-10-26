@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,16 +60,16 @@ public class ProductAPIController {
 
         return new ResponseEntity<Resource>(imgResource, httpHeaders, HttpStatus.OK);
     }
-
-    @PostMapping("/cart_to_order")
-//    public List<ProductDTO> cartToOrder(@RequestBody ProductOrderItemRequest productOrderItemRequest) {
-//    ajax로 내보내는 정보를 product/order에서 받기 위해서 product/order 주소로 보내주기 위해서 String으로 매서드를 변경해주고, return에 주소를 추가할 예정
-    public String cartToOrder(@RequestBody ProductOrderItemRequest productOrderItemRequest, Model model) {
-        log.info("[CART TO ORDER] order request : {}", Arrays.toString(productOrderItemRequest.getProducts().stream().toArray()));
-        List<ProductDTO> products = productOrderItemRequest.getProducts();
-        log.info("cart_to_order of  ProductAPIController :"+products.toString());
-        model.addAttribute("products",products);
-        //noti: redirectAttribute를 통해서 데이터를 내보내야함
-        return "redirect:/product/order?products"+products;
-    }
+//  /product/cart에서 넘어오는 products를 받음
+//    @PostMapping("/cart_to_order")
+////    public List<ProductDTO> cartToOrder(@RequestBody ProductOrderItemRequest productOrderItemRequest) {
+////    ajax로 내보내는 정보를 product/order에서 받기 위해서 product/order 주소로 보내주기 위해서 String으로 매서드를 변경해주고, return에 주소를 추가할 예정
+//    public String cartToOrder(@RequestBody ProductOrderItemRequest productOrderItemRequest, RedirectAttributes rttr) {
+//        log.info("[CART TO ORDER] order request : {}", Arrays.toString(productOrderItemRequest.getProducts().stream().toArray()));
+//        List<ProductDTO> products = productOrderItemRequest.getProducts();
+//        log.info("cart_to_order of  ProductAPIController :"+products.toString());
+//        rttr.addAttribute("products",products);
+//        //noti: redirectAttribute를 통해서 데이터를 내보내야함
+//        return "redirect:/product/order";
+//    }
 }

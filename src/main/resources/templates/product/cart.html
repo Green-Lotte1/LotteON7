@@ -127,6 +127,8 @@
                             <input type="hidden" name="prodNo" th:value="${productCart.prodNo }">
 
                             <input type="checkbox" name="chkbox" class="chkbox"
+                                   th:data-prodNo="${productCart.prodNo}"
+                                   th:data-cartNo="${productCart.cartNo}"
                                    th:data-price="${productCart.price}"
                                    th:data-count="${productCart.count}"
                                    th:data-discount="${productCart.discount}"
@@ -161,6 +163,10 @@
                 <div class="total">
                     <h2>전체합계</h2>
                     <table border="0">
+                        <tr>
+                            <td>상품번호</td>
+                            <td id="cartIds" >1</td>
+                        </tr>
                         <tr>
                             <td>상품수</td>
                             <td id="cartTotalCount">1</td>
@@ -274,7 +280,6 @@
                 };
                 cartToOrderItem.push(product);
             });
-
             $("#cartTotalCount").text(cartTotalCount + "개");
             $("#cartTotalPrice").text(cartTotalPrice.toLocaleString() + "원");
             $("#cartTotalDiscount").text(cartTotalDiscount.toLocaleString() + "원");
@@ -286,20 +291,20 @@
 
         }
 
-        const castProducts = async (data)=>{
-            //noti: 경로가 local로 되어 있는데, 배포된 이후에 작용하려면 경로 수정이 필요할 것 같음
-            const url = "http://localhost:8080/api/product/cart_to_order";
-            const payload = {"products": data}
-            await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload)
-            }).then(res => {
-                console.log(res);
-            });
-        }
+        // const castProducts = async (data)=>{
+        //     //noti: 경로가 local로 되어 있는데, 배포된 이후에 작용하려면 경로 수정이 필요할 것 같음
+        //     const url = "http://localhost:8080/api/product/cart_to_order";
+        //     const payload = {"products": data}
+        //     await fetch(url, {
+        //         method: "POST",
+        //         headers: {
+        //             "Content-Type": "application/json",
+        //         },
+        //         body: JSON.stringify(payload)
+        //     }).then(res => {
+        //         console.log(res);
+        //     });
+        // }
 
         // 주문하기 버튼이 클릭될 때 form 데이터 전송
         $("#orderBtn").click(async function(e) {
@@ -312,10 +317,16 @@
                 e.preventDefault();
                 return;
             } else {
-                // cartToOrderItem 배열 초기화
-                await castProducts(cartToOrderItem);
+                // // cartToOrderItem 배열 초기화
+                // await castProducts(cartToOrderItem);
+                //
+                // cartToOrderItem = [];
+                let cartIds = [];
 
-                cartToOrderItem = [];
+                for(const child of checkBoxChildren){
+
+                }
+
                 $("#cartForm").submit();
 
             }
