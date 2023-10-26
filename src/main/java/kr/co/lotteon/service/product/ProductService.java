@@ -98,4 +98,12 @@ public class ProductService {
 
     }
 
+    public ProductCartResponse productOrderList(int cartNo){
+        log.info("Service cartNo : "+cartNo);
+        ProductCartResponse response = productCartRepository.findCartByCartId(cartNo) ;
+            log.info("productOrderList : "+response);
+            log.info("productOrderList : "+response);
+        return response;
+    }
+
 }
