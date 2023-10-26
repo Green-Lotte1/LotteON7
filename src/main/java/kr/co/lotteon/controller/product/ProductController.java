@@ -4,13 +4,19 @@ import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.dto.product.ProductDTO;
 import kr.co.lotteon.request.product.ProductCartRequest;
 import kr.co.lotteon.request.product.ProductOrderItemRequest;
+import kr.co.lotteon.request.product.ProductSearchFieldRequest2;
+import kr.co.lotteon.response.admin.product.PageInfoResponse;
 import kr.co.lotteon.response.product.ProductCartResponse;
 import kr.co.lotteon.response.product.ProductListResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
 import kr.co.lotteon.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -90,7 +96,15 @@ public class ProductController {
 
     /* Product Search */
     @GetMapping("/search")
-    public String search(){
+    public String search(Model model, @ModelAttribute("searchCondField2")ProductSearchFieldRequest2 searchCondField2, @PageableDefault(sort = "prodNo", direction = Sort.Direction.DESC,size = 10)Pageable pageable){
+        log.info("[PRODUCT SEARCH LIST] searchCond : {}",searchCondField2);
+        Page<ProductListResponse> results = productService.getPagedProductsWithConds(searchCondField2.toSearchCond(),pageable);
+        List<ProductListResponse> products = results.getContent();
+
+        model.addAttribute("products",products);
+        log.info("[PRODUCT LIST] page info : {}", new PageInfoResponse(results.getTotalElements(), pageable));
+        model.addAttribute("pageInfo", new PageInfoResponse(results.getTotalElements(),pageable));
+
         return "product/search";
     }
 }
