@@ -1,5 +1,8 @@
 package kr.co.lotteon.controller.product;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.dto.product.ProductDTO;
 import kr.co.lotteon.request.product.ProductCartRequest;
@@ -18,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.Console;
 import java.io.IOError;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 
 @Log4j2
@@ -64,8 +69,19 @@ public class ProductController {
 
     /* Product Order */
     @GetMapping("/order")
-    public String order( ){
-//          log.info("productController getting /product/order : "+products);
+    public String order(@RequestParam("jsonData")String jsonData ) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<ProductCartResponse> productOrderCarts = objectMapper.readValue(jsonData, new TypeReference<List<ProductCartResponse>>() {});
+        List<ProductCartResponse> productOrderList = new ArrayList<>();
+        for(ProductCartResponse productCartResponse : productOrderCarts){
+            log.info("cartNo : "+productCartResponse.getCartNo());
+            if(productCartResponse.getCartNo() != 0){
+                ProductCartResponse response =
+                        productService.productOrderList(productCartResponse.getCartNo());
+                log.info(" controller order response plz  :"+response);
+            }
+
+        }
 
         return "product/order";
     }
