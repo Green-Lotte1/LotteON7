@@ -17,6 +17,7 @@ import lombok.extern.log4j.Log4j2;
 public class ProductCartResponse {
     private Member uid;
     private int prodNo;
+    private int cartNo;
     private String prodName;
     private String descript;
     private int count;
@@ -31,6 +32,7 @@ public class ProductCartResponse {
     public ProductCartResponse(ProductCartEntity productCartEntity) {
         this.uid = productCartEntity.getUid();
         this.prodNo = productCartEntity.getProduct().getProdNo();
+        this.cartNo = productCartEntity.getCartNo();
         this.prodName = productCartEntity.getProduct().getProdName();
         this.descript = productCartEntity.getProduct().getDescript();
         this.count = productCartEntity.getCount();
