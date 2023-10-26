@@ -1,6 +1,7 @@
 package kr.co.lotteon.repository.product;
 
 import kr.co.lotteon.entity.product.ProductCartEntity;
+import kr.co.lotteon.response.product.ProductCartResponse;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,10 @@ public interface ProductCartRepository extends JpaRepository<ProductCartEntity,I
             "join fetch c.product p " +
             "where u.uid = :uid order by c.cartNo DESC")
     List<ProductCartEntity> findCartById(@Param("uid") String uid);
+
+    @Query("select c from  ProductCartEntity c  " +
+            "join fetch  c.product p  " +
+            "where c.cartNo = :cartNo")
+    public ProductCartResponse findCartByCartId(@Param("cartNo") int cartNo);
 
 }
