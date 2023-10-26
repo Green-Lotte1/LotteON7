@@ -11,27 +11,35 @@ import org.springframework.data.domain.Sort;
 
 @Slf4j
 @Data
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class CsArticlePageRequestDTO {
 
-    @Builder.Default
     //인스턴스를 만들 때 특정 필드를 특정 값으로 초기화할 때 사용한다.
-    private int pg = 1;
+    private int pg;
 
-    @Builder.Default
-    private int size = 10;
+    private int size;
 
     private String cate;
 
-    @Builder.Default
-    private String menu1 = "0";
+    private String menu1;
 
-    @Builder.Default
-    private String menu2 = "0";
+    private String menu2;
 
+    public CsArticlePageRequestDTO() {
+        this.pg = 1;
+        this.size = 10;
+        this.cate = "0";
+        this.menu1 = "0";
+        this.menu2 = "0";
+    }
 
+    @Builder
+    public CsArticlePageRequestDTO(int pg, int size, String cate, String menu1, String menu2) {
+        this.pg = pg;
+        this.size = size;
+        this.cate = cate;
+        this.menu1 = menu1;
+        this.menu2 = menu2;
+    }
 
     public Pageable getPageable(String sort){
         return PageRequest.of(this.pg-1, this.size, Sort.by(sort).descending());

@@ -16,6 +16,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
@@ -60,9 +61,14 @@ public class ProductAPIController {
     }
 
     @PostMapping("/cart_to_order")
-    public List<ProductDTO> cartToOrder(@RequestBody ProductOrderItemRequest productOrderItemRequest) {
+//    public List<ProductDTO> cartToOrder(@RequestBody ProductOrderItemRequest productOrderItemRequest) {
+//    ajax로 내보내는 정보를 product/order에서 받기 위해서 product/order 주소로 보내주기 위해서 String으로 매서드를 변경해주고, return에 주소를 추가할 예정
+    public String cartToOrder(@RequestBody ProductOrderItemRequest productOrderItemRequest, Model model) {
         log.info("[CART TO ORDER] order request : {}", Arrays.toString(productOrderItemRequest.getProducts().stream().toArray()));
-
-        return productOrderItemRequest.getProducts();
+        List<ProductDTO> products = productOrderItemRequest.getProducts();
+        log.info("cart_to_order of  ProductAPIController :"+products.toString());
+        model.addAttribute("products",products);
+        //noti: redirectAttribute를 통해서 데이터를 내보내야함
+        return "redirect:/product/order?products"+products;
     }
 }

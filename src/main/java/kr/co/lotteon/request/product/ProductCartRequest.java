@@ -1,5 +1,6 @@
 package kr.co.lotteon.request.product;
 
+import jakarta.validation.constraints.NotEmpty;
 import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.entity.product.ProductCartEntity;
 import kr.co.lotteon.entity.product.ProductEntity;
@@ -9,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 @Data
 @Slf4j
 public class ProductCartRequest {
-
+    @NotEmpty(message = "왜 uid가 비었을까요?")
     String uid;
     int prodNo;
     String prodName;

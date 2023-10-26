@@ -1,7 +1,6 @@
 package kr.co.lotteon.controller.admin.product;
 
 import jakarta.servlet.http.HttpServletRequest;
-import kr.co.lotteon.repository.admin.product.presentation.ProductSearchCond;
 import kr.co.lotteon.request.admin.product.ProductCreateRequest;
 import kr.co.lotteon.request.admin.product.ProductSearchFieldRequest;
 import kr.co.lotteon.response.admin.product.PageInfoResponse;
@@ -42,8 +41,11 @@ public class AdminProductController {
         return "redirect:/admin/index";
     }
 
+    /**
+     * TODO: paging size 조절 하기 클라이언트에서 처리한다. => 상태유지는 어떻게 할 것인가
+     */
     @GetMapping("/list")
-    public String products(Model model, @ModelAttribute("searchCondField") ProductSearchFieldRequest searchCondField, @PageableDefault(sort = "prodNo",direction = Sort.Direction.DESC) Pageable pageable) {
+    public String products(Model model, @ModelAttribute("searchCondField") ProductSearchFieldRequest searchCondField, @PageableDefault(sort = "prodNo",direction = Sort.Direction.DESC,size = 10) Pageable pageable) {
         log.info("[ADMIN PRODUCT LIST] searchCond : {}",searchCondField);
         Page<ProductAdminListResponse> results = productAdminService.getPagedProductsWithConds(searchCondField.toSearchCond(), pageable);
         List<ProductAdminListResponse> products = results.getContent();

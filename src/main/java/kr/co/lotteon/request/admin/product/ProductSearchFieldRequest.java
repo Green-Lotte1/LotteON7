@@ -5,17 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.domain.Pageable;
 
 @Getter
 @Setter
 @ToString(of={"searchField","searchValue"})
-public class ProductSearchFieldRequest {
+public class ProductSearchFieldRequest  {
     private String searchField;
     private String searchValue;
-
+    private Integer pageSize;
     public ProductSearchFieldRequest() {
         this.searchField = "none";
-        this.searchValue = "none";
+        this.pageSize = 10;
     }
 
     public ProductSearchCond toSearchCond() {
@@ -32,6 +33,9 @@ public class ProductSearchFieldRequest {
         } else if (searchField.equals("sellerName")) {
             productBuilder.sellerName(searchValue);
         }
+
+        productBuilder.pageSize(pageSize);
+
         return productBuilder.build();
     }
 }
