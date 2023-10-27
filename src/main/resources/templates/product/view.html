@@ -120,8 +120,8 @@
                         <input type="hidden" name="discount" th:value="${product.discount }">
                         <input type="hidden" name="point" th:value="${product.point }">
                         <input type="hidden" name="delivery" th:value="${product.delivery}">
-                        <input type="hidden" name="thumb2" th:value="${product.thumb2 }"> <!-- total가격 + delivery가격 -->
-                        <input type="hidden" name="total" value="">
+                        <input type="hidden" name="thumb2" th:value="${product.thumb2 }">
+                        <input type="hidden" name="total" value=""><!-- dis_price * count-->
                     </form>
                     <div class="button">
                         <input type="button" class="cart"  value="장바구니"/>
