@@ -37,13 +37,5 @@ public class ProductListResponse {
         this.score = product.getScore();
         this.thumb1 = product.getThumb1().getStoredFileName();
 
-        log.info("prodNo : "+prodNo);
-        log.info("prodName : " + prodName);
-        log.info("descript : " + descript);
-        log.info("seller : " + seller);
-        log.info("price : " + price);
-        log.info("discount : " + discount);
-        log.info("delivery : " + delivery);
-        log.info("thumb1 : " + thumb1);
     }
 }

@@ -128,7 +128,6 @@
 
                             <input type="checkbox" name="chkbox" class="chkbox" th:value="${productCart.cartNo}"
                                    th:data-prodNo="${productCart.prodNo}"
-                                   th:data-cartNo="${productCart.cartNo}"
                                    th:data-price="${productCart.price}"
                                    th:data-count="${productCart.count}"
                                    th:data-discount="${productCart.discount}"
@@ -157,7 +156,7 @@
 
                     </tbody>
                 </table>
-                <input type="button" name="del" value="선택삭제">
+                <input type="button" name="selectDel" id="selectDel" value="선택삭제">
 
                 <!-- 장바구니 전체합계 -->
                 <div class="total">
@@ -209,6 +208,7 @@
 
     $(document).ready(function (){
 
+
         let protocol;
         let rootURL;
         protocol = window.location.protocol;
@@ -230,20 +230,6 @@
 
 
         });
-        let click = $("#orderBtn").click(function(e) {
-            e.preventDefault();
-            let cartIds = [];
-            for (const child of checkBoxChildren) {
-                if (child.checked) {
-
-                    let cartNo = child.value;
-                    const data = {
-                        "cartNo" : cartNo
-                    }
-                    console.log("data :"+data.toLocaleString());
-                    console.log("data2 :"+data.toString());
-                    cartIds.push(data);
-                }
             }
             console.log(cartIds);
 
