@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 <html lang="en">
 <head th:replace="~{fragments/head::product_head}">
 </head>
@@ -104,14 +106,17 @@
                         <th>상품명</th>
                         <th>총수량</th>
                         <th>판매가</th>
+                        <th>할인율</th>
+                        <th>구매금액</th>
+                        <th>적립포인트</th>
                         <th>배송비</th>
                         <th>소계</th>
                     </tr>
                     </thead>
                     <tbody>
-                        <th:block th:each="orderList : ${orderLists}">
-                            <tr>
-                                <td>
+                        <th:block  th:each="orderList : ${orderLists}">
+                            <tr class="orderList" >
+                                <td><!--상품명-->
                                     <article>
                                         <a href="#">
                                             <img th:src="@{/api/admin/product/images/{storedName}(storedName=${orderList.thumb1})}" alt="thumb1"/>
@@ -122,10 +127,13 @@
                                         </div>
                                     </article>
                                 </td>
-                                <td><th:block th:text="${orderList.count}" /></td>
-                                <td><th:block th:text="${orderList.price}" /></td>
-                                <td>무료배송</td>
-                                <td><th:block th:text="${orderList.total}" /></td>
+                                <td  class="count" th:text="${orderList.count}" ></td><!--총수량-->
+                                <td  class="price" th:text="${orderList.price}" ></td><!--판매가-->
+                                <td  class="discount" th:text="${orderList.discount}" ></td><!--할인율-->
+                                <td  class="disPrice" th:text="${((orderList.price*100)-(orderList.price*orderList.discount))/100}" ></td><!--구매금액-->
+                                <td  class="point" th:text="${orderList.point}" ></td><!--적립포인트-->
+                                <td  class="delivery" th:text="${orderList.delivery}" ></td><!--배송비-->
+                                <td  class="total" th:text="${orderList.total}" ></td><!--소계-->
                             </tr>
                         </th:block>
                     </tbody>
@@ -136,28 +144,28 @@
                     <h2>최종결제 정보</h2>
                     <table border="0">
                         <tr>
-                            <td>총</td>
-                            <td>2 건</td>
+                            <td>총 개수 </td>
+                            <td id="orderTotalCount"> </td>
                         </tr>
                         <tr>
                             <td>상품금액</td>
-                            <td>27,000</td>
+                            <td id="orderTotalOriPrice" ></td>
                         </tr>
                         <tr>
                             <td>할인금액</td>
-                            <td>-1,000</td>
+                            <td id="orderTotalDiscountPrice" ></td>
                         </tr>
                         <tr>
                             <td>배송비</td>
-                            <td>0</td>
+                            <td id="orderTotalDelivery"></td>
                         </tr>
                         <tr>
-                            <td>포인트 할인</td>
-                            <td>-1000</td>
+                            <td>포인트 사용금액</td>
+                            <td id="usedPoint" ></td>
                         </tr>
                         <tr>
                             <td>전체주문금액</td>
-                            <td>25,000</td>
+                            <td id="finalOrderPrice" ></td>
                         </tr>
                     </table>
                     <input type="button" name="" value="결제하기">
@@ -182,7 +190,7 @@
                             <td>우편번호</td>
                             <td>
                                 <input type="text" name="zip" th:value="${orderUser.zip}" />
-                                <input type="button" value="검색"/>
+                                <input type="button" onclick="findAddr()" value="우편번호 찾기"><br>
                             </td>
                         </tr>
                         <tr>
@@ -205,7 +213,7 @@
                     <h1>할인정보</h1>
 
                     <div>
-                        <p>현재 포인트 : <span><th:block th:value="${orderUser.point}"></th:block></span>점</p>
+                        <p>현재 포인트 : <span th:text="${orderUser.point}"></span>점</p>
                         <label>
                             <input type="text" name="point" />점
                             <input type="button" value="적용"/>
@@ -262,4 +270,109 @@
     <button type="button" id="top">상단이동</button>
 </div>
 </body>
+
+
+<script>
+
+    $(document).ready(function (){
+
+     //클래스를 저장
+     let orderLists = document.getElementsByClassName("orderList");//orderList클래스 정의
+        console.log("orderLists :"+orderLists.length);
+     let Counts =  document.getElementsByClassName("count");<!--총수량-->
+     let OriPrices =  document.getElementsByClassName("price");<!--판매가-->
+     let discounts =  document.getElementsByClassName("discount");<!--할인율-->
+     let disPrices =  document.getElementsByClassName("disPrice");<!--구매금액-->
+     let Deliveries =  document.getElementsByClassName("delivery");<!--배송비-->
+     let TotalPrices =  document.getElementsByClassName("total");<!--소개-->
+     //킄래스들의 값을 저장해 줄 변수 생성
+     let totalCount =0 ;
+     let totalOriPrice =0 ;
+     let totalDisPrice =0 ;
+     let totalDelivery =0 ;
+     let totalPrice =0 ;
+     for(var i =0; i<orderLists.length;i++){
+         //클래스의 변수를 저장
+         let count = parseInt(Counts[i].textContent.trim(),10);
+         let oriPrice = parseInt(OriPrices[i].textContent.trim(),10)*count;
+         let discount = parseInt(discounts[i].textContent.trim(),10);
+         let disPrice = oriPrice*(discount/100);
+         console.log("disPrice :"+disPrice);
+         let delivery = parseInt(Deliveries[i].textContent.trim(),10);
+         let price = parseInt(TotalPrices[i].textContent.trim(),10);
+         totalCount+=count;
+         totalOriPrice+=oriPrice;
+         totalDisPrice+=disPrice;
+         totalDelivery+=delivery;
+         totalPrice+=price;
+     }
+        console.log("totalCount :"+totalCount);
+        console.log("totalOriPrice :"+totalOriPrice);
+        console.log("totalDisPrice :"+totalDisPrice);
+        console.log("totalDelivery :"+totalDelivery);
+        console.log("totalPrice :"+totalPrice);
+
+
+        $("#orderTotalCount").text(totalCount+"개");<!--총 개수-->
+        $("#orderTotalOriPrice").text(totalOriPrice+"원");<!--상품금액-->
+        $("#orderTotalDiscountPrice").text(totalDisPrice+"원");<!--할인금액-->
+        $("#orderTotalDelivery").text(totalDelivery+"원");<!--배송비-->
+        $("#usedPoint").text(0+"원");<!--사용포인트-->
+        $("#finalOrderPrice").text(totalPrice+totalDelivery+"원");<!--전체주문금액-->
+
+    });
+
+
+    function findAddr() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = ''; // 주소 변수
+                var extraAddr = ''; // 참고항목 변수
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                if (data.userSelectedType === 'R') {
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if (data.buildingName !== '' && data.apartment === 'Y') {
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if (extraAddr !== '') {
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    document.getElementById("info").value = extraAddr;
+
+                } else {
+                    document.getElementById("info").value = '';
+                }
+
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                document.getElementById('zip').value = data.zonecode;
+                document.getElementById("addr1").value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                document.getElementById("addr2").focus();
+            }
+        }).open();
+    }
+
+
+
+</script>
+
 </html>
