@@ -78,9 +78,9 @@ public class ProductService {
             ProductEntity curProdNo = cart.getProduct();
             if (curProdNo.getProdNo() == checkProdNo) {
                 cart.setCount(cart.getCount()+productCartRequest.getCount());
-                cart.setPrice(cart.getPrice()+productCartRequest.getPrice());
-                cart.setPoint(cart.getPoint()+productCartRequest.getPoint());
-                cart.setTotal(cart.getTotal()+productCartRequest.getTotal());
+                cart.setPrice(cart.getPrice());
+                cart.setPoint(cart.getPoint());
+                cart.setTotal(cart.getTotal());
                 return; // 업데이트 완료
             }
         }

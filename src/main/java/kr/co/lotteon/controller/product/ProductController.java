@@ -81,15 +81,15 @@ public class ProductController {
         List<ProductCartResponse> productOrderList = new ArrayList<>();
         for(ProductCartResponse productCartResponse : productOrderCarts){
             log.info("cartNo : "+productCartResponse.getCartNo());
-            if(productCartResponse.getCartNo() != 0){
-                ProductCartResponse response =
-                        productService.productOrderList(productCartResponse.getCartNo());
-                log.info(" controller order response plz  :"+response);
-            }
+//            if(productCartResponse.getCartNo() != 0){
+//                ProductCartResponse response =
+//                        productService.productOrderList(productCartResponse.getCartNo());
+//                log.info(" controller order response plz  :"+response);
+//            }
 
         }
-
-        return "product/order";
+            return null;
+//        return "product/order";
     }
 
     @PostMapping ("/order")
