@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -17,5 +19,12 @@ public class MemberService {
     public Member registerMember(Member preMember) {
         preMember.setPass(passwordEncoder.encode(preMember.getPass()));
         return memberRepository.save(preMember);
+    }
+
+    //member조회(point조회 및 주소를 가져오기 위해서 필요함)
+    public Member findMember(Member uid){
+        String userid = uid.getUid();
+        Optional<Member> member = memberRepository.findById(userid);
+        return member.get();
     }
 }

@@ -184,7 +184,7 @@
                         </tr>
                         <tr>
                             <td>전체주문금액</td>
-                            <td id="cartTotalOrderPrice">26,000</td>
+                            <td id="cartTotalOrderPrice"></td>
                         </tr>
                     </table>
                     <input type="button" name="orderBtn" id="orderBtn" value="주문하기">
@@ -258,13 +258,17 @@
                 var delivery = parseFloat($(this).data("delivery"));
                 var point = parseFloat($(this).data("point"));
                 var total = parseFloat($(this).data("total"));
-
+                console.log("total"+total);
                 cartTotalCount += count;
                 cartTotalPrice += (price * count);
+                console.log("cartTotalPrice :"+cartTotalPrice);
+                console.log("discount :"+discount);
                 cartTotalDiscount += ((price * discount) / 100) * count;
+                console.log("cartotalDiscount :"+cartTotalDiscount);
                 cartTotalDelivery += delivery;
                 cartTotalPoint += point;
-                cartTotalOrderPrice += (total * count )+delivery;
+                console.log("합계 :"+cartTotalOrderPrice);
+                cartTotalOrderPrice += (cartTotalPrice-cartTotalDiscount);
 
                 // var product = {
                 //     uid: $(this).siblings('[name="uid"]').val(),

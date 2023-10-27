@@ -80,7 +80,7 @@ public class ProductService {
                 cart.setCount(cart.getCount()+productCartRequest.getCount());
                 cart.setPrice(cart.getPrice());
                 cart.setPoint(cart.getPoint());
-                cart.setTotal(cart.getTotal());
+                cart.setTotal(cart.getTotal()+cart.getTotal());
                 return; // 업데이트 완료
             }
         }
@@ -103,15 +103,15 @@ public class ProductService {
 
     }
 
+    //cart에 들어있는 상품을 order로 보내는 repository
     public ProductCartResponse productOrderList(int cartNo){
         log.info("Service cartNo : "+cartNo);
         ProductCartResponse response = productCartRepository.findCartByCartId(cartNo) ;
             log.info("productOrderList : "+response);
-            log.info("productOrderList : "+response);
         return response;
 
     }
-  
+
       public Page<ProductListResponse> getPagedProductsWithConds(ProductSearchCond2 searchCond2, Pageable pageable){
         return productQueryRepository2.searchWithPageAndCond(searchCond2, pageable);
     }

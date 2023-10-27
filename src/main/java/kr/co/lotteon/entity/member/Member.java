@@ -2,10 +2,7 @@ package kr.co.lotteon.entity.member;
 
 import jakarta.persistence.*;
 import kr.co.lotteon.entity.product.ProductCartEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
@@ -16,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 @Table(name = "km_member")
+@ToString(exclude = "carts")//toString으로 데이터를 확인하기 위해서 추가함//exclude="carts"를 통해서 carts에서는 toStirng을 사용하지 못하게 막응
 public class Member {
     @Id
     private String uid;

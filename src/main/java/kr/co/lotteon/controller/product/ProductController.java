@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import kr.co.lotteon.dto.product.ProductDTO;
+import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.request.product.ProductCartRequest;
 import kr.co.lotteon.request.product.ProductOrderItemRequest;
 import kr.co.lotteon.request.product.ProductSearchFieldRequest2;
@@ -12,6 +13,7 @@ import kr.co.lotteon.response.admin.product.PageInfoResponse;
 import kr.co.lotteon.response.product.ProductCartResponse;
 import kr.co.lotteon.response.product.ProductListResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
+import kr.co.lotteon.service.member.MemberService;
 import kr.co.lotteon.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -37,6 +39,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
+    private final MemberService memberService;
 
     /* Product List */
     @GetMapping("/list/{prodCate2Id}")
@@ -75,21 +78,29 @@ public class ProductController {
 
     /* Product Order */
     @GetMapping("/order")
-    public String order(@RequestParam("jsonData")String jsonData ) throws JsonProcessingException {
+    public String order(@RequestParam("jsonData")String jsonData, Model model ) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
+        Member uid = null;
         List<ProductCartResponse> productOrderCarts = objectMapper.readValue(jsonData, new TypeReference<List<ProductCartResponse>>() {});
         List<ProductCartResponse> productOrderList = new ArrayList<>();
         for(ProductCartResponse productCartResponse : productOrderCarts){
             log.info("cartNo : "+productCartResponse.getCartNo());
-//            if(productCartResponse.getCartNo() != 0){
-//                ProductCartResponse response =
-//                        productService.productOrderList(productCartResponse.getCartNo());
-//                log.info(" controller order response plz  :"+response);
-//            }
+            if(productCartResponse.getCartNo() != 0){
+                ProductCartResponse response = productService.productOrderList(productCartResponse.getCartNo());
+                log.info("response :"+response);
+                uid =response.getUid();
+
+                productOrderList.add(response);
+            }
 
         }
-            return null;
-//        return "product/order";
+        assert uid != null;
+         Member orderUser =  memberService.findMember(uid);
+         log.info("orderUser :"+orderUser.toString());
+        log.info("orderLists : "+productOrderList.toString());
+        model.addAttribute("orderLists",productOrderList);
+        model.addAttribute("orderUser",orderUser);
+        return "product/order";
     }
 
     @PostMapping ("/order")

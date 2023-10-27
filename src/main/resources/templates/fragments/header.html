@@ -58,15 +58,18 @@
         </div>
         <div sec:authorize="hasRole('USER')">
             <a th:href="@{/member/mypage}" th:text="|${#authentication.principal} 님 환영합니다.|"></a>
+            <a th:href="@{/product/cart/{uid}(uid=${#authentication.principal})}">장바구니</a>
             <a th:href="@{/member/logout}">로그아웃</a>
         </div>
         <div sec:authorize="hasRole('SELLER')">
             <a th:href="@{/member/mypage}" th:text="|${#authentication.principal} 님 환영합니다.|"></a>
+            <a th:href="@{/product/cart/{uid}(uid=${#authentication.principal})}">장바구니</a>
             <a th:href="@{/admin/index}">관리자 페이지</a>
             <a th:href="@{/member/logout}">로그아웃</a>
         </div>
         <div sec:authorize="hasRole('ADMIN')">
             <a th:href="@{/member/mypage}" th:text="|${#authentication.principal} 님 환영합니다.|"></a>
+            <a th:href="@{/product/cart/{uid}(uid=${#authentication.principal})}">장바구니</a>
             <a th:href="@{/admin/index}">관리자 페이지</a>
             <a th:href="@{/member/logout}">로그아웃</a>
         </div>
