@@ -116,4 +116,7 @@ public class ProductService {
         return productQueryRepository2.searchWithPageAndCond(searchCond2, pageable);
     }
 
+    public void deleteCart(int cartNo){
+        productCartRepository.deleteById(cartNo);
+    }
 }

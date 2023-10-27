@@ -4,7 +4,7 @@ import kr.co.lotteon.repository.product.presentation.ProductSearchCond2;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
+// KJ ADMIN PRODUCT 복사 부분 -> PRODUCT SEARCH에 맞춰 변경 필요!!!
 @Getter
 @Setter
 @ToString(of={"searchField","searchValue"})

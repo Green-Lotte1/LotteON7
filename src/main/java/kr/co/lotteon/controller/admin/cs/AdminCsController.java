@@ -119,6 +119,7 @@ public class AdminCsController {
         //json 요청을 받아와서 자바 객체로 포팅
         CsArticleMultiDeleteRequest dto = om.readValue(sb.toString(), CsArticleMultiDeleteRequest.class);
         for(Integer id: dto.getArticleIds()){
+            log.info("id :"+id);
             csArticleService.deleteArticle(id);
         }
         return "redirect:/admin/cs/notice/list";
