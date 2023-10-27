@@ -707,7 +707,7 @@
 
 /* 장바구니 */
 #product > .cart {}
-#product > .cart > form > input[name=del] {
+#product > .cart > form > input[name=selectDel] {
   border-color: #bdbdbd;
   border-bottom-color: #828282;
   background: #fafafa;
@@ -820,7 +820,7 @@
 #product > .cart > form > .total > table td:last-child {
   text-align: right;
 }
-#product > .cart > form > .total > input[type=submit] {
+#product > .cart > form > .total > #orderBtn {
   width: 100%;
   height: 56px;
   font-size: 26px;

@@ -116,9 +116,9 @@
                         <td colspan="7">장바구니에 상품이 없습니다.</td> <!-- kj if cartNo == 0 -->
                     </tr>
                     <th:block th:each="productCart : ${productCarts}">
-                    <tr>
+                    <tr class="row" th:id="row-+${productCart.cartNo}" >
                         <td>
-                            <input type="text" name="formInfo" th:value="0"/>
+                            <input type="hidden" name="formInfo" th:value="0"/>
 
                             <input type="hidden" name="uid" th:value="${#authentication.name}">
                             <input type="hidden" name="prodName" th:value="${productCart.prodName }">
@@ -260,21 +260,12 @@
                 var point = parseFloat($(this).data("point"));
                 var total = parseFloat($(this).data("total"));
 
-                console.log("count : "+count );
-                console.log("price(원래가격) : "+price );
-                console.log("discount : "+discount );
-                console.log("delivery : "+delivery );
-                console.log("point : "+point );
-                console.log("total(할인된가격) : "+total );
-
                 cartTotalCount += count;
                 cartTotalPrice += (price * count);
-                console.log("cartTotalPrice :"+cartTotalPrice);
                 cartTotalDiscount += ((price * discount) / 100) * count;
                 cartTotalDelivery += delivery;
                 cartTotalPoint += point;
                 cartTotalOrderPrice += total;
-                console.log("합계 :"+cartTotalOrderPrice);
 
                 // var product = {
                 //     uid: $(this).siblings('[name="uid"]').val(),
@@ -298,47 +289,73 @@
 
             var totalAmount = cartTotalOrderPrice + cartTotalDelivery;
             $("#cartTotalOrderPrice").text(totalAmount.toLocaleString() + "원");
-            console.log("cartTotalOrderPrice : "+totalAmount);
 
         }
 
-        /* order 작업 */
+        /* delete 작업 */
         let protocol;
         let rootURL;
         protocol = window.location.protocol;
         rootURL = window.location.host;
-
-        let selectDel = $("#selectDel").click(async function (e) {
-            e.preventDefault();
+        //
+        // let selectDel = $("#selectDel").click(async function (e) {
+        //     e.preventDefault();
+        //     let cartNos = [];
+        //     for (const child of $checkboxes) {
+        //         if (child.checked) {
+        //
+        //             let cartNo = child.value;
+        //             const data = {
+        //                 "cartNo": cartNo,
+        //             }
+        //             cartNos.push(data);
+        //         }
+        //     }
+        //     const castProducts = async (data)=> {
+        //         const url = protocol + "//" + rootURL + "/product/cart/delete/"+uid;
+        //         const payload = {"cartNos": data}
+        //         await fetch(url, {
+        //             method: "POST",
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //             },
+        //             body: JSON.stringify(payload)
+        //         }).then(res => {
+        //             console.log("c2 : then ?" + res);
+        //         });
+        //     }
+        //     console.log(" cartNos : " + cartNos);
+        //     await castProducts();
+        //
+        //     });//await end
+        //
+        //
+        // });
+        let selectDel = document.getElementById("selectDel");
+        selectDel.addEventListener("click",async (e)=> {
+            const delURL = protocol + "//" + rootURL + "/product/cart/delete/" + uid;
             let cartNos = [];
             for (const child of $checkboxes) {
                 if (child.checked) {
-
-                    let cartNo = child.value;
-                    const data = {
-                        "cartNo": cartNo,
-                    }
-                    cartNos.push(data);
+                    cartNos.push(child.value);
                 }
             }
 
-            // const castProducts = async (data)=> {
-            //     const url = protocol + "//" + rootURL + "/product/cart/delete/"+uid;
-            //     const payload = {"cartNos": data}
-            //     await fetch(url, {
-            //         method: "POST",
-            //         headers: {
-            //             "Content-Type": "application/json",
-            //         },
-            //         body: JSON.stringify(payload)
-            //     }).then(res => {
-            //         console.log("c2 : then ?" + res);
-            //     });
-            // }
-            // console.log(" cartNos : " + cartNos);
-            // await castProducts();
-            //
-            // });//await end
+            let data = {cartNos};
+            let options = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            };
+            await fetch(delURL, options).then(() => {
+                for (const cartNo of cartNos) {
+                    let target = document.getElementById("row-" + cartNo);
+                    console.log("target : " + target.id);
+                    target.remove();
+                }
+            });
+        })
+
 
 
         });
@@ -363,9 +380,6 @@
             const jsonData = JSON.stringify(cartIds);
             window.location.href = protocol + "//" + rootURL + "/product/order?jsonData=" + encodeURIComponent(jsonData);
             return false;
-
-        });
-
 
     }); //document.ready end
 </script>

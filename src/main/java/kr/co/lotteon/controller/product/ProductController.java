@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.co.lotteon.dto.product.ProductDTO;
 import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.request.admin.cs.CsArticleMultiDeleteRequest;
+import kr.co.lotteon.request.product.ProductCartMultiDeleteRequest;
 import kr.co.lotteon.request.product.ProductCartRequest;
 import kr.co.lotteon.request.product.ProductOrderItemRequest;
 import kr.co.lotteon.request.product.ProductSearchFieldRequest2;
@@ -94,44 +95,25 @@ public class ProductController {
     }
 
     @PostMapping("/cart/delete/{uid}")
-    public   String deleteCart(@PathVariable("uid") String uid,HttpServletRequest req, HttpServletResponse resp) throws IOException {
-
+    public String deleteCart(@PathVariable("uid") String uid, HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        log.info("cartDelete" );
         BufferedReader br = req.getReader();
         StringBuilder sb = new StringBuilder();
         String cur;
         while ((cur = br.readLine()) != null) {
             sb.append(cur);
         }
-
+        log.info("sb :"+sb);
         ObjectMapper om = new ObjectMapper();
         //json 요청을 받아와서 자바 객체로 포팅
-        CsArticleMultiDeleteRequest dto = om.readValue(sb.toString(), CsArticleMultiDeleteRequest.class);
-//        for(Integer id: dto.getArticleIds()){
-//            csArticleService.deleteArticle(id);
-//        }
+        ProductCartMultiDeleteRequest productCartMultiDeleteRequest = om.readValue(sb.toString(), ProductCartMultiDeleteRequest.class);
+        for(Integer cartNo: productCartMultiDeleteRequest.getCartNos()){
+            log.info("deleteCart : "+cartNo);
+            productService.deleteCart(cartNo);
+        }
 
-        log.info("productController deleteCart uid : " +uid);
-        return null;
-//        return "redirect:/cart/{uid}";
+        return "redirect:/cart/{uid}";
     }
-
-//    @PostMapping("/notice/delete")
-//    public String notice_delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-//        BufferedReader br = req.getReader();
-//        StringBuilder sb = new StringBuilder();
-//        String cur;
-//        while ((cur = br.readLine()) != null) {
-//            sb.append(cur);
-//        }
-//
-//        ObjectMapper om = new ObjectMapper();
-//        //json 요청을 받아와서 자바 객체로 포팅
-//        CsArticleMultiDeleteRequest dto = om.readValue(sb.toString(), CsArticleMultiDeleteRequest.class);
-//        for(Integer id: dto.getArticleIds()){
-//            csArticleService.deleteArticle(id);
-//        }
-//        return "redirect:/admin/cs/notice/list";
-//    };
 
     /* Product Order */
     @GetMapping("/order")
@@ -180,7 +162,7 @@ public class ProductController {
 
     /* Product Search */
     @GetMapping("/search")
-    public String search(Model model, @ModelAttribute("searchCondField2")ProductSearchFieldRequest2 searchCondField2, @PageableDefault(sort = "prodNo", direction = Sort.Direction.DESC,size = 10)Pageable pageable){
+    public String search(Model model, @ModelAttribute("searchCondField2") ProductSearchFieldRequest2 searchCondField2, @PageableDefault(sort = "prodNo", direction = Sort.Direction.DESC,size = 10)Pageable pageable){
         log.info("[PRODUCT SEARCH LIST] searchCond : {}",searchCondField2);
         Page<ProductListResponse> results = productService.getPagedProductsWithConds(searchCondField2.toSearchCond(),pageable);
         List<ProductListResponse> products = results.getContent();
