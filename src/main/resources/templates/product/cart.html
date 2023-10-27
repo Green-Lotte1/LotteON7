@@ -208,7 +208,6 @@
 
     $(document).ready(function (){
 
-
         let protocol;
         let rootURL;
         protocol = window.location.protocol;
@@ -225,11 +224,22 @@
                 for(const child of checkBoxChildren){
                     child.checked = false;
                 }
-
             }
-
-
         });
+        let click = $("#orderBtn").click(function(e) {
+            e.preventDefault();
+            let cartIds = [];
+            for (const child of checkBoxChildren) {
+                if (child.checked) {
+
+                    let cartNo = child.value;
+                    const data = {
+                        "cartNo" : cartNo
+                    }
+                    console.log("data :"+data.toLocaleString());
+                    console.log("data2 :"+data.toString());
+                    cartIds.push(data);
+                }
             }
             console.log(cartIds);
 
@@ -237,8 +247,9 @@
             window.location.href= protocol+"//"+rootURL+"/product/order?jsonData="+encodeURIComponent(jsonData);
             return false;
         });
-    });
 
+
+    }); //document.ready end
 
     // $(document).ready(function() {
     //
