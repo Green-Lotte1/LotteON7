@@ -114,5 +114,6 @@ public class ProductService {
   
       public Page<ProductListResponse> getPagedProductsWithConds(ProductSearchCond2 searchCond2, Pageable pageable){
         return productQueryRepository2.searchWithPageAndCond(searchCond2, pageable);
+    }
 
 }
