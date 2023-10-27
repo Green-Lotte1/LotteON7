@@ -203,6 +203,7 @@
 <script th:inline="javascript">
 
     $(document).ready(function (){
+        var uid = $('input[name="uid"]').val();
 
         // 선택 상품을 담을 배열
         var selectCartDelete = [];
@@ -292,6 +293,7 @@
 
             var totalAmount = cartTotalOrderPrice + cartTotalDelivery;
             $("#cartTotalOrderPrice").text(totalAmount.toLocaleString() + "원");
+
         }
 
         /* order 작업 */
@@ -299,6 +301,41 @@
         let rootURL;
         protocol = window.location.protocol;
         rootURL = window.location.host;
+
+        let selectDel = $("#selectDel").click(async function (e) {
+            e.preventDefault();
+            let cartNos = [];
+            for (const child of $checkboxes) {
+                if (child.checked) {
+
+                    let cartNo = child.value;
+                    const data = {
+                        "cartNo": cartNo,
+                    }
+                    cartNos.push(data);
+                }
+            }
+
+            // const castProducts = async (data)=> {
+            //     const url = protocol + "//" + rootURL + "/product/cart/delete/"+uid;
+            //     const payload = {"cartNos": data}
+            //     await fetch(url, {
+            //         method: "POST",
+            //         headers: {
+            //             "Content-Type": "application/json",
+            //         },
+            //         body: JSON.stringify(payload)
+            //     }).then(res => {
+            //         console.log("c2 : then ?" + res);
+            //     });
+            // }
+            // console.log(" cartNos : " + cartNos);
+            // await castProducts();
+            //
+            // });//await end
+
+
+        });
 
         let click = $("#orderBtn").click(function (e) {
             e.preventDefault();
@@ -320,7 +357,9 @@
             const jsonData = JSON.stringify(cartIds);
             window.location.href = protocol + "//" + rootURL + "/product/order?jsonData=" + encodeURIComponent(jsonData);
             return false;
+
         });
+
 
     }); //document.ready end
 </script>

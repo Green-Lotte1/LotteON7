@@ -80,7 +80,7 @@ public class ProductService {
                 cart.setCount(cart.getCount()+productCartRequest.getCount());
                 cart.setPrice(cart.getPrice());
                 cart.setPoint(cart.getPoint());
-                cart.setTotal(cart.getTotal()+cart.getTotal());
+                cart.setTotal(cart.getTotal()+productCartRequest.getTotal());
                 return; // 업데이트 완료
             }
         }

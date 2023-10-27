@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import kr.co.lotteon.dto.product.ProductDTO;
 import kr.co.lotteon.entity.member.Member;
+import kr.co.lotteon.request.admin.cs.CsArticleMultiDeleteRequest;
 import kr.co.lotteon.request.product.ProductCartRequest;
 import kr.co.lotteon.request.product.ProductOrderItemRequest;
 import kr.co.lotteon.request.product.ProductSearchFieldRequest2;
@@ -26,6 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.BufferedReader;
 import java.io.Console;
 import java.io.IOError;
 import java.io.IOException;
@@ -61,11 +64,25 @@ public class ProductController {
 
     /* Product Cart */
     @GetMapping("/cart/{uid}")
-    public String cart(@PathVariable("uid") String uid, Model model){
+    public String cart(@PathVariable("uid") String uid, Model model) throws JsonProcessingException {
+        // Cart Select
         List<ProductCartResponse> productCarts = productService.findCart(uid);
         model.addAttribute("productCarts",productCarts);
+
+//        // Cart Delete
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        List<ProductCartResponse> productCartResponses = objectMapper.readValue(jsonData, new TypeReference<List<ProductCartResponse>>() {});
+//        productService.delete
+
         return "product/cart";
     }
+//    @GetMapping("/cart")
+//    public String cart(@RequestParam("jsonData")String jsonData ) throws JsonProcessingException {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        List<ProductCartResponse> productCartResponses = objectMapper.readValue(jsonData, new TypeReference<List<ProductCartResponse>>() {});
+//
+//        return "redirect:/product/cart";
+//    }
 
     @PostMapping("/cart/{uid}")
     public   String cart(@PathVariable("uid") String uid, ProductCartRequest productCartRequest) throws IOException {
@@ -75,6 +92,46 @@ public class ProductController {
 
         return "redirect:/product/cart/{uid}";
     }
+
+    @PostMapping("/cart/delete/{uid}")
+    public   String deleteCart(@PathVariable("uid") String uid,HttpServletRequest req, HttpServletResponse resp) throws IOException {
+
+        BufferedReader br = req.getReader();
+        StringBuilder sb = new StringBuilder();
+        String cur;
+        while ((cur = br.readLine()) != null) {
+            sb.append(cur);
+        }
+
+        ObjectMapper om = new ObjectMapper();
+        //json 요청을 받아와서 자바 객체로 포팅
+        CsArticleMultiDeleteRequest dto = om.readValue(sb.toString(), CsArticleMultiDeleteRequest.class);
+//        for(Integer id: dto.getArticleIds()){
+//            csArticleService.deleteArticle(id);
+//        }
+
+        log.info("productController deleteCart uid : " +uid);
+        return null;
+//        return "redirect:/cart/{uid}";
+    }
+
+//    @PostMapping("/notice/delete")
+//    public String notice_delete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+//        BufferedReader br = req.getReader();
+//        StringBuilder sb = new StringBuilder();
+//        String cur;
+//        while ((cur = br.readLine()) != null) {
+//            sb.append(cur);
+//        }
+//
+//        ObjectMapper om = new ObjectMapper();
+//        //json 요청을 받아와서 자바 객체로 포팅
+//        CsArticleMultiDeleteRequest dto = om.readValue(sb.toString(), CsArticleMultiDeleteRequest.class);
+//        for(Integer id: dto.getArticleIds()){
+//            csArticleService.deleteArticle(id);
+//        }
+//        return "redirect:/admin/cs/notice/list";
+//    };
 
     /* Product Order */
     @GetMapping("/order")
