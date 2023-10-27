@@ -259,17 +259,22 @@
                 var delivery = parseFloat($(this).data("delivery"));
                 var point = parseFloat($(this).data("point"));
                 var total = parseFloat($(this).data("total"));
-                console.log("total"+total);
+
+                console.log("count : "+count );
+                console.log("price(원래가격) : "+price );
+                console.log("discount : "+discount );
+                console.log("delivery : "+delivery );
+                console.log("point : "+point );
+                console.log("total(할인된가격) : "+total );
+
                 cartTotalCount += count;
                 cartTotalPrice += (price * count);
                 console.log("cartTotalPrice :"+cartTotalPrice);
-                console.log("discount :"+discount);
                 cartTotalDiscount += ((price * discount) / 100) * count;
-                console.log("cartotalDiscount :"+cartTotalDiscount);
                 cartTotalDelivery += delivery;
                 cartTotalPoint += point;
+                cartTotalOrderPrice += total;
                 console.log("합계 :"+cartTotalOrderPrice);
-                cartTotalOrderPrice += (cartTotalPrice-cartTotalDiscount);
 
                 // var product = {
                 //     uid: $(this).siblings('[name="uid"]').val(),
@@ -293,6 +298,7 @@
 
             var totalAmount = cartTotalOrderPrice + cartTotalDelivery;
             $("#cartTotalOrderPrice").text(totalAmount.toLocaleString() + "원");
+            console.log("cartTotalOrderPrice : "+totalAmount);
 
         }
 
