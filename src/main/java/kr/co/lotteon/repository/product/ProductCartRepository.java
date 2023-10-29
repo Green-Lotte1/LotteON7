@@ -20,6 +20,6 @@ public interface ProductCartRepository extends JpaRepository<ProductCartEntity,I
     @Query("select c from  ProductCartEntity c  " +
             "join fetch  c.product p  " +
             "where c.cartNo = :cartNo")
-    public ProductCartResponse findCartByCartId(@Param("cartNo") int cartNo);
+     ProductCartResponse findCartByCartId(@Param("cartNo") int cartNo);
 
 }

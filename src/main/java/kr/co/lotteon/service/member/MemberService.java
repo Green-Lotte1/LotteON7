@@ -27,4 +27,10 @@ public class MemberService {
         Optional<Member> member = memberRepository.findById(userid);
         return member.get();
     }
+
+    public Member findById(String uid){
+
+        Member member = memberRepository.findById(uid).orElseThrow();
+        return member;
+    }
 }

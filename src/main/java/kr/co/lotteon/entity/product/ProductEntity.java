@@ -3,10 +3,7 @@ package kr.co.lotteon.entity.product;
 import jakarta.persistence.*;
 import kr.co.lotteon.entity.file.UploadFile;
 import kr.co.lotteon.entity.member.Member;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
