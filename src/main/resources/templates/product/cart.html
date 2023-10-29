@@ -187,7 +187,7 @@
                             <td id="cartTotalOrderPrice"></td>
                         </tr>
                     </table>
-                    <input type="button" name="orderBtn" id="orderBtn" value="주문하기">
+                    <input type="button" name="orderBtn" id="orderBtn" value="주문하기" />
                 </div>
 
             </form>
@@ -358,29 +358,27 @@
 
 
 
-        });
+         $("#orderBtn").click(function (e) {
+             e.preventDefault();
+             let cartIds = [];
+             for (const child of $checkboxes) {
+                 if (child.checked) {
 
-        let click = $("#orderBtn").click(function (e) {
-            e.preventDefault();
-            let cartIds = [];
-            for (const child of $checkboxes) {
-                if (child.checked) {
+                     let cartNo = child.value;
+                     const data = {
+                         "cartNo": cartNo
+                     }
+                     console.log("data :" + data.toLocaleString());
+                     console.log("data2 :" + data.toString());
+                     cartIds.push(data);
+                 }
+             }
+             console.log(" cartIdes : " + cartIds);
 
-                    let cartNo = child.value;
-                    const data = {
-                        "cartNo": cartNo
-                    }
-                    console.log("data :" + data.toLocaleString());
-                    console.log("data2 :" + data.toString());
-                    cartIds.push(data);
-                }
-            }
-            console.log(" cartIdes : " + cartIds);
-
-            const jsonData = JSON.stringify(cartIds);
-            window.location.href = protocol + "//" + rootURL + "/product/order?jsonData=" + encodeURIComponent(jsonData);
-            return false;
-
+             const jsonData = JSON.stringify(cartIds);
+             window.location.href = protocol + "//" + rootURL + "/product/order?jsonData=" + encodeURIComponent(jsonData);
+             return false;
+         });
     }); //document.ready end
 </script>
 </html>

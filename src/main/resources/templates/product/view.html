@@ -121,11 +121,12 @@
                         <input type="hidden" name="point" th:value="${product.point }">
                         <input type="hidden" name="delivery" th:value="${product.delivery}">
                         <input type="hidden" name="thumb2" th:value="${product.thumb2 }">
+                        <input type="hidden" name="thumb1" th:value="${product.thumb1 }">
                         <input type="hidden" name="total" value=""><!-- dis_price * count-->
                     </form>
                     <div class="button">
                         <input type="button" class="cart"  value="장바구니"/>
-                        <input type="button" class="order" value="구매하기"/>
+                        <input type="button"  class="order" id="orderBtn" value="구매하기"/>
                     </div>
                 </div>
             </article>
@@ -373,11 +374,18 @@
 
 
 
-
-    $('.order').on('click', function (e) {
-        e.preventDefault()
-        $('#sendForm').submit();
-    })
+    let ordBtn = document.getElementById("orderBtn");
+    ordBtn.addEventListener('click', function (e){
+        let protocol;
+        let rootURL;
+        protocol = window.location.protocol;
+        rootURL = window.location.host;
+        alert("click");
+            e.preventDefault();
+            $('#sendForm').attr('action','/product/order')
+                .attr('method','post')
+                .submit();
+    });
 
 
     $('.cart').on('click', function (e) {

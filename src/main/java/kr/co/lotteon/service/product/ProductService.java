@@ -1,18 +1,21 @@
 package kr.co.lotteon.service.product;
 
+import kr.co.lotteon.dto.product.ProductDTO;
 import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.entity.product.ProductCartEntity;
 import kr.co.lotteon.entity.product.ProductEntity;
+import kr.co.lotteon.entity.product.ProductOrderEntity;
+import kr.co.lotteon.entity.product.ProductOrderItemEntity;
 import kr.co.lotteon.repository.admin.product.ProductRepository;
 import kr.co.lotteon.repository.member.MemberRepository;
-import kr.co.lotteon.repository.product.ProductCartRepository;
-import kr.co.lotteon.repository.product.ProductListRepository;
-import kr.co.lotteon.repository.product.ProductViewRepository;
+import kr.co.lotteon.repository.product.*;
 import kr.co.lotteon.repository.product.presentation.ProductQueryRepository2;
 import kr.co.lotteon.repository.product.presentation.ProductSearchCond2;
 import kr.co.lotteon.request.product.ProductCartRequest;
+import kr.co.lotteon.request.product.ProductOrderRequest;
 import kr.co.lotteon.response.product.ProductCartResponse;
 import kr.co.lotteon.response.product.ProductListResponse;
+import kr.co.lotteon.response.product.ProductOrderItemResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -24,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -40,6 +44,8 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final MemberRepository memberRepository;
     private final ModelMapper modelMapper;
+    private final ProductOrderProgressRepository orderProgressRepository;
+    private final ProductOrderItemRepository orderItemRepository;
 
     /* Product List */
     public List<ProductListResponse> findProductsByCate2(Integer prodCate2Id){
@@ -105,12 +111,49 @@ public class ProductService {
 
     //cart에 들어있는 상품을 order로 보내는 repository
     public ProductCartResponse productOrderList(int cartNo){
-        log.info("Service cartNo : "+cartNo);
-        ProductCartResponse response = productCartRepository.findCartByCartId(cartNo) ;
-            log.info("productOrderList : "+response);
-        return response;
-
+        return productCartRepository.findCartByCartId(cartNo);
     }
+
+    @Transactional
+    public List<ProductOrderItemResponse> productOrderProgress(ProductOrderRequest orderRequest,String[]cartNo){
+        log.info("proService : "+orderRequest.toString());
+        List<ProductOrderItemResponse> orderItems = new ArrayList<>();
+
+        //ordNo 받기
+        ProductOrderEntity ordNo = orderProgressRepository.save(modelMapper.map(orderRequest, ProductOrderEntity.class));
+
+        //회원정보 가져오기
+        Member findMember = memberRepository.findById(orderRequest.getOrdUid()).orElseThrow();
+        log.info("findMember : "+findMember);
+        //point변동사항 입력
+        findMember.setPoint(findMember.getPoint() +ordNo.getSavePoint()-ordNo.getUsedPoint());
+        //불려온 맴버의 원래 포인트 + 적립 포인트 - 사용한 포인트
+        memberRepository.save(findMember);
+
+        for(String no : cartNo){
+
+            //cart정보 받아오기
+            ProductCartResponse cartResponse = productCartRepository.findCartByCartId(Integer.parseInt(no));
+            //제품정보 받아오기
+            ProductEntity product = productRepository.findById(cartResponse.getProdNo()).orElseThrow();
+            //cart정보를 토대로 OrderItemEntity 가져오기
+            ProductOrderItemEntity orderItem = cartResponse.toOrderItemEntity(ordNo);
+
+            //complete에 내보낼 물건의 정보 저장
+             ProductOrderItemResponse productOrderItemResponse  =  new ProductOrderItemResponse(cartResponse);
+             log.info("productOrderItemResponse :"+productOrderItemResponse);
+            orderItems.add(productOrderItemResponse);
+
+             //orderItem 테이블에 정보 입력
+            orderItemRepository.save(orderItem);
+
+            //카트에 들어있는 상품 제거
+            productCartRepository.deleteById(Integer.parseInt(no));
+        }
+
+        return  orderItems;
+    }
+
 
       public Page<ProductListResponse> getPagedProductsWithConds(ProductSearchCond2 searchCond2, Pageable pageable){
         return productQueryRepository2.searchWithPageAndCond(searchCond2, pageable);

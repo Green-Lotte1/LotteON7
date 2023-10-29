@@ -18,8 +18,19 @@ import java.time.LocalDateTime;
 public class ProductOrderItemEntity {
 
     @Id
-    private int ordNo;  // order 테이블 외래키 annotation 확인
-    private int prodNo; // product 테이블 외래키 annotation 확인
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="ordItem_id")
+    private int ordItemId;
+
+    @ManyToOne
+    @JoinColumn(name="ordNo")
+    private ProductOrderEntity ordNo;  // order 테이블 외래키 annotation 확인
+
+    @ManyToOne
+    @JoinColumn(name="prodNo")
+    private ProductEntity prodNo; // product 테이블 외래키 annotation 확인
+
+
     private int count;
     private int price;
     private int discount;

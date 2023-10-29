@@ -8,13 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.co.lotteon.dto.product.ProductDTO;
 import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.request.admin.cs.CsArticleMultiDeleteRequest;
-import kr.co.lotteon.request.product.ProductCartMultiDeleteRequest;
-import kr.co.lotteon.request.product.ProductCartRequest;
-import kr.co.lotteon.request.product.ProductOrderItemRequest;
-import kr.co.lotteon.request.product.ProductSearchFieldRequest2;
+import kr.co.lotteon.request.product.*;
 import kr.co.lotteon.response.admin.product.PageInfoResponse;
 import kr.co.lotteon.response.product.ProductCartResponse;
 import kr.co.lotteon.response.product.ProductListResponse;
+import kr.co.lotteon.response.product.ProductOrderItemResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
 import kr.co.lotteon.service.member.MemberService;
 import kr.co.lotteon.service.product.ProductService;
@@ -34,7 +32,9 @@ import java.io.Console;
 import java.io.IOError;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Log4j2
@@ -59,6 +59,7 @@ public class ProductController {
     public String view(@PathVariable("prodNo") Integer prodNo, Model model){
         ProductViewResponse productViewResponse = productService.findView(prodNo);
         log.info("ProductController : "+prodNo);
+        log.info("ProductController view : "+productViewResponse.toString());
         model.addAttribute("product",productViewResponse);
         return "product/view";
     }
@@ -116,8 +117,10 @@ public class ProductController {
     }
 
     /* Product Order */
+    //장바구니를 통해서 보낼 때
     @GetMapping("/order")
     public String order(@RequestParam("jsonData")String jsonData, Model model ) throws JsonProcessingException {
+
         ObjectMapper objectMapper = new ObjectMapper();
         Member uid = null;
         List<ProductCartResponse> productOrderCarts = objectMapper.readValue(jsonData, new TypeReference<List<ProductCartResponse>>() {});
@@ -142,14 +145,17 @@ public class ProductController {
         return "product/order";
     }
 
+    //상품보기에서 바로 구매하기를 누를 때
     @PostMapping ("/order")
-    public String order(@RequestBody String formInfo, ProductOrderItemRequest productOrderItemRequest ){
-
-//            log.info("productController PostMapping /product/order : "+products);
-
-
-        log.info( "너는 누구?"+formInfo);
-
+    public String order( ProductCartResponse cartResponse, Model model  ){
+    log.info("cart view: "+cartResponse.toString());
+    cartResponse.setCartNo(0);
+         Member orderUser = memberService.findById(cartResponse.getUid().getUid());
+        List<ProductCartResponse> productOrderList = new ArrayList<>();
+         productOrderList.add(cartResponse);
+         log.info("productOrderList :"+ Arrays.toString(productOrderList.toArray()));
+        model.addAttribute("orderLists",productOrderList);
+        model.addAttribute("orderUser",orderUser);
         return "product/order";
     }
 
@@ -159,6 +165,36 @@ public class ProductController {
     public String complete(){
         return "product/complete";
     }
+
+    //장바구니에서 물건이 보내질 때
+    @PostMapping("/complete")
+    public String complete(ProductOrderRequest orderRequest, @RequestParam(name = "cartNo") String[] cartNo, ProductCartResponse pcresponse  ,Model model){
+        log.info("pcresponse :"+pcresponse.toString());
+        orderRequest.setOrdDate(LocalDateTime.now());//날짜를 받지 못해서 임의로 넣어줌
+
+        log.info("orderRequest :"+orderRequest.toString());
+
+        List<ProductOrderItemResponse>  orderItems = new ArrayList<>();
+        if (cartNo.length > 0) {
+            if (cartNo[0].equals("0")) {
+                orderItems.add(new ProductOrderItemResponse(pcresponse));
+
+            }else {
+                orderItems  = productService.productOrderProgress(orderRequest, cartNo);
+            }
+        }
+
+        log.info("orderItems :"+orderItems.toString());
+        Member orderUser  = memberService.findById(orderRequest.getOrdUid());
+        model.addAttribute("orderInfo",orderRequest);
+        model.addAttribute("orderItems",orderItems);
+        model.addAttribute("orderUser",orderUser);
+
+        return "/product/complete";
+    }
+
+
+
 
     /* Product Search */
     @GetMapping("/search")
