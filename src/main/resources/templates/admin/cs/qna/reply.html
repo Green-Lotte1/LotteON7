@@ -52,6 +52,7 @@
                     </th:block>
                     <th:block th:if="${responseDTO?.status == '답변완료'}">
                       <td style="font-weight: bold" >
+                        <p style="color: blue">답변완료</p>
                         <textarea name="content" th:text="${commentResponse?.content}"></textarea>
                       </td>
                     </th:block>
@@ -62,7 +63,7 @@
               <div>
                 <a href="#" class="btnDelete" id="remove">삭제</a>
                 <input type="submit" class="btnSubmit" value="답변등록">
-                <a href="#" class="btnList">목록</a>
+                <a th:href="@{/admin/cs/qna/list}" class="btnList">목록</a>
               </div>
             </form>
           </article>

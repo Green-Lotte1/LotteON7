@@ -352,8 +352,9 @@
          }
 
          //사용할 포인트를 입력할 때
+        let curPoint =0 ;
         $('#usePoint').change(function (e){
-            let curPoint = $('#curPoint').attr("value");//현재 포인트
+            curPoint = $('#curPoint').attr("value");//현재 포인트
             usingPoint = parseInt($(this).val(),10);//입력한 포인트
             console.log("usedPoint INPUT :"+usingPoint);
         });//usePont end
@@ -364,7 +365,7 @@
                     alert("사용가능한 포인트를 초과하였습니다.");
                     $('#usePoint').val("");
                     usingPoint=0;
-                }else if(usedPoint<5000){
+                }else if(usingPoint<5000){
                     alert("5000점 이상부터 사용할 수 있습니다.");
                     $('#usePoint').val("");
                     usingPoint=0;
