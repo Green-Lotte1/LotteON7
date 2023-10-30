@@ -14,10 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -45,8 +42,8 @@ public class AdminProductController {
      * TODO: paging size 조절 하기 클라이언트에서 처리한다. => 상태유지는 어떻게 할 것인가
      */
     @GetMapping("/list")
-    public String products(Model model, @ModelAttribute("searchCondField") ProductSearchFieldRequest searchCondField, @PageableDefault(sort = "prodNo",direction = Sort.Direction.DESC,size = 10) Pageable pageable) {
-        log.info("[ADMIN PRODUCT LIST] searchCond : {}",searchCondField);
+    public String products(Model model, @ModelAttribute("searchCondField") ProductSearchFieldRequest searchCondField, @PageableDefault(sort = "prodNo", direction = Sort.Direction.DESC, size = 10) Pageable pageable) {
+        log.info("[ADMIN PRODUCT LIST] searchCond : {}", searchCondField);
         Page<ProductAdminListResponse> results = productAdminService.getPagedProductsWithConds(searchCondField.toSearchCond(), pageable);
         List<ProductAdminListResponse> products = results.getContent();
 
@@ -54,5 +51,11 @@ public class AdminProductController {
         log.info("[ADMIN PRODUCT LIST] page info : {}", new PageInfoResponse(results.getTotalElements(), pageable));
         model.addAttribute("pageInfo", new PageInfoResponse(results.getTotalElements(), pageable));
         return "admin/product/list";
+    }
+
+    @GetMapping("/delete/{productId}")
+    public String deleteProduct(@PathVariable("productId") Integer productId) {
+        productAdminService.deleteProduct(productId);
+        return "redirect:/admin/product/list";
     }
 }
