@@ -40,6 +40,7 @@
                     </div>
                     <div class="pageSizeController">
                         <select name="pageSizeSelections" id="pageSizeSelect">
+                            <option value="15" th:selected="${searchCondField.pageSize == 10}" >10</option>
                             <option value="15" th:selected="${searchCondField.pageSize == 15}" >15</option>
                             <option value="20" th:selected="${searchCondField.pageSize == 20}" >20</option>
                             <option value="25" th:selected="${searchCondField.pageSize == 25}" >25</option>
@@ -72,7 +73,7 @@
                                 <td th:text="${product.sellerName}">홍길동</td>
                                 <td th:text="${product.hit}">126</td>
                                 <td>
-                                    <a href="#">[삭제]</a>
+                                    <a th:href="@{/admin/product/delete/{productId}(productId=${product.prodNo})}">[삭제]</a>
                                     <a href="#">[수정]</a>
                                 </td>
                             </tr>
@@ -123,7 +124,9 @@
             const myUrl = protocol + "//" + rootURL;
             let searchField = document.getElementById("search_field");
             let searchValue = document.getElementById("search_value");
-            window.location.href = myUrl + "/admin/product/list?page=0&" + "size="+[[${searchCondField.pageSize}]] +"&searchField=" + searchField.value + "&searchValue=" + searchValue.value;
+            let pageSizeSelect = document.getElementById("pageSizeSelect");
+            let pageSize = pageSizeSelect.value;
+            window.location.href = myUrl + "/admin/product/list?page=0&" + "size="+pageSize +"&searchField=" + searchField.value + "&searchValue=" + searchValue.value;
         })
         // 선택 삭제 할때 모든 product선택하는 토글 체크 박스
         const allCheckBox = document.getElementById("checkboxAll");
