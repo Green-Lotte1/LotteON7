@@ -70,11 +70,6 @@ public class ProductQueryRepositoryCustom2Impl implements ProductQueryRepository
 
         return PageableExecutionUtils.getPage(content,pageable,preCnt::fetchCount);
     }
-
-
-
-
-
     /**
      * OrderSpecifier로 정렬 기준과 순서를 맞춘다.
      */
