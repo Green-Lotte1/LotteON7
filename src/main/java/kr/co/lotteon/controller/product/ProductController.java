@@ -190,7 +190,7 @@ public class ProductController {
         model.addAttribute("orderItems",orderItems);
         model.addAttribute("orderUser",orderUser);
 
-        return "/product/complete";
+        return "product/complete";
     }
 
 
