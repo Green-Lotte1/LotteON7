@@ -26,26 +26,26 @@
                 <td>
                   유형
                 </td>
-                <td>회원-가입</td>
+                <td>[[${responseDTO.menu1}]]-[[${responseDTO.menu2}]]</td>
               </tr>
               <tr>
                 <td>
                   제목
                 </td>
-                <td>개인회원과 법인회원에 차이가 있나요?</td>
+                <td>[[${responseDTO.title}]]</td>
               </tr>
               <tr>
                 <td>
                   내용
                 </td>
-                <td>개인회원은 본인인증, 법인회원은 사업자등록번호를 기준으로 사업자인증 후 가입가능</td>
+                <td>[[${responseDTO.content}]]</td>
               </tr>
               </tbody>
             </table>
             <div>
-              <a href="#" class="btnDelete" id="remove">삭제</a>
-              <a href="#" class="btnModify">수정</a>
-              <a href="#" class="btnList">목록</a>
+              <a th:href="@{/admin/cs/faq/delete(articleId=${responseDTO.articleId})}" class="btnDelete" id="remove">삭제</a>
+              <a th:href="@{/admin/cs/faq/modify(articleId=${responseDTO.articleId})}" class="btnModify">수정</a>
+              <a th:href="@{/admin/cs/faq/list}" class="btnList">목록</a>
             </div>
           </article>
         </section>

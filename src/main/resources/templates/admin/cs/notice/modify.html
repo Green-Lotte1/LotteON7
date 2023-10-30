@@ -21,9 +21,9 @@
         <section class="modify">
           <article>
             <form th:action="@{/admin/cs/notice/modify}" method="post">
-              <input type="text" name="articleId" th:value="${responseDTO?.articleId}"  />
-              <input type="text" name="uid" th:value="${#authentication.principal}" />
-              <input type="text" name="cate" value="notice"/>
+              <input type="hidden" name="articleId" th:value="${responseDTO?.articleId}"  />
+              <input type="hidden" name="uid" th:value="${#authentication.principal}" />
+              <input type="hidden" name="cate" value="notice"/>
               <table>
                 <tbody>
                 <tr>

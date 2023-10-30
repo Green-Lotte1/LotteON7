@@ -30,7 +30,7 @@ public class ArticleDTO {
                 .menu2(menu2)
                 .title(title)
                 .content(content)
-                .file(7)
+                .file(0)
                 .hit(0)
                 .uid(uid)
                 .regip(regip)

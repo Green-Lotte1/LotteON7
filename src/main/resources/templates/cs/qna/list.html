@@ -12,6 +12,7 @@
         <div class="top">
           <div>
             <p>
+              <a th:href="@{/}">INDEX</a>
               <a th:href="@{/member/login}">로그인</a>
               <a th:href="@{/member/join}">회원가입</a>
               <a href="#">마이페이지</a>
@@ -40,13 +41,13 @@
             <aside>
               <h2>문의하기</h2>
               <ul>
-                <li class="on"><a href="#">회원</a></li>
-                <li><a href="#">쿠폰/이벤트</a></li>
-                <li><a href="#">주문/결제</a></li>
-                <li><a href="#">배송</a></li>
-                <li><a href="#">취소/반품/교환</a></li>
-                <li><a href="#">여행/숙박/항공</a></li>
-                <li><a href="#">안전거래</a></li>
+                <li th:class="${menu1 == '회원'?'on':''}"><a href="#">회원</a></li>
+                <li th:class="${menu1 == '쿠폰/혜택/이벤트'?'on':''}"><a href="#">쿠폰/혜택/이벤트</a></li>
+                <li th:class="${menu1 == '주문/결제'?'on':''}"><a href="#">주문/결제</a></li>
+                <li th:class="${menu1 == '배송'?'on':''}"><a href="#">배송</a></li>
+                <li th:class="${menu1 == '취소/반품/교환'?'on':''}"><a href="#">취소/반품/교환</a></li>
+                <li th:class="${menu1 == '여행/숙박/항공'?'on':''}"><a href="#">여행/숙박/항공</a></li>
+                <li th:class="${menu1 == '안전거래'?'on':''}"><a href="#">안전거래</a></li>
               </ul>
             </aside>
             <article>
@@ -55,24 +56,44 @@
                 <h2>회원관련 문의 내용입니다.</h2>
               </nav>
               <table>
-                <tr th:each="qna:${qnaList}">
-                  <td><a th:href="@{/qna/view(article_id=${qna.article_id})}">[[${qna.title}]]</a></td>
-                  <td></td>
-                  <td>[[${qna.uid}]]</td>
-                  <td>[[${qna.rdate}]]</td>
-                </tr>
+                <!-- 글목록 -->
+                <th:block th:each="article:${pageResponseDTO.dtoList}">
+                  <tr class="row" th:id="row-+${article.articleId}" >
+                    <td th:text="${article.menu1}"></td>
+                    <td th:text="${article.menu2}"></td>
+                    <td>
+                      <!--TODO: article_id 변경하는 것 -->
+                      <a th:href="@{/qna/view(articleId=${article.articleId})}" th:text="${article.title}"></a>
+                    </td>
+                    <td th:text="${article.hit}"></td>
+                    <td th:text="${article.rdate}"></td>
+                    <td th:text="${article.status}">
+                      검토중
+                    </td>
+                  </tr>
+                </th:block>
               </table>
 
               <div class="page">
-                <a href="#" class="prev">이전</a>
-                <a href="#" class="num on">1</a>
-                <a href="#" class="num">2</a>
-                <a href="#" class="num">3</a>
-                <a href="#" class="next">다음</a>
+                <th:block th:if="${pageResponseDTO.prev}" >
+                  <span class="prev">
+                    <a href="#">&nbsp;이전</a>
+                  </span>
+                </th:block>
+
+                <span  th:each="num : ${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}"  th:class="num">
+                    <th:block th:if="${num>0}" >
+                    <a th:href="@{/qna/list(cate=qna, menu1=${menu1}, menu2=${menu2},  pg=${num})}"
+                       th:class="${num == pageResponseDTO.getPg()}?'on' : ''" >[[${num}]]</a>
+                    </th:block>
+                  </span>
+                        <span class="next">
+                    <th:block th:if="${num>0}" >
+                    <a href="#">다음&nbsp;></a>
+                    </th:block>
+                  </span>
               </div>
-
               <a th:href="@{/qna/write}" class="btnWrite">문의하기</a>
-
             </article>
           </section>
         </div>

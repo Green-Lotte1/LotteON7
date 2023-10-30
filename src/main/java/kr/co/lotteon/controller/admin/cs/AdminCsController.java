@@ -165,10 +165,22 @@ public String qna_reply(@RequestParam("articleId") int articleId,Model model ){
 
 
 @PostMapping("/qna/reply")
-public String qna_reply(CsArticleCommentRequest commentRequest){
+public String qna_reply(@RequestParam("articleId") int articleId,Model model ,CsArticleCommentRequest commentRequest){
+
+    //댓글이 입력되는 시간 입력
     commentRequest.setRdate(LocalDateTime.now());
     log.info("input : "+commentRequest.toString());
+
+    //댓글을 DB에 입력
     csArticleService.insertComment(commentRequest);
+
+    //글조회
+    CsArticleResponseDTO responseDTO   =  csArticleService.findById(articleId);
+    //답글조회
+    CsArticleCommentResponse commentResponse = csArticleService.selectComment(articleId);
+
+    model.addAttribute("commentResponse", commentResponse);
+    model.addAttribute("responseDTO",responseDTO);
     return "admin/cs/qna/reply";
 }
 

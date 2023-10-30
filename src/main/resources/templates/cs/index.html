@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>롯데ON::고객센터</title>
     <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
   </head>
   <body>
     <div id="wrapper">
@@ -89,7 +89,7 @@
           <section class="qna">
             <h1>
               문의하기
-              <a href="#">전체보기</a>
+              <a th:href="@{/qna/list(menu1=회원)}">전체보기</a>
             </h1>
             <ul>
               <li>
@@ -128,7 +128,7 @@
                 </p>
               </li>
             </ul>
-            <a href="#" class="ask">문의글 작성 ></a>
+            <a th:href="@{/qna/write}" class="ask">문의글 작성 ></a>
           </section>
 
           <section class="tel">

@@ -21,8 +21,8 @@
         <section class="reply">
           <article>
             <form th:action="@{/admin/cs/qna/reply}" method="post">
-              <input type="text" name="uid" th:value="${#authentication.principal}" />
-              <input type="text" name="articleId" th:value="${responseDTO?.articleId}" />
+              <input type="hidden" name="uid" th:value="${#authentication.principal}" />
+              <input type="hidden" name="articleId" th:value="${responseDTO?.articleId}" />
               <table>
                 <tbody>
                 <tr>
@@ -45,14 +45,14 @@
                 </tr>
                 <tr>
                   <td>답변</td>
-                    <th:block th:if="${responseDTO.status == '검토중'}" >
+                    <th:block th:if="${responseDTO?.status == '검토중'}" >
                       <td>
                           <textarea name="content" placeholder="내용을 입력하세요."></textarea>
                       </td>
                     </th:block>
-                    <th:block th:unless="${responseDTO.status == '검토중'}">
-                      <td>
-                        <textarea name="content" th:text="${commentResponse.content}"></textarea>
+                    <th:block th:if="${responseDTO?.status == '답변완료'}">
+                      <td style="font-weight: bold" >
+                        <textarea name="content" th:text="${commentResponse?.content}"></textarea>
                       </td>
                     </th:block>
 

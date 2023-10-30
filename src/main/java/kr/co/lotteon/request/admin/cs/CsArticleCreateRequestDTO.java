@@ -1,5 +1,6 @@
 package kr.co.lotteon.request.admin.cs;
 
+import kr.co.lotteon.entity.admin.cs.ArticleStatus;
 import kr.co.lotteon.entity.admin.cs.CsArticleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,6 +24,7 @@ public class CsArticleCreateRequestDTO {
     private String menu2;
     private String title;
     private String content;
+    private String status;
     private int hit;
     private String uid;
     private String regip;
@@ -30,6 +32,7 @@ public class CsArticleCreateRequestDTO {
     private LocalDateTime rdate;
 
     public CsArticleEntity toEntity(){
+
         return CsArticleEntity.builder()
                 .articleId(articleId)
                 .cate(cate)
@@ -37,6 +40,7 @@ public class CsArticleCreateRequestDTO {
                 .menu2(menu2)
                 .title(title)
                 .content(content)
+                .status(ArticleStatus.검토중)
                 .hit(hit)
                 .uid(uid)
                 .regip(regip)
