@@ -47,6 +47,7 @@ public class AdminProductController {
         Page<ProductAdminListResponse> results = productAdminService.getPagedProductsWithConds(searchCondField.toSearchCond(), pageable);
         List<ProductAdminListResponse> products = results.getContent();
 
+        searchCondField.setPageSize(pageable.getPageSize());
         model.addAttribute("products", products);
         log.info("[ADMIN PRODUCT LIST] page info : {}", new PageInfoResponse(results.getTotalElements(), pageable));
         model.addAttribute("pageInfo", new PageInfoResponse(results.getTotalElements(), pageable));
