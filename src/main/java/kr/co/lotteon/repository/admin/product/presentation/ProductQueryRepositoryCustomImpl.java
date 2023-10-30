@@ -7,6 +7,7 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import kr.co.lotteon.repository.product.presentation.ProductSearchCond2;
 import kr.co.lotteon.response.admin.product.ProductAdminListResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -103,6 +104,7 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
         // 기본적으로 rdate 내림차순으로 정렬한다.
         return new OrderSpecifier<>(Order.DESC, productEntity.rdate);
     }
+
 
     // 동적 쿼리 파트(price, descript,prodNo,sellerName,prodName...)
 
