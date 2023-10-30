@@ -40,6 +40,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductQueryRepository productQueryRepository;
+    private final ProductQueryRepository productQueryRepository2;
     private final ProductListRepository productListRepository;
     private final ProductViewRepository productViewRepository;
     private final ProductCartRepository productCartRepository;
@@ -113,7 +114,7 @@ public class ProductService {
 
     public Page<ProductAdminListResponse> getPagedProductsWithConds(ProductSearchCond searchCond, Pageable pageable) {
         return productQueryRepository.searchWithPageAndCond(searchCond, pageable);
-      
+    }
     //cart에 들어있는 상품을 order로 보내는 repository
     public ProductCartResponse productOrderList(int cartNo){
         return productCartRepository.findCartByCartId(cartNo);
@@ -160,9 +161,9 @@ public class ProductService {
     }
 
 
-      public Page<ProductListResponse> getPagedProductsWithConds(ProductSearchCond2 searchCond2, Pageable pageable){
-        return productQueryRepository2.searchWithPageAndCond(searchCond2, pageable);
-    }
+//      public Page<ProductListResponse> getPagedProductsWithConds(ProductSearchCond2 searchCond2, Pageable pageable){
+//        return ProductQueryRepository2.searchWithPageAndCond(searchCond2, pageable);
+//        }
 
     public void deleteCart(int cartNo){
         productCartRepository.deleteById(cartNo);

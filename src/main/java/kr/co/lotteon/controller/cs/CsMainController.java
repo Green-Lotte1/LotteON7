@@ -9,7 +9,7 @@ public class CsMainController {
 
     @GetMapping("/cs/index")
     public String cs_index(){
-        return "/cs/index";
+        return "cs/index";
     }
 
 }

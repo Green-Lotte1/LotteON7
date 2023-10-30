@@ -190,23 +190,23 @@ public class ProductController {
         model.addAttribute("orderItems",orderItems);
         model.addAttribute("orderUser",orderUser);
 
-        return "/product/complete";
+        return "product/complete";
     }
 
 
 
 
     /* Product Search */
-    @GetMapping("/search")
-    public String search(Model model, @ModelAttribute("searchCondField2") ProductSearchFieldRequest2 searchCondField2, @PageableDefault(sort = "prodNo", direction = Sort.Direction.DESC,size = 10)Pageable pageable){
-        log.info("[PRODUCT SEARCH LIST] searchCond : {}",searchCondField2);
-        Page<ProductListResponse> results = productService.getPagedProductsWithConds(searchCondField2.toSearchCond(),pageable);
-        List<ProductListResponse> products = results.getContent();
-
-        model.addAttribute("products",products);
-        log.info("[PRODUCT LIST] page info : {}", new PageInfoResponse(results.getTotalElements(), pageable));
-        model.addAttribute("pageInfo", new PageInfoResponse(results.getTotalElements(),pageable));
-
-        return "product/search";
-    }
+//    @GetMapping("/search")
+//    public String search(Model model, @ModelAttribute("searchCondField2") ProductSearchFieldRequest2 searchCondField2, @PageableDefault(sort = "prodNo", direction = Sort.Direction.DESC,size = 10)Pageable pageable){
+//        log.info("[PRODUCT SEARCH LIST] searchCond : {}",searchCondField2);
+//        Page<ProductListResponse> results = productService.getPagedProductsWithConds(searchCondField2.toSearchCond(),pageable);
+//        List<ProductListResponse> products = results.getContent();
+//
+//        model.addAttribute("products",products);
+//        log.info("[PRODUCT LIST] page info : {}", new PageInfoResponse(results.getTotalElements(), pageable));
+//        model.addAttribute("pageInfo", new PageInfoResponse(results.getTotalElements(),pageable));
+//
+//        return "product/search";
+//    }
 }
