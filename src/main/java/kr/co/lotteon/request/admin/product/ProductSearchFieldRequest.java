@@ -16,7 +16,9 @@ public class ProductSearchFieldRequest  {
     private Integer pageSize;
     public ProductSearchFieldRequest() {
         this.searchField = "none";
-        this.pageSize = 10;
+        if (this.pageSize == null) {
+            this.pageSize = 10;
+        }
     }
 
     public ProductSearchCond toSearchCond() {

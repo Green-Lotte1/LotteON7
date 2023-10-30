@@ -52,7 +52,7 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
                         priceBetween(searchCond.getPriceMin(), searchCond.getPriceMax())
                 )
                 .offset(pageable.getOffset())
-                .limit(searchCond.getPageSize())
+                .limit(pageable.getPageSize())
                 .orderBy(getSortField(pageable))
                 .fetch();
 
@@ -73,7 +73,7 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
                         priceBetween(searchCond.getPriceMin(), searchCond.getPriceMax())
                 )
                 .offset(pageable.getOffset())
-                .limit(searchCond.getPageSize())
+                .limit(pageable.getPageSize())
                 .orderBy(getSortField(pageable));
 
         return PageableExecutionUtils.getPage(content,pageable,preCnt::fetchCount);
