@@ -27,6 +27,9 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
     private final JPAQueryFactory query;
     @Override
     public Page<ProductAdminListResponse> searchWithPageAndCond(ProductSearchCond searchCond, Pageable pageable) {
+        /*
+        presentation레이어에 직접적으로 렌더링할 데이터를 조회하는 쿼리
+         */
         List<ProductAdminListResponse> content = query.select(Projections.constructor(ProductAdminListResponse.class,
                         productEntity.thumb1.storedFileName,
                         productEntity.prodNo,
@@ -45,13 +48,17 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
                         prodNameLike(searchCond.getProdName()),
                         sellerNameLike(searchCond.getSellerName()),
                         prodNoEq(searchCond.getProdNo()),
-                        descriptLike(searchCond.getDescript())
+                        descriptLike(searchCond.getDescript()),
+                        priceBetween(searchCond.getPriceMin(), searchCond.getPriceMax())
                 )
                 .offset(pageable.getOffset())
                 .limit(searchCond.getPageSize())
                 .orderBy(getSortField(pageable))
                 .fetch();
 
+        /* 페이징 처리를 위한 카운트 쿼리
+            따로 파는 이유는 동적 쿼리와 orderBy등 검색 조건이 복잡한 경우 카운트 쿼리를 직접 작성해주어야한다.
+         */
         JPAQuery<ProductAdminListResponse> preCnt = query.select(Projections.constructor(ProductAdminListResponse.class,
                         productEntity)
                 )
@@ -62,7 +69,8 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
                         prodNameLike(searchCond.getProdName()),
                         sellerNameLike(searchCond.getSellerName()),
                         prodNoEq(searchCond.getProdNo()),
-                        descriptLike(searchCond.getDescript())
+                        descriptLike(searchCond.getDescript()),
+                        priceBetween(searchCond.getPriceMin(), searchCond.getPriceMax())
                 )
                 .offset(pageable.getOffset())
                 .limit(searchCond.getPageSize())
@@ -94,6 +102,19 @@ public class ProductQueryRepositoryCustomImpl implements ProductQueryRepositoryC
         }
         // 기본적으로 rdate 내림차순으로 정렬한다.
         return new OrderSpecifier<>(Order.DESC, productEntity.rdate);
+    }
+
+    // 동적 쿼리 파트(price, descript,prodNo,sellerName,prodName...)
+
+    private BooleanExpression priceBetween(Integer priceMin, Integer priceMax) {
+        if (priceMin == null && priceMax != null) {
+            return productEntity.price.loe(priceMax);
+        } else if (priceMin != null && priceMax == null) {
+            return productEntity.price.goe(priceMin);
+        } else if (priceMin != null && priceMax != null) {
+            return productEntity.price.between(priceMin, priceMax);
+        }
+        return null;
     }
 
     private BooleanExpression descriptLike(String descript) {

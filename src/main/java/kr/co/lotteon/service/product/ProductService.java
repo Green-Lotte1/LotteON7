@@ -4,17 +4,22 @@ import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.entity.product.ProductCartEntity;
 import kr.co.lotteon.entity.product.ProductEntity;
 import kr.co.lotteon.repository.admin.product.ProductRepository;
+import kr.co.lotteon.repository.admin.product.presentation.ProductQueryRepository;
+import kr.co.lotteon.repository.admin.product.presentation.ProductSearchCond;
 import kr.co.lotteon.repository.member.MemberRepository;
 import kr.co.lotteon.repository.product.ProductCartRepository;
 import kr.co.lotteon.repository.product.ProductListRepository;
 import kr.co.lotteon.repository.product.ProductViewRepository;
 import kr.co.lotteon.request.product.ProductCartRequest;
+import kr.co.lotteon.response.admin.product.ProductAdminListResponse;
 import kr.co.lotteon.response.product.ProductCartResponse;
 import kr.co.lotteon.response.product.ProductListResponse;
 import kr.co.lotteon.response.product.ProductViewResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +33,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-
+    private final ProductQueryRepository productQueryRepository;
     private final ProductListRepository productListRepository;
     private final ProductViewRepository productViewRepository;
     private final ProductCartRepository productCartRepository;
@@ -98,4 +103,7 @@ public class ProductService {
 
     }
 
+    public Page<ProductAdminListResponse> getPagedProductsWithConds(ProductSearchCond searchCond, Pageable pageable) {
+        return productQueryRepository.searchWithPageAndCond(searchCond, pageable);
+    }
 }
