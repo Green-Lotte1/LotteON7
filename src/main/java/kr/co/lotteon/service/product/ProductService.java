@@ -7,11 +7,14 @@ import kr.co.lotteon.entity.product.ProductEntity;
 import kr.co.lotteon.entity.product.ProductOrderEntity;
 import kr.co.lotteon.entity.product.ProductOrderItemEntity;
 import kr.co.lotteon.repository.admin.product.ProductRepository;
+import kr.co.lotteon.repository.admin.product.presentation.ProductQueryRepository;
+import kr.co.lotteon.repository.admin.product.presentation.ProductSearchCond;
 import kr.co.lotteon.repository.member.MemberRepository;
 import kr.co.lotteon.repository.product.*;
 import kr.co.lotteon.repository.product.presentation.ProductQueryRepository2;
 import kr.co.lotteon.repository.product.presentation.ProductSearchCond2;
 import kr.co.lotteon.request.product.ProductCartRequest;
+import kr.co.lotteon.response.admin.product.ProductAdminListResponse;
 import kr.co.lotteon.request.product.ProductOrderRequest;
 import kr.co.lotteon.response.product.ProductCartResponse;
 import kr.co.lotteon.response.product.ProductListResponse;
@@ -36,8 +39,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class ProductService {
-
-    private final ProductQueryRepository2 productQueryRepository2;
+    private final ProductQueryRepository productQueryRepository;
     private final ProductListRepository productListRepository;
     private final ProductViewRepository productViewRepository;
     private final ProductCartRepository productCartRepository;
@@ -109,6 +111,9 @@ public class ProductService {
 
     }
 
+    public Page<ProductAdminListResponse> getPagedProductsWithConds(ProductSearchCond searchCond, Pageable pageable) {
+        return productQueryRepository.searchWithPageAndCond(searchCond, pageable);
+      
     //cart에 들어있는 상품을 order로 보내는 repository
     public ProductCartResponse productOrderList(int cartNo){
         return productCartRepository.findCartByCartId(cartNo);
