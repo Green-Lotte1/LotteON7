@@ -87,4 +87,9 @@ public class ProductAdminService {
     public Page<ProductAdminListResponse> getPagedProductsWithConds(ProductSearchCond searchCond, Pageable pageable) {
         return productQueryRepository.searchWithPageAndCond(searchCond, pageable);
     }
+
+    public int deleteProduct(Integer productId) {
+        productRepository.deleteById(productId);
+        return productId;
+    }
 }

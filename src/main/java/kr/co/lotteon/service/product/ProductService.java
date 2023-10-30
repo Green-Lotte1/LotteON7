@@ -113,6 +113,7 @@ public class ProductService {
 
     public Page<ProductAdminListResponse> getPagedProductsWithConds(ProductSearchCond searchCond, Pageable pageable) {
         return productQueryRepository.searchWithPageAndCond(searchCond, pageable);
+    }
       
     //cart에 들어있는 상품을 order로 보내는 repository
     public ProductCartResponse productOrderList(int cartNo){
@@ -160,9 +161,9 @@ public class ProductService {
     }
 
 
-      public Page<ProductListResponse> getPagedProductsWithConds(ProductSearchCond2 searchCond2, Pageable pageable){
-        return productQueryRepository2.searchWithPageAndCond(searchCond2, pageable);
-    }
+//      public Page<ProductListResponse> getPagedProductsWithConds(ProductSearchCond2 searchCond2, Pageable pageable){
+//        return productQueryRepository2.searchWithPageAndCond(searchCond2, pageable);
+//    }
 
     public void deleteCart(int cartNo){
         productCartRepository.deleteById(cartNo);
