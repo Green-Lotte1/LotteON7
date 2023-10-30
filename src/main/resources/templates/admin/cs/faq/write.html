@@ -21,8 +21,8 @@
         <section class="write">
           <article>
             <form action="#"  id="sendForm" method="post">
-              <input type="text" name="uid" th:value="${#authentication.principal}" />
-              <input type="text" name="cate" value="faq"/>
+              <input type="hidden" name="uid" th:value="${#authentication.principal}" />
+              <input type="hidden" name="cate" value="faq"/>
               <table>
                 <tbody>
                 <tr>
