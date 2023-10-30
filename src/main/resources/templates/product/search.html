@@ -100,15 +100,18 @@
             <div class="group">
                 <h3><strong>셔츠</strong>검색결과 <em>(총&nbsp;:&nbsp;<span>20</span>&nbsp;건)</em></h3>
                 <form action="#">
-                    <input type="text" name="search"/>
-                    <input type="submit" value="검색"/>
-                    <span>
-                  <label><input type="checkbox" name="chk" value="상품명">상품명</label>
-                  <label><input type="checkbox" name="chk" value="상품설명">상품설명</label>
-                  <label><input type="checkbox" name="chk" value="상품가격">상품가격</label>
-                  <input type="text" name="min"/>원&nbsp;~&nbsp;<input type="text" name="max"/>원
-              </span>
+                    <input type="text" name="search" id="search_value" th:value="${searchCondField2.searchValue}"/>
+                    <input type="button" value="검색" id="search_button"/>
+                    <span id="search_field">
+                        <label><input type="checkbox" name="chk" value="상품명" th:checked="${searchCondField2.searchField eq 'prodName'}">상품명</label>
+                        <label><input type="checkbox" name="chk" value="상품설명" th:checked="${searchCondField2.searchField eq 'descript'}">상품설명</label>
+                        <label><input type="checkbox" name="chk" value="상품가격" th:checked="${searchCondField2.searchField eq 'price'}">상품가격</label>
+                        <!-- kj 금액 기준 ??-->
+                        <input type="text" name="min"/>원&nbsp;~&nbsp;<input type="text" name="max"/>원
+                    </span>
                 </form>
+
+                <!-- kj if 문 걸어야할지 의논해보기-->
                 <p class="info">
                     상세검색을 선택하지 않거나, 상품가격을 입력하지 않으면 현재 결과내에서 검색합니다.<br>
                     검색어는 최대 10글자까지, 여러개의 검색어를 공백으로 구분하여 입력 할수 있습니다.
@@ -200,5 +203,21 @@
     </footer>
     <button type="button" id="top">상단이동</button>
 </div>
+<script th:inline="javascript">
+
+    let protocol;
+    let rootURL;
+    protocol = window.location.protocol;
+    rootURL = window.location.host;
+
+    const searchBtn = document.getElementById("search_button");
+    searchBtn.addEventListener("click",()=>{
+        const myUrl = protocol + "//" + rootURL;
+        let searchField = document.getElementById("search_field");
+        let searchValue = document.getElementById("search_value");
+        window.location.href = myUrl + "/product/list?page=0&" + "size="+[[${searchCondField2.pageSize}]] +"&searchField=" + searchField.value + "&searchValue=" + searchValue.value;
+    })
+</script>
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package kr.co.lotteon.response.product;
 
+import kr.co.lotteon.entity.member.MemberLevel;
 import kr.co.lotteon.entity.product.ProductEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,8 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Data
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 @Log4j2
 public class ProductListResponse {
@@ -36,14 +35,18 @@ public class ProductListResponse {
         this.delivery = product.getDelivery();
         this.score = product.getScore();
         this.thumb1 = product.getThumb1().getStoredFileName();
+    }
 
-        log.info("prodNo : "+prodNo);
-        log.info("prodName : " + prodName);
-        log.info("descript : " + descript);
-        log.info("seller : " + seller);
-        log.info("price : " + price);
-        log.info("discount : " + discount);
-        log.info("delivery : " + delivery);
-        log.info("thumb1 : " + thumb1);
+    public ProductListResponse(int prodNo, String prodName, String descript, String seller, MemberLevel level, int price, int discount, int delivery, int score, String thumb1) {
+        this.prodNo = prodNo;
+        this.prodName = prodName;
+        this.descript = descript;
+        this.seller = seller;
+        this.level = level.name();
+        this.price = price;
+        this.discount = discount;
+        this.delivery = delivery;
+        this.score = score;
+        this.thumb1 = thumb1;
     }
 }

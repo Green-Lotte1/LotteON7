@@ -3,6 +3,9 @@ package kr.co.lotteon.response.product;
 import kr.co.lotteon.entity.file.UploadFile;
 import kr.co.lotteon.entity.member.Member;
 import kr.co.lotteon.entity.product.ProductCartEntity;
+import kr.co.lotteon.entity.product.ProductEntity;
+import kr.co.lotteon.entity.product.ProductOrderEntity;
+import kr.co.lotteon.entity.product.ProductOrderItemEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,4 +47,22 @@ public class ProductCartResponse {
         this.thumb1 = productCartEntity.getProduct().getThumb1().getStoredFileName();
 
     }
+
+    public ProductOrderItemEntity toOrderItemEntity(ProductOrderEntity ordNo){
+
+        ProductEntity product = new ProductEntity();
+        product.setProdNo(prodNo);
+        return  ProductOrderItemEntity.builder()
+                .ordNo(ordNo)
+                .prodNo(product)
+                .count(count)
+                .price(price)
+                .discount(discount)
+                .delivery(delivery)
+                .total(total)
+                .build();
+    }
+
+
+
 }

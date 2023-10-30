@@ -72,4 +72,14 @@ public class ProductAPIController {
 //        //noti: redirectAttribute를 통해서 데이터를 내보내야함
 //        return "redirect:/product/order";
 //    }
+//  /product/cart에서 넘어오는 products를 받음
+    @PostMapping("/selectCartDelete")
+    public List<ProductDTO> cartToOrder(@RequestBody ProductOrderItemRequest productOrderItemRequest) {
+//    ajax로 내보내는 정보를 product/order에서 받기 위해서 product/order 주소로 보내주기 위해서 String으로 매서드를 변경해주고, return에 주소를 추가할 예정
+        log.info("[CART TO ORDER] order request : {}", Arrays.toString(productOrderItemRequest.getProducts().stream().toArray()));
+        List<ProductDTO> products = productOrderItemRequest.getProducts();
+        log.info("cart_to_order of  ProductAPIController :"+products.toString());
+        //noti: redirectAttribute를 통해서 데이터를 내보내야함
+        return products;
+    }
 }

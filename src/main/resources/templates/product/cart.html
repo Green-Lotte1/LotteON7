@@ -116,9 +116,9 @@
                         <td colspan="7">장바구니에 상품이 없습니다.</td> <!-- kj if cartNo == 0 -->
                     </tr>
                     <th:block th:each="productCart : ${productCarts}">
-                    <tr>
+                    <tr class="row" th:id="row-+${productCart.cartNo}" >
                         <td>
-                            <input type="text" name="formInfo" th:value="0"/>
+                            <input type="hidden" name="formInfo" th:value="0"/>
 
                             <input type="hidden" name="uid" th:value="${#authentication.name}">
                             <input type="hidden" name="prodName" th:value="${productCart.prodName }">
@@ -126,9 +126,8 @@
                             <input type="hidden" name="thumb1" th:value="${productCart.thumb1 }">
                             <input type="hidden" name="prodNo" th:value="${productCart.prodNo }">
 
-                            <input type="checkbox" name="chkbox" class="chkbox"
+                            <input type="checkbox" name="chkbox" class="chkbox" th:value="${productCart.cartNo}"
                                    th:data-prodNo="${productCart.prodNo}"
-                                   th:data-cartNo="${productCart.cartNo}"
                                    th:data-price="${productCart.price}"
                                    th:data-count="${productCart.count}"
                                    th:data-discount="${productCart.discount}"
@@ -157,16 +156,12 @@
 
                     </tbody>
                 </table>
-                <input type="button" name="del" value="선택삭제">
+                <input type="button" name="selectDel" id="selectDel" value="선택삭제">
 
                 <!-- 장바구니 전체합계 -->
                 <div class="total">
                     <h2>전체합계</h2>
                     <table border="0">
-                        <tr>
-                            <td>상품번호</td>
-                            <td id="cartIds" >1</td>
-                        </tr>
                         <tr>
                             <td>상품수</td>
                             <td id="cartTotalCount">1</td>
@@ -189,10 +184,10 @@
                         </tr>
                         <tr>
                             <td>전체주문금액</td>
-                            <td id="cartTotalOrderPrice">26,000</td>
+                            <td id="cartTotalOrderPrice"></td>
                         </tr>
                     </table>
-                    <input type="submit" name="orderBtn" id="orderBtn" value="주문하기">
+                    <input type="button" name="orderBtn" id="orderBtn" value="주문하기" />
                 </div>
 
             </form>
@@ -207,10 +202,11 @@
 </body>
 <script th:inline="javascript">
 
-    $(document).ready(function() {
+    $(document).ready(function (){
+        var uid = $('input[name="uid"]').val();
 
         // 선택 상품을 담을 배열
-        var cartToOrderItem = [];
+        var selectCartDelete = [];
         // 초기 로드 시 업데이트 함수 호출
         updateTotal();
 
@@ -224,16 +220,23 @@
         $selectAllCheckbox.click(function () {
             // selectAll 체크박스의 상태 가져오기
             let isChecked = $selectAllCheckbox.prop("checked");
-
-            // 모든 개별 체크박스에 상태 적용
-            $checkboxes.prop("checked", isChecked);
-
-            // 업데이트 함수 호출
+            $checkboxes.prop("checked",isChecked);
             updateTotal();
+
         });
 
         // 개별 체크박스가 클릭될 때 실행할 함수 정의
         $checkboxes.click(function () {
+            // 개별 체크박스가 모두 선택되어 있는지 확인
+            let allChecked = true;
+            $checkboxes.each(function (){
+               if (!$(this).prop("checked")){
+                   allChecked = false;
+               }
+            });
+
+            $selectAllCheckbox.prop("checked", allChecked);
+
             // 업데이트 함수 호출
             updateTotal();
         });
@@ -241,7 +244,7 @@
         // 선택된 체크박스를 감지하고 합계 계산 및 표시를 업데이트하는 함수
         function updateTotal() {
             // 초기화
-            cartToOrderItem = [];
+            selectCartDelete = [];
             var cartTotalCount = 0;
             var cartTotalPrice = 0;
             var cartTotalDiscount = 0;
@@ -249,7 +252,7 @@
             var cartTotalPoint = 0;
             var cartTotalOrderPrice = 0;
 
-            $(".chkbox:checked").each(function() {
+            $(".chkbox:checked").each(function () {
                 var count = parseFloat($(this).data("count"));
                 var price = parseFloat($(this).data("price"));
                 var discount = parseFloat($(this).data("discount"));
@@ -264,21 +267,19 @@
                 cartTotalPoint += point;
                 cartTotalOrderPrice += total;
 
-                // 선택된 상품 정보를 배열로 저장
-                var product = {
-                    uid: $(this).siblings('[name="uid"]').val(),
-                    count: $(this).data("count"),
-                    price: $(this).data("price"),
-                    discount: $(this).data("discount"),
-                    delivery: $(this).data("delivery"),
-                    point: $(this).data("point"),
-                    total: $(this).data("total"),
-                    prodName: $(this).siblings('[name="prodName"]').val(),
-                    prodNo: parseInt($(this).siblings('[name="prodNo"]').val()),
-                    descript: $(this).siblings('[name="descript"]').val(),
-                    thumb1: $(this).siblings('[name="thumb1"]').val()
-                };
-                cartToOrderItem.push(product);
+                // var product = {
+                //     uid: $(this).siblings('[name="uid"]').val(),
+                //     count: $(this).data("count"),
+                //     price: $(this).data("price"),
+                //     discount: $(this).data("discount"),
+                //     delivery: $(this).data("delivery"),
+                //     point: $(this).data("point"),
+                //     total: $(this).data("total"),
+                //     prodName: $(this).siblings('[name="prodName"]').val(),
+                //     prodNo: parseInt($(this).siblings('[name="prodNo"]').val()),
+                //     descript: $(this).siblings('[name="descript"]').val(),
+                //     thumb1: $(this).siblings('[name="thumb1"]').val()
+                // };
             });
             $("#cartTotalCount").text(cartTotalCount + "개");
             $("#cartTotalPrice").text(cartTotalPrice.toLocaleString() + "원");
@@ -291,46 +292,93 @@
 
         }
 
-        // const castProducts = async (data)=>{
-        //     //noti: 경로가 local로 되어 있는데, 배포된 이후에 작용하려면 경로 수정이 필요할 것 같음
-        //     const url = "http://localhost:8080/api/product/cart_to_order";
-        //     const payload = {"products": data}
-        //     await fetch(url, {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-Type": "application/json",
-        //         },
-        //         body: JSON.stringify(payload)
-        //     }).then(res => {
-        //         console.log(res);
-        //     });
-        // }
-
-        // 주문하기 버튼이 클릭될 때 form 데이터 전송
-        $("#orderBtn").click(async function(e) {
-            e.preventDefault();
-            // 사용자에게 확인 메시지 표시
-            var confirmation = confirm("정말로 주문하시겠습니까?");
-
-            // 확인 버튼을 누르지 않으면 폼 전송을 중단
-            if (!confirmation) {
-                e.preventDefault();
-                return;
-            } else {
-                // // cartToOrderItem 배열 초기화
-                // await castProducts(cartToOrderItem);
-                //
-                // cartToOrderItem = [];
-                let cartIds = [];
-
-                for(const child of checkBoxChildren){
-
+        /* delete 작업 */
+        let protocol;
+        let rootURL;
+        protocol = window.location.protocol;
+        rootURL = window.location.host;
+        //
+        // let selectDel = $("#selectDel").click(async function (e) {
+        //     e.preventDefault();
+        //     let cartNos = [];
+        //     for (const child of $checkboxes) {
+        //         if (child.checked) {
+        //
+        //             let cartNo = child.value;
+        //             const data = {
+        //                 "cartNo": cartNo,
+        //             }
+        //             cartNos.push(data);
+        //         }
+        //     }
+        //     const castProducts = async (data)=> {
+        //         const url = protocol + "//" + rootURL + "/product/cart/delete/"+uid;
+        //         const payload = {"cartNos": data}
+        //         await fetch(url, {
+        //             method: "POST",
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //             },
+        //             body: JSON.stringify(payload)
+        //         }).then(res => {
+        //             console.log("c2 : then ?" + res);
+        //         });
+        //     }
+        //     console.log(" cartNos : " + cartNos);
+        //     await castProducts();
+        //
+        //     });//await end
+        //
+        //
+        // });
+        let selectDel = document.getElementById("selectDel");
+        selectDel.addEventListener("click",async (e)=> {
+            const delURL = protocol + "//" + rootURL + "/product/cart/delete/" + uid;
+            let cartNos = [];
+            for (const child of $checkboxes) {
+                if (child.checked) {
+                    cartNos.push(child.value);
                 }
-
-                $("#cartForm").submit();
-
             }
-        });
-    });
+
+            let data = {cartNos};
+            let options = {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(data)
+            };
+            await fetch(delURL, options).then(() => {
+                for (const cartNo of cartNos) {
+                    let target = document.getElementById("row-" + cartNo);
+                    console.log("target : " + target.id);
+                    target.remove();
+                }
+            });
+        })
+
+
+
+         $("#orderBtn").click(function (e) {
+             e.preventDefault();
+             let cartIds = [];
+             for (const child of $checkboxes) {
+                 if (child.checked) {
+
+                     let cartNo = child.value;
+                     const data = {
+                         "cartNo": cartNo
+                     }
+                     console.log("data :" + data.toLocaleString());
+                     console.log("data2 :" + data.toString());
+                     cartIds.push(data);
+                 }
+             }
+             console.log(" cartIdes : " + cartIds);
+
+             const jsonData = JSON.stringify(cartIds);
+             window.location.href = protocol + "//" + rootURL + "/product/order?jsonData=" + encodeURIComponent(jsonData);
+             return false;
+         });
+    }); //document.ready end
 </script>
 </html>
